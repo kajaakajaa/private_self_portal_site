@@ -2,6 +2,11 @@ $(()=> {
   setListShift();
 });
 
+//デフォルト#my_noに"no"を設定
+function clearNo(myNo) {
+  $('#my_no').val(myNo);
+}
+
 //出勤記録
 function workTime() {
   let query = {};
