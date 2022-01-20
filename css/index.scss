@@ -4,8 +4,24 @@
   font-size: 16px;
 }
 
-// .container {
-//   #work {
-//     display: none;
-//   }
-// }
+body {
+  font-family: "YuGothic", "游ゴシック", "Yu Gothic", "メイリオ", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
+
+body > .container-fluid {
+  min-height: 100vh;
+	display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  grid-row: 1;
+  height: 50px;
+}
+main {
+  grid-row: 2;
+}
+footer {
+  grid-row: 3;
+  height: 50px;
+}
