@@ -12,76 +12,80 @@
 </head>
 
 <body>
-  <!-- <div class="container">
-    <div class="card mt-2">
-      <div class="card-header text-center">Arakawa_Work_Suport</div>
-      <div class="card-body row">
-        <div class="card col-2">
-          <div class="card-header text-nowrap">MENU</div>
-        </div>
-        <div class="card col-6 mr-2 ml-2">
-          <div class="card-header">日報</div>
-          <div class="card-body">
-            <form>
-              <input type="hidden" name="my_no" id="my_no">
-              <div class="form-group row">
-                <label for="work_time" class="col-sm-2 col-form-label">出勤</label>
-                <div class="col-sm-10">
-                  <input class="form-control" type="text" name="work_time" id="work_time" onChange="workTime()">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="home_time" class="col-sm-2 col-form-label">退勤</label>
-                <div class="col-sm-10">
-                  <input class="form-control" type="text" name="home_time" id="home_time" onChange="homeTime()">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="card col-3">
-          <div class="card-header">NOTE</div>
-        </div>
+  <div class="container-fluid p-0">
+    <header>
+      <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
+        <h1 class="m-0">TO DO</h1>
       </div>
-    </div>
-  </div> -->
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2">
-        <div class="card">
-          <div class="card-header">MENU</div>
-          <div class="card-body"></div>
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="card">
-          <div class="card-header">日報</div>
-          <div class="card-body">
-            <div class="row">
-              <label for="work_time" class="col-md-6">出勤</label>
-              <div class="cal-md-6"><input type="text" name="work_time" id="work_time"></div>
+    </header>
+    <main>
+      <div class="card">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="order-2 order-md-1 col-md-2 py-3">
+              <div class="card">
+                <div class="card-header">MENU</div>
+                <div class="card-body"></div>
+              </div>
             </div>
-            <div class="row">
-              <label for="home_time" class="col-md-6">退勤</label>
-              <div class="cal-md-6"><input type="text" name="home_time" id="home_time"></div>
+            <div class="order-1 order-md-2 col-md-7 py-3">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header">日報</div>
+                    <div class="card-body">
+                      <form class="row">
+                        <input type="hidden" name="user_no" id="user_no">
+                        <div class="form-group col-12 text-center col-sm-6 text-sm-start">
+                          <label for="work_time" class="col-md-3">出勤</label>
+                          <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control" onChange="workTime()"></div>
+                        </div>
+                        <div class="form-group col-12 text-center col-sm-6 text-sm-start">
+                          <label for="home_time" class="col-md-3">退勤</label>
+                          <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control" onChange="homeTime()"></div>
+                        </div>
+                      </form>
+                      <div class="cal-12 py-3">
+                        <div class="card">
+                          <div class="card-header">本日の予定</div>
+                          <div class="card-body">あああ</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="order-3 order-md-3 col-md-3 py-3">
+              <div class="card">
+                <div class="card-header">NOTE</div>
+                <div class="card-body"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-header">NOTE</div>
-          <div class="card-body"></div>
-        </div>
+    </main>
+    <footer>
+      <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
+        <p class="m-0"><small>&copy; 2022 Trigg</small></p>
       </div>
-    </div>
+    </footer>
   </div>
+  <script>
+    const today = '<?php echo date ?>';
+  //     <script>
+  //   const today = '<?php echo date('Y-m-d'); ?>';
+  //   let date = '<?php echo date("Y-m-d"); ?>';
+  //   const position = $('.report_index').offset().top;
+  //   const spd = 200;
+  // </script>
+  </script>
 
   <!-- jquery + bootstrap5 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- jsファイル -->
   <script src="/self_portal_site/js/index.js?ver=<?php echo time(); ?>"></script>
 </body>
-
 </html>
