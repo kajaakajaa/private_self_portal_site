@@ -33,3 +33,14 @@ footer {
   grid-row: 3;
   height: 50px;
 }
+
+.report #datepicker {
+  width: 40%;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
+  border: solid 0.1rem #d6d6d6;
+}
+
+.report #datepicker:hover {
+  outline: 0.1rem ridge #4169e1;
+}
