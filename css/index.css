@@ -44,3 +44,11 @@ footer {
 .report #datepicker:hover {
   outline: 0.1rem ridge #4169e1;
 }
+
+.report .report-contents .regist-btn {
+  width: 20%;
+}
+
+.report .report-contents .modal-body textarea {
+  min-height: 200px;
+}

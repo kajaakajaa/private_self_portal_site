@@ -40,7 +40,7 @@
                       <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(1)">前日</button>
                       <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(2)">翌日</button>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body report-contents">
                       <form class="row">
                         <input type="hidden" name="user_no" id="user_no">
                         <div class="form-group col-12 text-center col-sm-6 text-sm-start">
@@ -57,7 +57,29 @@
                       <div class="cal-12 py-3">
                         <div class="card">
                           <div class="card-header">本日の予定</div>
-                          <div class="card-body">あああ</div>
+                          <div class="card-body">
+                            <!-- Button trigger modal -->
+                            <p data-bs-toggle="modal" data-bs-target="#report_modal" id="report_contents">あああ</p>
+                            <!-- Modal -->
+                            <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">日報</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body p-1">
+                                    <div>
+                                      <textarea class="form-control" id="written_report" rows="3"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary regist-btn" data-bs-dismiss="modal" onClick="registReport()">登録</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
