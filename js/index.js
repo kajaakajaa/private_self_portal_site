@@ -1,19 +1,22 @@
 $(()=> {
+  $('#datepicker').datepicker().datepicker('setDate', 'today');
   setListShift();
 });
 
 //formデータ
 function formDataTemplate() {
   let query = {};
-  let dateVal = $('#datepicker').val();
-  query['work_date'] = dateVal;
+  query['work_date'] = $('#datepicker').val();
   query['user_no'] = $('#user_no').val();
+  query['work_time'] = $('#work_time').val();
+  query['home_time'] = $('#home_time').val();
   return query;
 }
 
 //オンロード時に取得するデフォルト値
 function setListShift() {
   let query = {};
+      query['work_date'] = $('#datepicker').val();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=set_list_shift',
@@ -27,9 +30,7 @@ function setListShift() {
         $('#user_no').val(value.no);
         $('#work_time').val(value.work_time);
         $('#home_time').val(value.home_time);
-      })
-      let today = data.date;
-      $('#datepicker').datepicker().datepicker('setDate', today);
+      });
     },
     function(jgHXR, textStatus, errorThrown) {
       console.log(jgHXR);
@@ -41,9 +42,7 @@ function setListShift() {
 
 //出勤記録
 function workTime() {
-  let query = {};
-      query['user_no'] = $('#user_no').val();
-      query['work_time'] = $('#work_time').val();
+  const query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=work_time',
@@ -65,9 +64,7 @@ function workTime() {
 
 //退勤記録
 function homeTime() {
-  let query = {};
-      query['user_no'] = $('#user_no').val();
-      query['home_time'] = $('#home_time').val();
+  const query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=home_time',
@@ -118,32 +115,27 @@ function getData() {
   );
 }
 
-function getOtherDay(num) {
+function getBeforeAfterDay(num) {
   let query = formDataTemplate();
       query['other_day'] = num;
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=get_other_day',
+    url: '/self_portal_site/request/sql_data.php?mode=get_before_after_day',
     data: query,
     dataType: 'json'
   })
   .then(
     function(data) {
       console.log(data);
-      let workDate = value.work_date;
-          workDate = workDate.replaceAll('-', '/');
-      if(data == null) {
-        console.log('kajaa');
-        $.each(data.user, (key, value)=> {
-          $('#datepicker').val(workDate);
-          $('#work_time').val('');
-          $('#home_time').val('');
-        });
+      let date = data.date;
+      if(data.user == null) {
+        $('#datepicker').val(date);
+        $('#work_time').val('');
+        $('#home_time').val('');
       }
       else {
-        console.log('nu?');
         $.each(data.user, (key, value)=> {
-          $('#datepicker').val(workDate);
+          $('#datepicker').val(date);
           $('#work_time').val(value.work_time);
           $('#home_time').val(value.home_time);
         });

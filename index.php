@@ -18,7 +18,7 @@
   <div class="container-fluid p-0">
     <header>
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0">TO DO</h1>
+        <h1 class="m-0">TASK</h1>
       </div>
     </header>
     <main>
@@ -37,8 +37,8 @@
                   <div class="card">
                     <div class="card-header">日報
                       <input type="text" id="datepicker" class="mx-3" onChange="getData()">
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getOtherDay(1)">前日</button>
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getOtherDay(2)">翌日</button>
+                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(1)">前日</button>
+                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(2)">翌日</button>
                     </div>
                     <div class="card-body">
                       <form class="row">
