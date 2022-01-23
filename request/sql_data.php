@@ -7,7 +7,7 @@ switch($mode) {
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       SELECT
-        no,
+        no AS user_no,
           DATE_FORMAT
           (
             work_time,
@@ -19,11 +19,17 @@ switch($mode) {
             '%H:%i'
           ) AS home_time
       FROM
-        tbl_work_time
+        tbl_task_work_time AS wkt
+          JOIN
+        tbl_task_user AS usr
+          ON
+        user_no = no
       WHERE
         work_date = :work_date
           AND
-        del_flg = 0
+        wkt.del_flg = 0
+          AND
+        usr.del_flg = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -42,9 +48,9 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT INTO
-        tbl_work_time
+        tbl_task_work_time
         (
-          no,
+          user_no,
           work_time,
           work_date,
           regist_time
@@ -54,7 +60,7 @@ EOF;
           :work_date,
           NOW()
           ) ON DUPLICATE KEY UPDATE
-          no = :user_no,
+          user_no = :user_no,
           work_time = :work_time,
           work_date = :work_date,
           update_time = NOW()
@@ -73,9 +79,9 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT
-        tbl_work_time
+        tbl_task_work_time
         (
-          no,
+          user_no,
           home_time,
           work_date,
           regist_time
@@ -85,7 +91,7 @@ EOF;
           :work_date,
           NOW()
         ) ON DUPLICATE KEY UPDATE
-          no = :user_no,
+          user_no = :user_no,
           home_time = :home_time,
           work_date = :work_date,
           update_time = NOW()
@@ -114,11 +120,11 @@ EOF;
           '%H:%i'
         ) AS home_time
       FROM
-        tbl_work_time
+        tbl_task_work_time
       WHERE
         work_date = :work_date
           AND
-        no = :user_no
+        user_no = :user_no
           AND
         del_flg = 0
 EOF;
@@ -156,9 +162,9 @@ EOF;
           '%H:%i'
         ) AS home_time
       FROM
-        tbl_work_time
+        tbl_task_work_time
       WHERE
-        no = :user_no
+        user_no = :user_no
           AND
         work_date = :date
           AND
@@ -175,5 +181,36 @@ EOF;
     $array['date'] = $date;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+  break;
+
+  case 'edit_task':
+    $userNo = $_POST['user_no'];
+    $editTask = $_POST['edit_task'];
+    $workDate = $_POST['work_date'];
+    $sql = <<<EOF
+      INSERT
+        tbl_task_work_time
+        (
+          task,
+          user_no,
+          work_date,
+          regist_time
+        ) VALUES (
+          :edit_task,
+          :user_no,
+          :work_date,
+          NOW()
+        ) ON DUPLICATE KEY UPDATE
+          task = :edit_task,
+          user_no = :user_no,
+          work_date = :work_date,
+          update_time = NOW()
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':edit_task', $editTask, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->execute();
+    var_dump($stmt->errorInfo());
   break;
 }

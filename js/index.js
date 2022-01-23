@@ -7,7 +7,6 @@ $(()=> {
 function formDataTemplate() {
   let query = {};
   query['work_date'] = $('#datepicker').val();
-  query['user_no'] = $('#user_no').val();
   query['work_time'] = $('#work_time').val();
   query['home_time'] = $('#home_time').val();
   return query;
@@ -27,7 +26,9 @@ function setListShift() {
     function(data) {
       console.log(data);
       $.each(data.user, (key, value)=> {
-        $('#user_no').val(value.no);
+        $('input[name="work_time"]').attr('onChange', 'workTime(' + value.user_no + ')');
+        $('input[name="home_time"]').attr('onChange', 'homeTime(' + value.user_no + ')');
+        $('.regist-btn').attr('onClick', 'registTask(' + value.user_no + ')');
         $('#work_time').val(value.work_time);
         $('#home_time').val(value.home_time);
       });
@@ -41,8 +42,9 @@ function setListShift() {
 }
 
 //出勤記録
-function workTime() {
-  const query = formDataTemplate();
+function workTime(userNo) {
+  let query = formDataTemplate();
+      query['user_no'] = userNo;
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=work_time',
@@ -63,8 +65,9 @@ function workTime() {
 }
 
 //退勤記録
-function homeTime() {
-  const query = formDataTemplate();
+function homeTime(userNo) {
+  let query = formDataTemplate();
+      query['user_no'] = userNo;
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=home_time',
@@ -115,6 +118,7 @@ function getData() {
   );
 }
 
+//前日・翌日ボタンで表示
 function getBeforeAfterDay(num) {
   let query = formDataTemplate();
       query['other_day'] = num;
@@ -140,6 +144,29 @@ function getBeforeAfterDay(num) {
           $('#home_time').val(value.home_time);
         });
       }
+    },
+    function(jgXHR, textStatus, errorThrown) {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
+}
+
+//本日予定の内容登録
+function editTask(userNo) {
+  let query = formDataTemplate();
+      query['edit_task'] = $('#edit_task').val();
+      query['user_no'] = userNo;
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site/request/sql_data.php?mode=edit_task',
+    data: query,
+    dataType: 'html'
+  })
+  .then(
+    function(data) {
+      console.log(data);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
