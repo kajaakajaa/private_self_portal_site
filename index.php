@@ -42,7 +42,7 @@
                     </div>
                     <div class="card-body report-contents">
                       <form class="row">
-                        <input type="hidden" name="user_no" id="user_no">
+                        <!-- <input type="hidden" name="user_no" id="user_no"> -->
                         <div class="form-group col-12 text-center col-sm-6 text-sm-start">
                           <label for="work_time" class="col-md-3">出勤</label>
                           <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
@@ -59,7 +59,7 @@
                           <div class="card-header">本日の予定</div>
                           <div class="card-body">
                             <!-- Button trigger modal -->
-                            <p data-bs-toggle="modal" data-bs-target="#report_modal" id="report_contents">あああ</p>
+                            <p data-bs-toggle="modal" data-bs-target="#report_modal" id="task_contents">あああ</p>
                             <!-- Modal -->
                             <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -70,11 +70,11 @@
                                   </div>
                                   <div class="modal-body p-1">
                                     <div>
-                                      <textarea class="form-control" id="written_report" rows="3"></textarea>
+                                      <textarea class="form-control" id="edit_task" rows="3"></textarea>
                                     </div>
                                   </div>
                                   <div class="modal-footer d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary regist-btn" data-bs-dismiss="modal" onClick="registReport()">登録</button>
+                                    <button type="button" class="btn btn-primary regist-btn" data-bs-dismiss="modal" onClick="editTask()">登録</button>
                                   </div>
                                 </div>
                               </div>
