@@ -6,7 +6,6 @@ $(()=> {
 //formデータ
 function formDataTemplate() {
   let query = {};
-  query['work_date'] = $('#datepicker').val();
   query['work_time'] = $('#work_time').val();
   query['home_time'] = $('#home_time').val();
   return query;
@@ -26,9 +25,9 @@ function setListShift() {
     function(data) {
       console.log(data);
       $.each(data.user, (key, value)=> {
-        $('input[name="work_time"]').attr('onChange', 'workTime(' + value.user_no + ')');
-        $('input[name="home_time"]').attr('onChange', 'homeTime(' + value.user_no + ')');
-        $('.regist-btn').attr('onClick', 'registTask(' + value.user_no + ')');
+        $('input[name="work_time"]').attr('onChange', 'workTime(' + value.no + ')');
+        $('input[name="home_time"]').attr('onChange', 'homeTime(' + value.no + ')');
+        $('.edit-btn').attr('onClick', 'editTask(' + value.no + ')');
         $('#work_time').val(value.work_time);
         $('#home_time').val(value.home_time);
       });
@@ -89,7 +88,8 @@ function homeTime(userNo) {
 
 //日付別でデータを取得
 function getData() {
-  const query = formDataTemplate();
+  let query = {};
+      query['work_date'] = $('#datepicker').val();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=get_data',

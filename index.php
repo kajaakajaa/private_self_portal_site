@@ -74,7 +74,7 @@
                                     </div>
                                   </div>
                                   <div class="modal-footer d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary regist-btn" data-bs-dismiss="modal" onClick="editTask()">登録</button>
+                                    <button type="button" class="btn btn-primary edit-btn" data-bs-dismiss="modal" onClick="editTask()">登録</button>
                                   </div>
                                 </div>
                               </div>
