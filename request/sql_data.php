@@ -7,34 +7,41 @@ switch($mode) {
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       SELECT
-        no AS user_no,
-          DATE_FORMAT
-          (
-            work_time,
-            '%H:%i'
-          ) AS work_time,
-          DATE_FORMAT
-          (
-            home_time,
-            '%H:%i'
-          ) AS home_time
+        no
       FROM
-        tbl_task_work_time AS wkt
-          JOIN
-        tbl_task_user AS usr
-          ON
-        user_no = no
+        tbl_task_user
+      WHERE
+        del_flg = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    $array = array();
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $array['user'][] = $row;
+    }
+    $sql = <<<EOF
+      SELECT
+        user_no,
+        DATE_FORMAT
+        (
+          work_time,
+          '%H:%i'
+        ) AS work_time,
+        DATE_FORMAT
+        (
+          home_time,
+          '%H:%i'
+        ) AS home_time
+      FROM
+        tbl_task_work_time
       WHERE
         work_date = :work_date
           AND
-        wkt.del_flg = 0
-          AND
-        usr.del_flg = 0
+        del_flg = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
-    $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $array['user'][] = $row;
     }
@@ -106,7 +113,6 @@ EOF;
 
   case 'get_data':
     $workDate = $_POST['work_date'];
-    $userNo = $_POST['user_no'];
     $sql = <<<EOF
       SELECT
         DATE_FORMAT
