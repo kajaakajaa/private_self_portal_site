@@ -1,5 +1,4 @@
 $(()=> {
-  $('#datepicker').datepicker().datepicker('setDate', 'today');
   setListShift();
 });
 
@@ -8,11 +7,15 @@ function formDataTemplate() {
   let query = {};
   query['work_time'] = $('#work_time').val();
   query['home_time'] = $('#home_time').val();
+  query['edit_task'] = $('#edit_task').val();
+  query['work_date'] = $('#datepicker').val();
+  query['user_no'] = $('#user_no').val();
   return query;
 }
 
 //オンロード時に取得するデフォルト値
 function setListShift() {
+  $('#datepicker').datepicker().datepicker('setDate', 'today');
   let query = {};
       query['work_date'] = $('#datepicker').val();
   $.ajax({
@@ -24,12 +27,13 @@ function setListShift() {
   .then(
     function(data) {
       console.log(data);
+      $.each(data.user_no, (key, value)=> {
+        $('#user_no').val(value.no);
+      });
       $.each(data.user, (key, value)=> {
-        $('input[name="work_time"]').attr('onChange', 'workTime(' + value.no + ')');
-        $('input[name="home_time"]').attr('onChange', 'homeTime(' + value.no + ')');
-        $('.edit-btn').attr('onClick', 'editTask(' + value.no + ')');
         $('#work_time').val(value.work_time);
         $('#home_time').val(value.home_time);
+        $('#task_contents').html(value.task);
       });
     },
     function(jgHXR, textStatus, errorThrown) {
@@ -41,9 +45,8 @@ function setListShift() {
 }
 
 //出勤記録
-function workTime(userNo) {
-  let query = formDataTemplate();
-      query['user_no'] = userNo;
+function workTime() {
+  const query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=work_time',
@@ -53,7 +56,6 @@ function workTime(userNo) {
   .then(
     function(data) {
       console.log(data);
-      setListShift();
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -64,9 +66,8 @@ function workTime(userNo) {
 }
 
 //退勤記録
-function homeTime(userNo) {
-  let query = formDataTemplate();
-      query['user_no'] = userNo;
+function homeTime() {
+  const query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=home_time',
@@ -76,7 +77,6 @@ function homeTime(userNo) {
   .then(
     function(data) {
       console.log(data);
-      setListShift();
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -88,8 +88,7 @@ function homeTime(userNo) {
 
 //日付別でデータを取得
 function getData() {
-  let query = {};
-      query['work_date'] = $('#datepicker').val();
+  const query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=get_data',
@@ -102,9 +101,11 @@ function getData() {
       if(data == '') {
         $('#work_time').val('');
         $('#home_time').val('');
+        $('#task_contents').html('');
       }
       else {
         $.each(data.user, (key, value)=> {
+          $('#task_contents').html(value.task);
           $('#work_time').val(value.work_time);
           $('#home_time').val(value.home_time);
         });
@@ -122,6 +123,7 @@ function getData() {
 function getBeforeAfterDay(num) {
   let query = formDataTemplate();
       query['other_day'] = num;
+      console.log(query);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=get_before_after_day',
@@ -131,19 +133,9 @@ function getBeforeAfterDay(num) {
   .then(
     function(data) {
       console.log(data);
-      let date = data.date;
-      if(data.user == null) {
-        $('#datepicker').val(date);
-        $('#work_time').val('');
-        $('#home_time').val('');
-      }
-      else {
-        $.each(data.user, (key, value)=> {
-          $('#datepicker').val(date);
-          $('#work_time').val(value.work_time);
-          $('#home_time').val(value.home_time);
-        });
-      }
+      $.each(data.date, (key, value)=>{
+        console.log(value.work_date);
+      });
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -154,19 +146,40 @@ function getBeforeAfterDay(num) {
 }
 
 //本日予定の内容登録
-function editTask(userNo) {
-  let query = formDataTemplate();
-      query['edit_task'] = $('#edit_task').val();
-      query['user_no'] = userNo;
+function editTask() {
+  const query = formDataTemplate();
+  console.log(query);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=edit_task',
     data: query,
-    dataType: 'html'
+    dataType: 'json'
   })
   .then(
     function(data) {
       console.log(data);
+      $('#task_contents').html(data.task);
+    },
+    function(jgXHR, textStatus, errorThrown) {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
+}
+
+function reflectTask() {
+  const query = formDataTemplate();
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site/request/sql_data.php?mode=reflect_task',
+    data: query,
+    dataType: 'json'
+  })
+  .then(
+    function(data) {
+      console.log(data);
+      $('#edit_task').val(data.task);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
