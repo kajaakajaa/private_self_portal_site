@@ -17,11 +17,11 @@ EOF;
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $array['user'][] = $row;
+      $array['user_no'][] = $row;
     }
     $sql = <<<EOF
       SELECT
-        user_no,
+        task,
         DATE_FORMAT
         (
           work_time,
@@ -115,6 +115,7 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       SELECT
+        task,
         DATE_FORMAT
         (
           work_time,
@@ -130,13 +131,10 @@ EOF;
       WHERE
         work_date = :work_date
           AND
-        user_no = :user_no
-          AND
         del_flg = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
-    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -148,43 +146,29 @@ EOF;
 
   case 'get_before_after_day':
     $workDate = $_POST['work_date'];
-    $userNo = $_POST['user_no'];
     $otherDay = $_POST['other_day'];
     $year = date('Y', strtotime($workDate));
     $month = date('m', strtotime($workDate));
     $day = date('d', strtotime($workDate));
-    $otherDay == 1 ? $timestamp = mktime(0,0,0,$month,$day-1,$year) : $timestamp = mktime(0,0,0,$month,$day+1,$year);
+    $otherDay == 1 ? $timestamp = mktime(0,0,0,$month,$day-1,$year): $timestamp = mktime(0,0,0,$month,$day+1,$year);
     $date = date('Y/m/j', $timestamp);
     $sql = <<<EOF
       SELECT
-        DATE_FORMAT
-        (
-          work_time,
-          '%H:%i'
-        ) AS work_time,
-        DATE_FORMAT
-        (
-          home_time,
-          '%H:%i'
-        ) AS home_time
+        work_date
       FROM
         tbl_task_work_time
       WHERE
-        user_no = :user_no
-          AND
         work_date = :date
           AND
         del_flg = 0
 EOF;
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $array['user'][] = $row;
+      $array['date'][] = $row;
     }
-    $array['date'] = $date;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -217,6 +201,49 @@ EOF;
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
-    var_dump($stmt->errorInfo());
+    $sql = <<<EOF
+      SELECT
+        task
+      FROM
+        tbl_task_work_time
+      WHERE
+        work_date = :work_date
+          AND
+        user_no = :user_no
+          AND
+        del_flg = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
+    $array = array();
+    $array = $stmt->fetch(PDO::FETCH_ASSOC);
+    header('Content-type: application/json; charset=UTF-8');
+    echo json_encode($array);
+  break;
+
+  case 'reflect_task':
+    $userNo = $_POST['user_no'];
+    $workDate = $_POST['work_date'];
+    $sql = <<<EOF
+      SELECT
+        task
+      FROM
+        tbl_task_work_time
+      WHERE
+        user_no = :user_no
+          AND
+        work_date = :work_date
+          AND
+        del_flg = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->execute();
+    $array = $stmt->fetch(PDO::FETCH_ASSOC);
+    header('Content-type: application/json; charset=UTF-8');
+    echo json_encode($array);
   break;
 }
