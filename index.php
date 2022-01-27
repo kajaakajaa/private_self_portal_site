@@ -25,10 +25,32 @@
       <div class="card">
         <div class="container-fluid">
           <div class="row">
-            <div class="order-2 order-md-1 col-md-2 py-3">
+            <div class="order-2 order-md-1 col-md-2 py-3 menu">
               <div class="card">
-                <div class="card-header">MENU</div>
-                <div class="card-body"></div>
+                <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal">追加</span></div>
+                <div class="card-body">
+                  <ul id="menu_list"></ul>
+                </div>
+                <!-- Menu-Modal -->
+                <div class="modal fade" id="menu_modal" tabindex="-1" area-labelledby="menu_modal_label" area-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="menu_modal_label">MENU（カテゴリー名）追加</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body p-1">
+                        <div>
+                          <textarea name="add_menu" id="add_menu" rows="3" class="form-control"></textarea>
+                          <p id="duplicated_message" class="text-center"></p>
+                        </div>
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary edit-btn" id="add_menu_btn">登録</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="order-1 order-md-2 col-md-7 py-3 report">
@@ -37,8 +59,8 @@
                   <div class="card">
                     <div class="card-header">日報
                       <input type="text" id="datepicker" class="mx-3" name="datepicker" onChange="getData()">
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(1)">前日</button>
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getBeforeAfterDay(2)">翌日</button>
+                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
+                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
                     </div>
                     <div class="card-body report-contents">
                       <form class="row">
@@ -62,16 +84,16 @@
                             <p id="task_contents"></p>
                           </div>
                           <!-- Modal -->
-                          <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">日報</h5>
+                                  <h5 class="modal-title" id="report_modal_label">本日の予定</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body p-1">
                                   <div>
-                                    <textarea class="form-control" id="edit_task" rows="3"></textarea>
+                                    <textarea class="form-control" name="edit_task" id="edit_task" rows="8"></textarea>
                                   </div>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-center">
@@ -96,6 +118,7 @@
           </div>
         </div>
       </div>
+      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る"></a>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
@@ -114,6 +137,7 @@
   <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
   <!-- jsファイル -->
   <script src="/self_portal_site/js/index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site/js/menu_index.js?ver=<?php echo time(); ?>"></script>
 </body>
 
 </html>

@@ -12,6 +12,8 @@ switch($mode) {
         tbl_task_user
       WHERE
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
@@ -33,11 +35,13 @@ EOF;
           '%H:%i'
         ) AS home_time
       FROM
-        tbl_task_work_time
+        tbl_task_report
       WHERE
         work_date = :work_date
           AND
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -55,7 +59,7 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT INTO
-        tbl_task_work_time
+        tbl_task_report
         (
           user_no,
           work_time,
@@ -86,7 +90,7 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT
-        tbl_task_work_time
+        tbl_task_report
         (
           user_no,
           home_time,
@@ -127,11 +131,13 @@ EOF;
           '%H:%i'
         ) AS home_time
       FROM
-        tbl_task_work_time
+        tbl_task_report
       WHERE
         work_date = :work_date
           AND
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -144,31 +150,51 @@ EOF;
     echo json_encode($array);
   break;
 
-  case 'get_before_after_day':
+  case 'get_day':
+    $userNo = $_POST['user_no'];
     $workDate = $_POST['work_date'];
-    $otherDay = $_POST['other_day'];
+    $num = $_POST['num'];
     $year = date('Y', strtotime($workDate));
     $month = date('m', strtotime($workDate));
     $day = date('d', strtotime($workDate));
-    $otherDay == 1 ? $timestamp = mktime(0,0,0,$month,$day-1,$year): $timestamp = mktime(0,0,0,$month,$day+1,$year);
-    $date = date('Y/m/j', $timestamp);
+    $timestamp = $num == 1 ? mktime(0,0,0,$month,$day-1,$year) : mktime(0,0,0,$month,$day+1,$year);
+    $date = date('Y-m-d', $timestamp);
+    $sql = <<<EOF
+      INSERT
+        tbl_task_report
+        (
+          work_date,
+          user_no,
+          regist_time
+        ) VALUES (
+          :date,
+          :user_no,
+          NOW()
+        ) ON DUPLICATE KEY UPDATE
+          work_date = :date,
+          user_no = :user_no,
+          update_time = NOW()
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
     $sql = <<<EOF
       SELECT
         work_date
       FROM
-        tbl_task_work_time
+        tbl_task_report
       WHERE
         work_date = :date
           AND
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
     $stmt->execute();
-    $array = array();
-    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $array['date'][] = $row;
-    }
+    $array = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -179,7 +205,7 @@ EOF;
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT
-        tbl_task_work_time
+        tbl_task_report
         (
           task,
           user_no,
@@ -205,13 +231,15 @@ EOF;
       SELECT
         task
       FROM
-        tbl_task_work_time
+        tbl_task_report
       WHERE
         work_date = :work_date
           AND
         user_no = :user_no
           AND
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -230,13 +258,15 @@ EOF;
       SELECT
         task
       FROM
-        tbl_task_work_time
+        tbl_task_report
       WHERE
         user_no = :user_no
           AND
         work_date = :work_date
           AND
         del_flg = 0
+          AND
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);

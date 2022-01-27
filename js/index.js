@@ -2,12 +2,29 @@ $(()=> {
   setListShift();
 });
 
+//ページの先頭へ戻る
+const pagetop = $('#pagetop');
+$(window).scroll(()=> {
+  if($(this).scrollTop() > 100) {
+    pagetop.fadeIn();
+  }
+  else {
+    pagetop.fadeOut();
+  }
+})
+pagetop.on('click', ()=> {
+  $('body, html').animate({
+    scrollTop: 0
+  }, 400);
+  return false;
+})
+
 //formデータ
 function formDataTemplate() {
   let query = {};
   query['work_time'] = $('#work_time').val();
   query['home_time'] = $('#home_time').val();
-  query['edit_task'] = $('#edit_task').val();
+  query['edit_task'] = $('textarea[name="edit_task"]').val();
   query['work_date'] = $('#datepicker').val();
   query['user_no'] = $('#user_no').val();
   return query;
@@ -119,23 +136,23 @@ function getData() {
   );
 }
 
-//前日・翌日ボタンで表示
-function getBeforeAfterDay(num) {
+//前日・翌日ボタンでフォームに日付を反映
+function getDay(num) {
   let query = formDataTemplate();
-      query['other_day'] = num;
-      console.log(query);
+      query['num'] = num;
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=get_before_after_day',
+    url: '/self_portal_site/request/sql_data.php?mode=get_day',
     data: query,
     dataType: 'json'
   })
   .then(
     function(data) {
       console.log(data);
-      $.each(data.date, (key, value)=>{
-        console.log(value.work_date);
-      });
+      let date = data.work_date;
+          date = date.replaceAll('-', '/');
+      $('#datepicker').val(date);
+      getData();
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -168,6 +185,7 @@ function editTask() {
   );
 }
 
+//編集画面に登録済みタスク内容を反映させる
 function reflectTask() {
   const query = formDataTemplate();
   $.ajax({
@@ -179,7 +197,7 @@ function reflectTask() {
   .then(
     function(data) {
       console.log(data);
-      $('#edit_task').val(data.task);
+      $('textarea[name="edit_task"]').val(data.task);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
