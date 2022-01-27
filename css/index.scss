@@ -26,6 +26,19 @@ footer {
   height: 50px;
 }
 
+@mixin warningMessage {
+  margin: 0;
+  color: rgb(255, 0, 0);
+}
+
+.menu {
+  .add-menu-btn, .menu-index-list {
+    cursor: pointer;
+  }
+  #duplicated_message {
+    @include warningMessage;
+  }
+}
 .report {
   #datepicker {
     width: 40%;
@@ -40,10 +53,14 @@ footer {
     .regist-btn {
       width: 20%;
     }
-    .modal-body {
-      textarea {
-        min-height: 200px;
-      }
-    }
   }
+}
+
+#pagetop {
+  display: none;
+  cursor: pointer;
+  margin: 1rem;
+  position: fixed;
+  bottom: 50px;
+  right: 1rem;
 }

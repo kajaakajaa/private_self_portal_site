@@ -34,6 +34,15 @@ footer {
   height: 50px;
 }
 
+.menu .add-menu-btn, .menu .menu-index-list {
+  cursor: pointer;
+}
+
+.menu #duplicated_message {
+  margin: 0;
+  color: red;
+}
+
 .report #datepicker {
   width: 40%;
   padding: 0.1rem 0.5rem;
@@ -49,6 +58,11 @@ footer {
   width: 20%;
 }
 
-.report .report-contents .modal-body textarea {
-  min-height: 200px;
+#pagetop {
+  display: none;
+  cursor: pointer;
+  margin: 1rem;
+  position: fixed;
+  bottom: 50px;
+  right: 1rem;
 }
