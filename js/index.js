@@ -44,9 +44,6 @@ function setListShift() {
   .then(
     function(data) {
       console.log(data);
-      $.each(data.user_no, (key, value)=> {
-        $('#user_no').val(value.no);
-      });
       $.each(data.user, (key, value)=> {
         $('#work_time').val(value.work_time);
         $('#home_time').val(value.home_time);
@@ -170,12 +167,12 @@ function editTask() {
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=edit_task',
     data: query,
-    dataType: 'json'
+    dataType: 'html'
   })
   .then(
     function(data) {
       console.log(data);
-      $('#task_contents').html(data.task);
+      setListShift();
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);

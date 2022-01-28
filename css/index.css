@@ -38,7 +38,7 @@ footer {
   cursor: pointer;
 }
 
-.menu #duplicated_message {
+.menu .error-messages {
   margin: 0;
   color: red;
 }

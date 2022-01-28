@@ -1,17 +1,22 @@
 <?php
 include_once('../../config/db_connect.php');
 
+function sanitized($str) {
+  return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
+}
+
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_menu':
     $userNo = $_POST['user_no'];
     $sql = <<<EOF
       SELECT
+        mnu.no AS menu_no,
         category_name
       FROM
-        tbl_task_user AS usr
-          JOIN
-            tbl_task_menu AS mnu
+        tbl_task_menu AS mnu
+          LEFT JOIN
+            tbl_task_user AS usr
           ON
             usr.no = mnu.user_no
       WHERE
@@ -23,6 +28,7 @@ EOF;
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $row['category_name'] = sanitized($row['category_name'], false);
       $array['menu'][] = $row;
     }
     header('Content-type: application/json; charset=UTF-8');
