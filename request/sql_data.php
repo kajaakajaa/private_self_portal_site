@@ -1,6 +1,10 @@
 <?php
 include_once('../../config/db_connect.php');
 
+//$_POST送信の値を改行した状態でsqlへ保存(定義)
+function sanitized($str) {
+  return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
+}
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_shift':
@@ -47,6 +51,7 @@ EOF;
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $row['task'] = sanitized($row['task'], false);
       $array['user'][] = $row;
     }
     header('Content-type: application/json; charset=UTF-8');
@@ -144,6 +149,7 @@ EOF;
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $row['task'] = sanitized($row['task'], false);
       $array['user'][] = $row;
     }
     header('Content-type: application/json; charset=UTF-8');
@@ -227,28 +233,7 @@ EOF;
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
-    $sql = <<<EOF
-      SELECT
-        task
-      FROM
-        tbl_task_report
-      WHERE
-        work_date = :work_date
-          AND
-        user_no = :user_no
-          AND
-        del_flg = 0
-          AND
-        status = 0
-EOF;
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
-    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
-    $stmt->execute();
-    $array = array();
-    $array = $stmt->fetch(PDO::FETCH_ASSOC);
-    header('Content-type: application/json; charset=UTF-8');
-    echo json_encode($array);
+    var_dump($stmt->errorInfo());
   break;
 
   case 'reflect_task':

@@ -35,7 +35,7 @@ footer {
   .add-menu-btn, .menu-index-list {
     cursor: pointer;
   }
-  #duplicated_message {
+  .error-messages {
     @include warningMessage;
   }
 }

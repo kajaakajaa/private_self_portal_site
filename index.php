@@ -1,3 +1,22 @@
+<?php
+include_once('../config/db_connect.php');
+  $sql = <<<EOF
+    SELECT
+      no AS user_no
+    FROM
+      tbl_task_user
+    WHERE
+      no = 1
+        AND
+      del_flg = 0
+        AND
+      status = 0
+EOF;
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  $array = $stmt->fetch(PDO::FETCH_ASSOC);
+  $userNo = $array['user_no'];
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -18,7 +37,7 @@
   <div class="container-fluid p-0">
     <header>
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0">TASK</h1>
+        <h1 class="m-0">Task Manage</h1>
       </div>
     </header>
     <main>
@@ -27,7 +46,7 @@
           <div class="row">
             <div class="order-2 order-md-1 col-md-2 py-3 menu">
               <div class="card">
-                <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal">追加</span></div>
+                <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
                 <div class="card-body">
                   <ul id="menu_list"></ul>
                 </div>
@@ -41,8 +60,8 @@
                       </div>
                       <div class="modal-body p-1">
                         <div>
-                          <textarea name="add_menu" id="add_menu" rows="3" class="form-control"></textarea>
-                          <p id="duplicated_message" class="text-center"></p>
+                          <input name="add_menu" id="add_menu" class="form-control"></input>
+                          <p class="text-center error-messages"></p>
                         </div>
                       </div>
                       <div class="modal-footer d-flex justify-content-center">
@@ -64,7 +83,7 @@
                     </div>
                     <div class="card-body report-contents">
                       <form class="row">
-                        <input type="hidden" name="user_no" id="user_no">
+                        <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
                         <div class="form-group col-12 text-center col-sm-6 text-sm-start">
                           <label for="work_time" class="col-md-3">出勤</label>
                           <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
