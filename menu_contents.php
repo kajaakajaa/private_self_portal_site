@@ -1,23 +1,28 @@
 <?php
-//menu_index.jsより
+//menu_index.js/sel_list_menuより
 include_once('../config/db_connect.php');
-  $menu_no = h($_GET['no']);
+  $menuNo = $_GET['menu_no'];
+  $userNo = $_GET['user_no'];
   $sql = <<<EOF
     SELECT
-      contents
+      category_name
     FROM
-      tbl_task_menu_category
+      tbl_task_menu
     WHERE
+      no = :menu_no
+        AND
+      user_no = :user_no
+        AND
       del_flg = 0
         AND
       status = 0
-        user_no = :uesr_no
-
 EOF;
-
-  function h($str) {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-  }
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
+  $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+  $stmt->execute();
+  $array = $stmt->fetch(PDO::FETCH_ASSOC);
+  $categoryName = $array['category_name'];
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -38,23 +43,69 @@ EOF;
 
 <body>
   <div class="container-fluid p-0">
-    <header>
+    <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0">Task Manage</h1>
+        <h1 class="m-0" title="topへ戻る">Task Manage</h1>
       </div>
     </header>
     <main>
+      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb m-2">
+          <li class="breadcrumb-item"><a href="/self_portal_site/index.php">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+      </nav>
       <div class="card">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-8">
+          <div class="row justify-content-center">
+            <div class="col-md-8 py-3 category">
               <div class="card">
-                <div class="card-header"></div>
+                <div class="card-header text-center category-name"><?php echo $categoryName; ?>
+                  <div class="btn-wrapper d-inline-block">
+                    <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
+                    <input type="hidden" name="menu_no" id="menu_no" value="<?php echo $menuNo; ?>">
+                    <button type="button" id="edit_category_btn" class="btn btn-primary p-1 py-0">編集</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#confirm_delete" id="delete_confirm"
+                      class="btn btn-secondary p-1 py-0 mx-2">削除</button>
+                    <button type="button" class="btn-close" id="edit_category_close" aria-label="Close"></button>
+                  </div>
+                  <div class="modal fade" id="confirm_delete" tabindex="-1" aria-labelledby="confirm_delete_label"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="confirm_delete_label"><?php echo $categoryName; ?></h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>このカテゴリーを削除しても宜しいですか？</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" id="delete_category_contents" class="btn btn-primary"
+                            data-bs-dismiss="modal" aria-label="Close">Yes</button>
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            aria-label="Close">No</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" id="edit_category">
+                  <p id="category_contents"></p>
+                  <div id="category_contents_wrapper">
+                    <textarea class="form-control" rows="10" name="edit_category_contents"
+                      id="edit_category_contents"></textarea>
+                    <div class="d-flex justify-content-center">
+                      <button type="button" id="close_category" class="btn btn-primary m-3 mb-0">登録</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る"></a>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">

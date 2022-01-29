@@ -22,6 +22,8 @@ switch($mode) {
       WHERE
         mnu.del_flg = 0
           AND
+        usr.del_flg = 0
+          AND
         usr.no = user_no
 EOF;
     $stmt = $dbh->prepare($sql);

@@ -3,13 +3,14 @@ $(()=> {
 });
 
 //ページの先頭へ戻る
-const pagetop = $('#pagetop');
+const pagetop = $('#pagetop, header');
+const fadeOut = $('#pagetop');
 $(window).scroll(()=> {
   if($(this).scrollTop() > 100) {
     pagetop.fadeIn();
   }
   else {
-    pagetop.fadeOut();
+    fadeOut.fadeOut();
   }
 })
 pagetop.on('click', ()=> {
