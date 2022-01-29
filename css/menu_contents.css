@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+.category #category_contents {
+  margin: 0;
+}
+
+.category .category-name {
+  position: relative;
+}
+
+.category .category-name .btn-wrapper {
+  position: absolute;
+  right: 10%;
+}
+
+.category .category-name .btn-wrapper #edit_category_close {
+  display: none;
+}
+
+.category .category-name .btn-wrapper button:not([last-child]) {
+  font-size: 0.9rem;
+}
+
+.category #category_contents_wrapper {
+  display: none;
+}

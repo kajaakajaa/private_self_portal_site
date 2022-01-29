@@ -20,6 +20,7 @@ header {
 }
 main {
   grid-row: 2;
+  margin-top: 50px;
 }
 footer {
   grid-row: 3;
@@ -31,10 +32,11 @@ footer {
   color: rgb(255, 0, 0);
 }
 
+h1, .add-menu-btn, .menu-index-list {
+  cursor: pointer;
+}
+
 .menu {
-  .add-menu-btn, .menu-index-list {
-    cursor: pointer;
-  }
   .error-messages {
     @include warningMessage;
   }

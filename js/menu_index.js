@@ -38,7 +38,6 @@ function setListMenu() {
   let query = {};
       query['user_no'] = $('#user_no').val();
   let userNo = $('#user_no').val();
-  console.log(userNo);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/menu_sql_data.php?mode=set_list_menu',

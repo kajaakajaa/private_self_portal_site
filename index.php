@@ -35,12 +35,17 @@ EOF;
 
 <body>
   <div class="container-fluid p-0">
-    <header>
+    <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0">Task Manage</h1>
+        <h1 class="m-0" title="topへ戻る">Task Manage</h1>
       </div>
     </header>
     <main>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-2">
+          <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+      </nav>
       <div class="card">
         <div class="container-fluid">
           <div class="row">

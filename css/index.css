@@ -26,6 +26,7 @@ header {
 main {
   -ms-grid-row: 2;
   grid-row: 2;
+  margin-top: 50px;
 }
 
 footer {
@@ -34,7 +35,7 @@ footer {
   height: 50px;
 }
 
-.menu .add-menu-btn, .menu .menu-index-list {
+h1, .add-menu-btn, .menu-index-list {
   cursor: pointer;
 }
 
