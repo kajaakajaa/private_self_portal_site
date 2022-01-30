@@ -16,6 +16,15 @@ EOF;
   $stmt->execute();
   $array = $stmt->fetch(PDO::FETCH_ASSOC);
   $userNo = $array['user_no'];
+  //日付取得
+  $year = date('Y');
+  $month = date('m');
+  $day = date('d');
+  $dw = date('w');
+  $week = array('日','月','火','水','木','金','土');
+  $timestamp = mktime(0,0,0,$month,$day,$year);
+  $date = date('Y/m/d');
+  $date .= '(' . $week[$dw] . ')';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -82,7 +91,7 @@ EOF;
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">日報
-                      <input type="text" id="datepicker" class="mx-3" name="datepicker" onChange="getData()">
+                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
                       <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
                       <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
                     </div>
