@@ -23,19 +23,23 @@ pagetop.on('click', ()=> {
 //formデータ
 function formDataTemplate() {
   let query = {};
+  let date = $('#datepicker').val();
+      date = date.slice(0, 10);
   query['work_time'] = $('#work_time').val();
   query['home_time'] = $('#home_time').val();
   query['edit_task'] = $('textarea[name="edit_task"]').val();
-  query['work_date'] = $('#datepicker').val();
+  query['work_date'] = date;
   query['user_no'] = $('#user_no').val();
   return query;
 }
 
 //オンロード時に取得するデフォルト値
 function setListShift() {
-  $('#datepicker').datepicker().datepicker('setDate', 'today');
+  // $('#datepicker').datepicker().datepicker('setDate', 'today');
+  let date = $('#datepicker').val();
+      date = date.slice(0, 10);
   let query = {};
-      query['work_date'] = $('#datepicker').val();
+      query['work_date'] = date;
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=set_list_shift',
@@ -104,6 +108,7 @@ function homeTime() {
 //日付別でデータを取得
 function getData() {
   const query = formDataTemplate();
+  console.log(query['work_date']);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=get_data',

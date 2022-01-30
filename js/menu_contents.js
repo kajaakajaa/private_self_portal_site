@@ -38,6 +38,7 @@ $(()=> {
 
   //category編集フォームを閉じる(×ボタン)
   $('#edit_category_close').on('click', ()=> {
+    setListCategory();
     $('#category_contents_wrapper').hide();
     $('#edit_category_close').hide();
     $('#category_contents').show();

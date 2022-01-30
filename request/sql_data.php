@@ -163,7 +163,12 @@ EOF;
     $year = date('Y', strtotime($workDate));
     $month = date('m', strtotime($workDate));
     $day = date('d', strtotime($workDate));
+    $weekDay = array('日','月','火','水','木','金','土');
     $timestamp = $num == 1 ? mktime(0,0,0,$month,$day-1,$year) : mktime(0,0,0,$month,$day+1,$year);
+    //曜日取得
+    $weekNum = date('w', $timestamp);
+    $weekDay = '(' . $weekDay[$weekNum] . ')';
+    //文字列の日付生成
     $date = date('Y-m-d', $timestamp);
     $sql = <<<EOF
       INSERT
@@ -200,7 +205,9 @@ EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
     $stmt->execute();
+    $array = array();
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['work_date'] .= $weekDay;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
