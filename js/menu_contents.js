@@ -9,6 +9,65 @@ $(()=> {
     $('textarea[name="edit_category_contents"]').focus();
   });
 
+  //カテゴリー名の変更
+  $('#change_name_btn').on('click', ()=> {
+    let query = getFormData();
+        query['change_category_name'] = $('#name_change').val();
+    let count = {};
+        count['duplicate'] = 0;
+        count['empty'] = 0;
+    $.ajax({
+      type: 'POST',
+      url: '/self_portal_site/request/category_sql_data.php?mode=check_error',
+      data: query,
+      dataType: 'json'
+    })
+    .then(
+      function(data) {
+        console.log(data);
+        $.each(data.category, (key, value)=> {
+          if(value.category_name == $('#name_change').val()) {
+            $('.error-messages').html('&#x203B;既に登録されております');
+            count['duplicate']++;
+          }
+        });
+        if($('#name_change').val() == '') {
+          $('.error-messages').html('&#x203B;カテゴリー名を入力して下さい');
+          count['empty']++;
+        }
+        if(count['duplicate'] == 0 && count['empty'] == 0) {
+          $.ajax({
+            type: 'POST',
+            url: '/self_portal_site/request/menu_sql_data.php?mode=change_menu_name',
+            data: query,
+            dataType: 'html'
+          })
+          .then(
+            function(data) {
+              console.log(data);
+              setListCategory();
+            },
+            function(jgXHR, textStatus, errorThrown) {
+              console.log(jgXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          );
+        }
+      },
+      function(jgXHR, textStatus, errorThrown) {
+        console.log(jgXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+      }
+    );
+  });
+
+  //category名変更フォームを閉じる
+  $('.name-change-close').on('click', ()=> {
+    setListCategory();
+  });
+
   //category編集フォーム更新し閉じる
   $('#close_category').on('click', ()=> {
     const query = getFormData();
@@ -22,6 +81,9 @@ $(()=> {
     .then(
       function(data) {
         console.log(data);
+        $('#category_contents_wrapper').hide();
+        $('#edit_category_close').hide();
+        $('#category_contents').show();
         setListCategory();
       },
       function(jgXHR, textStatus, errorThrown) {
@@ -30,10 +92,6 @@ $(()=> {
         console.log(errorThrown);
       }
     );
-    $('#category_contents_wrapper').hide();
-    $('#edit_category_close').hide();
-    $('#category_contents').show();
-    setListCategory();
   });
 
   //category編集フォームを閉じる(×ボタン)
@@ -107,8 +165,12 @@ function setListCategory() {
   .then(
     function(data) {
       console.log(data);
-      $('#category_contents').html(data.contents);
-      $('#edit_category_contents').val(data.contents_nobr);
+        $('#category_name').html(data.category_name);
+        $('#category_contents').html(data.contents);
+        $('#edit_category_contents').val(data.contents_nobr);
+        $('.error-messages').html('');
+        $('#name_change_modal').modal('hide');
+        $('#name_change').val(data.category_name);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -120,4 +182,40 @@ function setListCategory() {
 
 function backTop() {
   window.location.href = '/self_portal_site/index.php';
+}
+
+//カテゴリー名の重複/空欄チェック
+function checkError() {
+  const query = getFormData();
+  let count = {};
+      count['duplicate'] = 0;
+      count['empty'] = 0;
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site/request/category_sql_data.php?mode=check_error',
+    data: query,
+    dataType: 'json'
+  })
+  .then(
+    function(data) {
+      console.log(data);
+      $.each(data.category, (key, value)=> {
+        if(value.category_name == $('#name_change').val()) {
+          $('.error-messages').html('&#x203B;既に登録されております');
+          count['duplicate']++;
+        }
+      });
+      if($('#name_change').val() == '') {
+        $('.error-messages').html('&#x203B;カテゴリー名を入力して下さい');
+        count['empty']++;
+      }
+      $('#duplicate_check').val(count['duplicate']);
+      $('#empty_check').val(count['empty']);
+    },
+    function(jgXRH, textStatus, errorThrown) {
+      console.log(jgXRH);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
 }

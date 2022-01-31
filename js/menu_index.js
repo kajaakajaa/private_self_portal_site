@@ -7,7 +7,6 @@ $(()=> {
     let query = {};
         query['category_name'] = $('#add_menu').val();
         query['user_no'] = $('#user_no').val();
-        console.log($('#user_no').val());
     if(count['duplicate'] == 0 && count['empty'] == 0) {
       $.ajax({
         type: 'POST',

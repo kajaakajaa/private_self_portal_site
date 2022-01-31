@@ -35,7 +35,6 @@ function formDataTemplate() {
 
 //オンロード時に取得するデフォルト値
 function setListShift() {
-  // $('#datepicker').datepicker().datepicker('setDate', 'today');
   let date = $('#datepicker').val();
       date = date.slice(0, 10);
   let query = {};

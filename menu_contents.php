@@ -61,16 +61,39 @@ EOF;
             <div class="col-md-8 py-3 category">
               <div class="card">
                 <div class="card-header text-center d-flex justify-content-between">
-                  <div class="d-inline-block"><?php echo $categoryName; ?></div>
+                  <div class="d-inline-block"><div id="category_name" class="d-inline-block"></div><span class="badge bg-success p-1 mx-1 category-name-change" data-bs-toggle="modal" data-bs-target="#name_change_modal">変更</span></div>
                   <div class="btn-wrapper d-inline-block">
                     <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
                     <input type="hidden" name="menu_no" id="menu_no" value="<?php echo $menuNo; ?>">
+                    <input type="hidden" id="duplicate_check">
+                    <input type="hidden" id="empty_check">
                     <button type="button" id="edit_category_btn" class="btn btn-primary p-1 py-0">編集</button>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#confirm_delete" id="delete_confirm"
                       class="btn btn-secondary p-1 py-0">削除</button>
                     <button type="button" class="btn-close" id="edit_category_close" aria-label="Close"></button>
                   </div>
                 </div>
+                <!-- 名前変更Modal -->
+                <div class="modal fade" id="name_change_modal" tabindex="-1" aria-labelledby="name_change_modal_label" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="name_change_modal_label">MENU（カテゴリー名）変更</h5>
+                        <button type="button" class="btn-close name-change-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body p-1">
+                        <div>
+                          <input type="text" name="name_change" id="name_change" class="form-control">
+                          <p class="text-center error-messages"></p>
+                        </div>
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" id="change_name_btn">登録</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- 編集Modal -->
                 <div class="modal fade" id="confirm_delete" tabindex="-1" aria-labelledby="confirm_delete_label"
                   aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

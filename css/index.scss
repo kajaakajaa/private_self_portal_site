@@ -32,14 +32,12 @@ footer {
   color: rgb(255, 0, 0);
 }
 
-h1, .add-menu-btn, .menu-index-list {
+h1, .add-menu-btn, .menu-index-list, .category-name-change {
   cursor: pointer;
 }
 
-.menu {
-  .error-messages {
-    @include warningMessage;
-  }
+.error-messages {
+  @include warningMessage;
 }
 .report {
   .date-picker-wrapper {

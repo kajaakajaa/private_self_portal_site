@@ -74,12 +74,12 @@ EOF;
                       </div>
                       <div class="modal-body p-1">
                         <div>
-                          <input name="add_menu" id="add_menu" class="form-control"></input>
+                          <input type="text" name="add_menu" id="add_menu" class="form-control"></input>
                           <p class="text-center error-messages"></p>
                         </div>
                       </div>
                       <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary edit-btn" id="add_menu_btn">登録</button>
+                        <button type="button" class="btn btn-primary" id="add_menu_btn">登録</button>
                       </div>
                     </div>
                   </div>

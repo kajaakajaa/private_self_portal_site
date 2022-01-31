@@ -7,18 +7,28 @@ function sanitized($str) {
 }
 switch($mode) {
   case 'set_list_category':
+    $userNo = $_POST['user_no'];
     $menuNo = $_POST['menu_no'];
     $sql = <<<EOF
       SELECT
-        contents
+        contents,
+        category_name
       FROM
-        tbl_task_menu_category
+        tbl_task_menu mnu
+          LEFT JOIN
+            tbl_task_menu_category ctg
+          ON
+            mnu.no = ctg.menu_no
       WHERE
-        menu_no = :menu_no
+        no = :menu_no
           AND
-        del_flg = 0
+        mnu.del_flg = 0
           AND
-        status = 0
+        mnu.status = 0
+          AND
+        ctg.del_flg = 0
+          AND
+        ctg.status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
@@ -90,5 +100,30 @@ EOF;
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
     var_dump($stmt->errorInfo());
+  break;
+
+  case 'check_error':
+    $userNo = $_POST['user_no'];
+    $sql = <<<EOF
+      SELECT
+        category_name
+      FROM
+        tbl_task_menu
+      WHERE
+        user_no = :user_no
+          AND
+        del_flg = 0
+          AND
+        status = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
+    $array = array();
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $array['category'][] = $row;
+    }
+    header('Content-type: application/json; charset=UTF-8');
+    echo json_encode($array);
   break;
 }
