@@ -35,11 +35,11 @@ footer {
   height: 50px;
 }
 
-h1, .add-menu-btn, .menu-index-list {
+h1, .add-menu-btn, .menu-index-list, .category-name-change {
   cursor: pointer;
 }
 
-.menu .error-messages {
+.error-messages {
   margin: 0;
   color: red;
 }

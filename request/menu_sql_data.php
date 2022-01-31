@@ -1,10 +1,6 @@
 <?php
 include_once('../../config/db_connect.php');
 
-function sanitized($str) {
-  return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
-}
-
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_menu':
@@ -32,7 +28,6 @@ EOF;
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $row['category_name'] = sanitized($row['category_name'], false);
       $array['menu'][] = $row;
     }
     header('Content-type: application/json; charset=UTF-8');
@@ -58,6 +53,28 @@ EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':category_name', $categoryName, PDO::PARAM_STR);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
+    var_dump($stmt->errorInfo());
+  break;
+
+  case 'change_menu_name':
+    $userNo = $_POST['user_no'];
+    $menuNo = $_POST['menu_no'];
+    $categoryName = $_POST['change_category_name'];
+    $sql = <<<EOF
+      UPDATE
+        tbl_task_menu
+      SET
+        category_name = :category_name
+      WHERE
+        user_no = :user_no
+          AND
+        no = :menu_no
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':category_name', $categoryName, PDO::PARAM_STR);
+    $stmt->bindParam('user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam('menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
     var_dump($stmt->errorInfo());
   break;
