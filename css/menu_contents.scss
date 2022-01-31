@@ -9,18 +9,12 @@
   #category_contents {
     margin: 0;
   }
-  .category-name {
-    position: relative;
-    .btn-wrapper {
-      position: absolute;
-      right: 10%;
-      
-      #edit_category_close {
-        display: none;
-      }
-      button:not([last-child]) {
-        font-size: 0.9rem;
-      }
+  .btn-wrapper {      
+    #edit_category_close {
+      display: none;
+    }
+    button:not([last-child]) {
+      font-size: 0.9rem;
     }
   }
   #category_contents_wrapper {

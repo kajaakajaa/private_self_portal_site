@@ -42,14 +42,21 @@ h1, .add-menu-btn, .menu-index-list {
   }
 }
 .report {
-  #datepicker {
-    width: 40%;
-    padding: 0.1rem 0.5rem;
-    border-radius: 5px;
-    border: solid 0.1rem rgb(214, 214, 214);
-  }
-  #datepicker:hover {
-    outline: 0.1rem ridge #4169e1;
+  .date-picker-wrapper {
+    #datepicker {
+      width: 50%;
+      padding: 0.1rem 0.5rem;
+      border-radius: 5px;
+      border: solid 0.1rem rgb(214, 214, 214);
+    }
+    position: relative;
+    #datepicker:hover {
+      outline: 0.1rem ridge #4169e1;
+    }
+    .get-day-wrapper {
+      position: absolute;
+      right: 5%;
+    }
   }
   .report-contents {
     .regist-btn {

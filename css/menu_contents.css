@@ -8,20 +8,11 @@
   margin: 0;
 }
 
-.category .category-name {
-  position: relative;
-}
-
-.category .category-name .btn-wrapper {
-  position: absolute;
-  right: 10%;
-}
-
-.category .category-name .btn-wrapper #edit_category_close {
+.category .btn-wrapper #edit_category_close {
   display: none;
 }
 
-.category .category-name .btn-wrapper button:not([last-child]) {
+.category .btn-wrapper button:not([last-child]) {
   font-size: 0.9rem;
 }
 

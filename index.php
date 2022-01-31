@@ -90,10 +90,12 @@ EOF;
               <div class="row">
                 <div class="col-12">
                   <div class="card">
-                    <div class="card-header">日報
+                    <div class="card-header date-picker-wrapper">日報
                       <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
-                      <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
+                      <div class="get-day-wrapper d-inline-block">
+                        <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
+                        <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
+                      </div>
                     </div>
                     <div class="card-body report-contents">
                       <form class="row">

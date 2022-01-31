@@ -25,6 +25,8 @@ switch($mode) {
         usr.del_flg = 0
           AND
         usr.no = user_no
+      ORDER BY
+        mnu.no DESC
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
