@@ -52,7 +52,7 @@ EOF;
       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb m-2">
           <li class="breadcrumb-item"><a href="/self_portal_site/index.php">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Library</li>
+          <li class="breadcrumb-item active" aria-current="page">Category</li>
         </ol>
       </nav>
       <div class="card">
@@ -60,32 +60,33 @@ EOF;
           <div class="row justify-content-center">
             <div class="col-md-8 py-3 category">
               <div class="card">
-                <div class="card-header text-center category-name"><?php echo $categoryName; ?>
+                <div class="card-header text-center d-flex justify-content-between">
+                  <div class="d-inline-block"><?php echo $categoryName; ?></div>
                   <div class="btn-wrapper d-inline-block">
                     <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
                     <input type="hidden" name="menu_no" id="menu_no" value="<?php echo $menuNo; ?>">
                     <button type="button" id="edit_category_btn" class="btn btn-primary p-1 py-0">編集</button>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#confirm_delete" id="delete_confirm"
-                      class="btn btn-secondary p-1 py-0 mx-2">削除</button>
+                      class="btn btn-secondary p-1 py-0">削除</button>
                     <button type="button" class="btn-close" id="edit_category_close" aria-label="Close"></button>
                   </div>
-                  <div class="modal fade" id="confirm_delete" tabindex="-1" aria-labelledby="confirm_delete_label"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="confirm_delete_label"><?php echo $categoryName; ?></h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <p>このカテゴリーを削除しても宜しいですか？</p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" id="delete_category_contents" class="btn btn-primary"
-                            data-bs-dismiss="modal" aria-label="Close">Yes</button>
-                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                            aria-label="Close">No</button>
-                        </div>
+                </div>
+                <div class="modal fade" id="confirm_delete" tabindex="-1" aria-labelledby="confirm_delete_label"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="confirm_delete_label"><?php echo $categoryName; ?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>このカテゴリーを削除しても宜しいですか？</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" id="delete_category_contents" class="btn btn-primary"
+                          data-bs-dismiss="modal" aria-label="Close">Yes</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                          aria-label="Close">No</button>
                       </div>
                     </div>
                   </div>
