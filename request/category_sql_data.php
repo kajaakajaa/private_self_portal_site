@@ -2,41 +2,50 @@
 include_once('../../config/db_connect.php');
 $mode = $_GET['mode'];
 
-function sanitized($str) {
-  return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
-}
 switch($mode) {
   case 'set_list_category':
     $userNo = $_POST['user_no'];
     $menuNo = $_POST['menu_no'];
     $sql = <<<EOF
       SELECT
-        contents,
         category_name
       FROM
-        tbl_task_menu mnu
-          LEFT JOIN
-            tbl_task_menu_category ctg
-          ON
-            mnu.no = ctg.menu_no
+        tbl_task_menu
       WHERE
+        user_no = :user_no
+          AND
         no = :menu_no
           AND
-        mnu.del_flg = 0
+        del_flg = 0
           AND
-        mnu.status = 0
-          AND
-        ctg.del_flg = 0
-          AND
-        ctg.status = 0
+        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
-    $array = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['contents_nobr'] = $array['contents'];
-    $array['contents'] = sanitized($array['contents'], false);
+    $array['category'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = <<<EOF
+      SELECT
+        contents
+      FROM
+        tbl_task_menu_category
+      WHERE
+        user_no = :user_no
+          AND
+        menu_no = :menu_no
+          AND
+        del_flg = 0
+          AND
+        status = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
+    $stmt->execute();
+    $array['contents_default'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['contents_nobr'] = nl2br($array['contents'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;

@@ -3,6 +3,8 @@ $(()=> {
 
   //category内容編集
   $('#edit_category_btn').on('click', ()=> {
+    let contents = $('#category_contents').html();
+    $('#edit_category_contents').val(contents);
     $('#category_contents').hide();
     $('#category_contents_wrapper').show();
     $('#edit_category_close').show();
@@ -71,7 +73,6 @@ $(()=> {
   //category編集フォーム更新し閉じる
   $('#close_category').on('click', ()=> {
     const query = getFormData();
-    console.log(query);
     $.ajax({
       type: 'POST',
       url: '/self_portal_site/request/category_sql_data.php?mode=regist_category_contents',
@@ -165,12 +166,12 @@ function setListCategory() {
   .then(
     function(data) {
       console.log(data);
-        $('#category_name').html(data.category_name);
-        $('#category_contents').html(data.contents);
-        $('#edit_category_contents').val(data.contents_nobr);
+        $('#category_name').html(data.category.category_name);
+        $('#category_contents').html(data.contents_default.contents);
+        $('#edit_category_contents').val(data.contents_nobr.contents);
         $('.error-messages').html('');
         $('#name_change_modal').modal('hide');
-        $('#name_change').val(data.category_name);
+        $('#name_change').val(data.category.category_name);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
