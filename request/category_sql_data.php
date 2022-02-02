@@ -2,6 +2,10 @@
 include_once('../../config/db_connect.php');
 $mode = $_GET['mode'];
 
+function h($str) {
+  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
 switch($mode) {
   case 'set_list_category':
     $userNo = $_POST['user_no'];
@@ -25,7 +29,7 @@ EOF;
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
-    $array['category'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['menu'] = $stmt->fetch(PDO::FETCH_ASSOC);
     $sql = <<<EOF
       SELECT
         contents
@@ -44,8 +48,8 @@ EOF;
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
-    $array['contents_default'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['contents_nobr'] = nl2br($array['contents'], false);
+    $array['category'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['contents_nobr'] = nl2br($array['category']['contents'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -53,7 +57,7 @@ EOF;
   case 'regist_category_contents':
     $userNo = $_POST['user_no'];
     $menuNo = $_POST['menu_no'];
-    $contents = $_POST['contents'];
+    $contents = h($_POST['contents']);
     $sql = <<<EOF
       INSERT
         tbl_task_menu_category
