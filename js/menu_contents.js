@@ -166,12 +166,12 @@ function setListCategory() {
   .then(
     function(data) {
       console.log(data);
-        $('#category_name').html(data.category.category_name);
-        $('#category_contents').html(data.contents_default.contents);
-        $('#edit_category_contents').val(data.contents_nobr.contents);
+        $('#category_name').html(data.menu.category_name);
+        $('#category_contents').html(data.contents_nobr);
+        $('#edit_category_contents').val(data.category.contents);
         $('.error-messages').html('');
         $('#name_change_modal').modal('hide');
-        $('#name_change').val(data.category.category_name);
+        $('#name_change').val(data.menu.category_name);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
