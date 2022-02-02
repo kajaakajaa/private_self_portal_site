@@ -45,7 +45,7 @@ EOF;
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0" title="topへ戻る">Task Manage</h1>
+        <h1 class="m-0" title="topへ戻る">Task</h1>
       </div>
     </header>
     <main>
@@ -129,7 +129,7 @@ EOF;
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る"></a>
+      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
