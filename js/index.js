@@ -1,5 +1,12 @@
 $(()=> {
   setListShift();
+  onDatepicker();
+
+  $.each($('.ui-state-default'), (key, value)=> {
+    $(value).on('click', ()=> {
+      console.log('kajaa');
+    })
+  });
 });
 
 //ページの先頭へ戻る
@@ -22,14 +29,14 @@ pagetop.on('click', ()=> {
 
 //formデータ
 function formDataTemplate() {
-  let query = {};
   let date = $('#datepicker').val();
       date = date.slice(0, 10);
-  query['work_time'] = $('#work_time').val();
-  query['home_time'] = $('#home_time').val();
-  query['edit_task'] = $('textarea[name="edit_task"]').val();
-  query['work_date'] = date;
-  query['user_no'] = $('#user_no').val();
+  let query = {};
+      query['work_time'] = $('#work_time').val();
+      query['home_time'] = $('#home_time').val();
+      query['edit_task'] = $('textarea[name="edit_task"]').val();
+      query['work_date'] = date;
+      query['user_no'] = $('#user_no').val();
   return query;
 }
 
@@ -104,10 +111,14 @@ function homeTime() {
   );
 }
 
+//datepickerの表示
+function onDatepicker() {
+  $('#datepicker').datepicker();
+}
+
 //日付別でデータを取得
 function getData() {
-  const query = formDataTemplate();
-  console.log(query['work_date']);
+  let query = formDataTemplate();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site/request/sql_data.php?mode=get_data',
@@ -124,9 +135,12 @@ function getData() {
       }
       else {
         $.each(data.user, (key, value)=> {
+          let date = value.work_date;
+              date = date.replaceAll('-', '/');
           $('#task_contents').html(value.task);
           $('#work_time').val(value.work_time);
           $('#home_time').val(value.home_time);
+          $('#datepicker').val(date);
         });
       }
     },
@@ -151,10 +165,33 @@ function getDay(num) {
   .then(
     function(data) {
       console.log(data);
-      let date = data.work_date;
-          date = date.replaceAll('-', '/');
-      $('#datepicker').val(date);
-      getData();
+      let query2 = {};
+          query2['work_date'] = data.work_date;
+          query2['work_date'] = query2['work_date'].slice(0, 10);
+      $.ajax({
+        type: 'POST',
+        url: '/self_portal_site/request/sql_data.php?mode=get_data',
+        data: query2,
+        dataType: 'json'
+      })
+      .then(
+        function(data) {
+          console.log(data);
+          $.each(data.user, (key, value)=> {
+            let date = value.work_date;
+                date = date.replaceAll('-', '/');
+            $('#task_contents').html(value.task);
+            $('#work_time').val(value.work_time);
+            $('#home_time').val(value.home_time);
+            $('#datepicker').val(date);
+          })
+        },
+        function(jgXHR,textStatus, errorThrown) {
+          console.log(jgXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        }
+      );
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);

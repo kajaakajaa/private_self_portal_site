@@ -1,6 +1,13 @@
 <?php
 include_once('../../config/db_connect.php');
 
+$userNo = $_POST['user_no'];
+$workDate = $_POST['work_date'];
+$num = $_POST['num'];
+$year = date('Y', strtotime($workDate));
+$month = date('m', strtotime($workDate));
+$day = date('d', strtotime($workDate));
+$weekDay = array('日','月','火','水','木','金','土');
 //$_POST送信の値を改行した状態でsqlへ保存(定義)
 function sanitized($str) {
   return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
@@ -121,10 +128,33 @@ EOF;
   break;
 
   case 'get_data':
+    $userNo = $_POST['user_no'];
     $workDate = $_POST['work_date'];
+    $weekNum = date('w', strtotime($workDate));
+    $sql = <<<EOF
+    INSERT
+      tbl_task_report
+      (
+        work_date,
+        user_no,
+        regist_time
+      ) VALUES (
+        :work_date,
+        :user_no,
+        NOW()
+      ) ON DUPLICATE KEY UPDATE
+        work_date = :work_date,
+        user_no = :user_no,
+        update_time = NOW()
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
     $sql = <<<EOF
       SELECT
         task,
+        work_date,
         DATE_FORMAT
         (
           work_time,
@@ -150,6 +180,7 @@ EOF;
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $row['task'] = sanitized($row['task'], false);
+      $row['work_date'] .= '(' . $weekDay[$weekNum] . ')';
       $array['user'][] = $row;
     }
     header('Content-type: application/json; charset=UTF-8');
@@ -157,13 +188,6 @@ EOF;
   break;
 
   case 'get_day':
-    $userNo = $_POST['user_no'];
-    $workDate = $_POST['work_date'];
-    $num = $_POST['num'];
-    $year = date('Y', strtotime($workDate));
-    $month = date('m', strtotime($workDate));
-    $day = date('d', strtotime($workDate));
-    $weekDay = array('日','月','火','水','木','金','土');
     $timestamp = $num == 1 ? mktime(0,0,0,$month,$day-1,$year) : mktime(0,0,0,$month,$day+1,$year);
     //曜日取得
     $weekNum = date('w', $timestamp);

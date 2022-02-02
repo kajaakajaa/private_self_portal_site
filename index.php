@@ -46,7 +46,7 @@ EOF;
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0" title="topへ戻る">Task Manage</h1>
+        <h1 class="m-0" title="topへ戻る">Task</h1>
       </div>
     </header>
     <main>
@@ -91,7 +91,7 @@ EOF;
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header date-picker-wrapper">日報
-                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
+                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onClick="onDatepicker()" onChange="getData()">
                       <div class="get-day-wrapper d-inline-block">
                         <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
                         <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
@@ -153,7 +153,7 @@ EOF;
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る"></a>
+      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
