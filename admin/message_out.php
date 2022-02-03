@@ -9,7 +9,7 @@ function message_out($msg, $next) {
     break;
 
     case 'menu':
-      $href = '<a href="">/self_portal_site/admin/menu.php">メニュー画面へ</a>';
+      $href = '<a href="/self_portal_site/admin/menu.php">メニュー画面へ</a>';
     break;
 
     case 'null':
@@ -32,3 +32,4 @@ EOF;
   print $out;
 die();
 }
+?>
