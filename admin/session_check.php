@@ -9,7 +9,7 @@ function session_idset() {
 function session_check() {
   session_start();
   $rtn = TRUE;
-  if($_SESSION['auth']) != session_id()) {
+  if($_SESSION['auth'] != session_id()) {
     $rtn = FALSE;
   }
   return $rtn;

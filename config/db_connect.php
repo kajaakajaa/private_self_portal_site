@@ -21,7 +21,6 @@ function db_access() {
       $password = func_get_arg(3);
       $rtn = login_admin($dbh, $adminname, $password);
     break;
-    :
   }
   return $rtn;
 }
