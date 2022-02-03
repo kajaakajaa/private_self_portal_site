@@ -35,6 +35,12 @@ footer {
   height: 50px;
 }
 
+#sign_up_wrapper {
+  -ms-grid-row: 2;
+  grid-row: 2;
+  margin-top: 100px;
+}
+
 h1, .add-menu-btn, .menu-index-list, .category-name-change {
   cursor: pointer;
 }
