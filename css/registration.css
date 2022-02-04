@@ -1,0 +1,4 @@
+#error_username, #error_password,
+#error_password_confirm {
+  color: red;
+}
