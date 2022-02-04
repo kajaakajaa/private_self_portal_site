@@ -3,8 +3,6 @@ $(()=> {
 
   //category内容編集
   $('#edit_category_btn').on('click', ()=> {
-    let contents = $('#category_contents').html();
-    $('#edit_category_contents').val(contents);
     $('#category_contents').hide();
     $('#category_contents_wrapper').show();
     $('#edit_category_close').show();
@@ -165,7 +163,7 @@ function setListCategory() {
   })
   .then(
     function(data) {
-      console.log(data);
+      console.log(data.category.contents);
         $('#category_name').html(data.menu.category_name);
         $('#category_contents').html(data.contents_nobr);
         $('#edit_category_contents').val(data.category.contents);
