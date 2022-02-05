@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="col-12 mt-5 d-flex justify-content-center">
-          <button type="button" class="btn btn-primary" id="regist_btn" onClick="registUser()">登録する</button>
+          <button type="button" class="btn btn-primary" onClick="registUser()">登録する</button>
         </div>
       </form>
     </main>
@@ -57,6 +57,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- jsファイル -->
-  <script src="/self_portal_site/js/sign_up.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site/js/regist.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>
