@@ -91,7 +91,7 @@ EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':work_time', $workTime, PDO::PARAM_STR);
-    $stmt->bindParam('work_date', $workDate, PDO::PARAM_STR);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
     var_dump($stmt->errorInfo());
   break;

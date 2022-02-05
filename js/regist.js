@@ -42,6 +42,7 @@ function errorCheck() {
   return errorCount;
 }
 
+//新規登録後にnoを取得
 function getNo() {
   const query = getFormData();
   $.ajax({
@@ -53,10 +54,7 @@ function getNo() {
   .then(
     function(data) {
       console.log(data);
-      let contents = '';
-          contents = '<div class="text-center"><a href="/self_portal_site/registration/sign_up.php?no=' + data.no + '&password=' + data.password + '">ログインページへ</a></div>';
-      $('.sign-up-wrapper').append(contents);
-      clearForm();
+      window.location.href = '/self_portal_site/registration/registed.php';
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -73,14 +71,63 @@ function registUser() {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site/request/registration_sql_data.php?mode=regist_user',
+      url: '/self_portal_site/request/registration_sql_data.php?mode=duplicate_confirm',
       data: query,
-      dataType: 'html'
+      dataType: 'json'
     })
     .then(
       function(data) {
         console.log(data);
-        getNo();
+        if(data == false) {
+          $.ajax({
+            type: 'POST',
+            url: '/self_portal_site/request/registration_sql_data.php?mode=regist_user',
+            data: query,
+            dataType: 'html'
+          })
+          .then(
+            function(data) {
+              console.log(data);
+              $('#error_password').html('');
+              getNo();
+            },
+            function(jgXHR, textStatus, errorThrown) {
+              console.log(jgXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          );
+        }
+        else {
+          $('#error_password').html('&#x203B;既に登録されているパスワードになります。');
+        }
+      },
+      function(jgXHR, textStatus, errorThrown) {
+        console.log(jgXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+      }
+    );
+  }
+}
+
+function Login() {
+  const errorCount = errorCheck();
+  if(errorCount == 0) {
+    console.log('kajaa');
+    const query = getFormData();
+    $.ajax({
+      type: 'POST',
+      url: '/self_portal_site/request/registration_sql_data.php?mode=login',
+      data: query,
+      dataType: 'json'
+    })
+    .then(
+      function(data) {
+        console.log(data);
+        if(data.user_name == query['user_name'] && data.password == query['password']) {
+          console.log('ok');
+        }
       },
       function(jgXHR, textStatus, errorThrown) {
         console.log(jgXHR);
