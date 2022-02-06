@@ -25,10 +25,14 @@ EOF;
   $timestamp = mktime(0,0,0,$month,$day,$year);
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
+
+  // ini_set('session.gc_maxlifetime', 86400);
+  // ini_set('session.cookie_lifetime ', 86400);
+  session_set_cookie_params(0, 'https://heartfullarakawa.xyz/self_portal_site/index.php');
+  session_start();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +45,6 @@ EOF;
   <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL</title>
 </head>
-
 <body>
   <div class="container-fluid p-0">
     <header class="fixed-top">
@@ -50,10 +53,14 @@ EOF;
       </div>
     </header>
     <main>
-      <nav aria-label="breadcrumb">
+      <?php if($_SESSION['user_name'] && $_SESSION['password']) : ?>
+      <nav aria-label="breadcrumb" class="d-flex justify-content-between">
         <ol class="breadcrumb m-2">
           <li class="breadcrumb-item active" aria-current="page">Home</li>
         </ol>
+        <div class="me-4 d-flex align-items-center">
+          <a href="/self_portal_site/registration/sign_out.php">ログアウト&gt;</a>
+        </div>
       </nav>
       <div class="card">
         <div class="container-fluid">
@@ -154,6 +161,10 @@ EOF;
         </div>
       </div>
       <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <?php else : 
+        header('Location: https://heartfullarakawa.xyz/self_portal_site/registration/sign_in.php');
+      ?>
+      <?php endif; ?>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
@@ -174,5 +185,4 @@ EOF;
   <script src="/self_portal_site/js/index.js?ver=<?php echo time(); ?>"></script>
   <script src="/self_portal_site/js/menu_index.js?ver=<?php echo time(); ?>"></script>
 </body>
-
 </html>

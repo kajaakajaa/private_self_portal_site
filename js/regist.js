@@ -15,7 +15,7 @@ function clearForm() {
   $('#password_confirm').val('');
 }
 
-function errorCheck() {
+function signUpCheck() {
   const query = getFormData();
   let errorCount = 0;
   if(query['user_name'] == '') {
@@ -42,61 +42,44 @@ function errorCheck() {
   return errorCount;
 }
 
-//新規登録後にnoを取得
-function getNo() {
+function signInCheck() {
   const query = getFormData();
-  $.ajax({
-    type: 'POST',
-    url: '/self_portal_site/request/registration_sql_data.php?mode=get_no',
-    data: query,
-    dataType: 'json'
-  })
-  .then(
-    function(data) {
-      console.log(data);
-      window.location.href = '/self_portal_site/registration/registed.php';
-    },
-    function(jgXHR, textStatus, errorThrown) {
-      console.log(jgXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
-    }
-  );
+  let errorCount = 0;
+  if(query['user_name'] == '') {
+    $('#error_username').html('&#x203B;名前は必須になります。');
+    errorCount++;
+  }
+  else {
+    $('#error_username').html('');
+  }
+  if(!query['password'].match(/[0-9a-zA-Z]{4,20}/)) {
+    $('#error_password').html('&#x203B;パスワードは英数字で4〜20字範囲内で入力して下さい。');
+    errorCount++;
+  }
+  else {
+    $('#error_password').html('');
+  }
+  return errorCount;
 }
 
 function registUser() {
   const query = getFormData();
-  const errorCount = errorCheck();
+  const errorCount = signUpCheck();
   if(errorCount == 0) {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site/request/registration_sql_data.php?mode=duplicate_confirm',
+      url: '/self_portal_site/request/registration_sql_data.php?mode=regist_user',
       data: query,
       dataType: 'json'
     })
     .then(
       function(data) {
         console.log(data);
-        if(data == false) {
-          $.ajax({
-            type: 'POST',
-            url: '/self_portal_site/request/registration_sql_data.php?mode=regist_user',
-            data: query,
-            dataType: 'html'
-          })
-          .then(
-            function(data) {
-              console.log(data);
-              $('#error_password').html('');
-              getNo();
-            },
-            function(jgXHR, textStatus, errorThrown) {
-              console.log(jgXHR);
-              console.log(textStatus);
-              console.log(errorThrown);
-            }
-          );
+        if(data == true) {
+          clearForm();
+          $('#error_password').html('');
+          window.location.href = '/self_portal_site/registration/registed.php';
         }
         else {
           $('#error_password').html('&#x203B;既に登録されているパスワードになります。');
@@ -112,10 +95,9 @@ function registUser() {
 }
 
 function Login() {
-  const errorCount = errorCheck();
+  const errorCount = signInCheck();
+  const query = getFormData();
   if(errorCount == 0) {
-    console.log('kajaa');
-    const query = getFormData();
     $.ajax({
       type: 'POST',
       url: '/self_portal_site/request/registration_sql_data.php?mode=login',
@@ -126,7 +108,12 @@ function Login() {
       function(data) {
         console.log(data);
         if(data.user_name == query['user_name'] && data.password == query['password']) {
-          console.log('ok');
+          $('#error_password').html('');
+          window.location.href = '/self_portal_site/index.php';
+          clearForm();
+        }
+        else if(data == false) {
+          $('#error_password').html('&#x203B;登録がお済みでない様です。');
         }
       },
       function(jgXHR, textStatus, errorThrown) {
