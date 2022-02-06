@@ -1,3 +1,8 @@
+<?php
+include_once('../session_logic/sessionLogic.php');
+
+  $result = $logic->signIn();
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,7 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
   <link rel="stylesheet" href="/self_portal_site/css/registration.css?ver=<?php echo time(); ?>">
-  <title>SIGN UP</title>
+  <title>SIGN IN</title>
 </head>
 <body>
   <div class="container-fluid p-0">
@@ -17,27 +22,33 @@
         <h1 class="m-0" title="topへ戻る">Task</h1>
       </div>
     </header>
-    <main id="sign_up_wrapper">
-      <h2 class="text-center mb-5">ログイン</h2>
-      <form class="m-3">
-        <div class="form-group row d-flex justify-content-center m-3">
-          <label for="user_name" class="col-md-2 col-form-label">お名前</label>
-          <div class="col-md-7 col-lg-5">
-            <input type="text" name="user_name" id="user_name" class="form-control">
-            <p class="m-0" id="error_username"></p>
+    <main id="sign_in_wrapper">
+      <?php if($result == true) : ?>
+        <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">&#x203B;既にログイン済みです。</h5>
+        <div class="d-flex justify-content-center"><a href="/self_portal_site/index.php">Myページへ</a></div>
+      <?php else : ?>
+        <h2 class="text-center mb-5">ログイン</h2>
+        <form class="m-3" action="/self_portal_site/request/registration_sql_data.php?mode=login" method="post">
+          <div class="form-group row d-flex justify-content-center m-3">
+            <label for="user_name" class="col-md-2 col-form-label">お名前</label>
+            <div class="col-md-7 col-lg-5">
+              <input type="text" name="user_name" id="user_name" class="form-control">
+              <p class="m-0" id="error_username"></p>
+            </div>
           </div>
-        </div>
-        <div class="form-group row d-flex justify-content-center m-3">
-          <label for="password" class="col-md-2 col-form-label">パスワード</label>
-          <div class="col-md-7 col-lg-5">
-            <input type="password" name="password" id="password" class="form-control">
-            <p class="m-0" id="error_password"></p>
+          <div class="form-group row d-flex justify-content-center m-3">
+            <label for="password" class="col-md-2 col-form-label">パスワード</label>
+            <div class="col-md-7 col-lg-5">
+              <input type="password" name="password" id="password" class="form-control">
+              <p class="m-0" id="error_password"></p>
+            </div>
           </div>
-        </div>
-        <div class="col-12 mt-5 d-flex justify-content-center">
-          <button type="button" class="btn btn-primary" onClick="Login()">ログイン</button>
-        </div>
-      </form>
+          <div class="col-12 mt-5 d-flex justify-content-center">
+            <input type="submit" class="btn btn-primary" name="to_mypage" value="送信">
+          </div>
+          <div class="text-center m-3"><a href="/self_portal_site/registration/sign_up.php">新規登録</a></div>
+        </form>
+      <?php endif; ?>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">

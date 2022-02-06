@@ -2,3 +2,22 @@
 #error_password_confirm {
   color: red;
 }
+
+#sign_up_wrapper, #sign_in_wrapper, #sign_out_wrapper {
+  -ms-grid-row: 2;
+  grid-row: 2;
+  margin-top: 100px;
+}
+
+.sign-in-out-refuse {
+  color: red;
+}
+
+#to_sign_in {
+  text-decoration: underline;
+  color: blue;
+}
+
+#to_sign_in:hover {
+  color: #000081;
+}

@@ -1,3 +1,9 @@
+<?php
+include_once('../session_logic/sessionLogic.php');
+
+  $result = $logic->signOut();
+  $timeout = '&#x203B;セッションがタイムアウト、又はログアウト済みです。再ログインして下さい。';
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,7 +14,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
   <link rel="stylesheet" href="/self_portal_site/css/registration.css?ver=<?php echo time(); ?>">
-  <title>登録完了画面</title>
+  <title>SIGN OUT</title>
 </head>
 <body>
   <div class="container-fluid p-0">
@@ -17,11 +23,14 @@
         <h1 class="m-0" title="topへ戻る">Task</h1>
       </div>
     </header>
-    <main>
-      <div class="container sign-up-wrapper">
-        <h4 class="m-4 text-center">新規登録が完了しました。</h3>
-      </div>
-      <div class="text-center"><a href="/self_portal_site/registration/sign_in.php">ログインページへ</a></div>
+    <main id="sign_out_wrapper">
+      <?php if($result == true) : ?>
+        <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">ログアウトしました。</h5>
+        <div class="d-flex justify-content-center"><a href="/self_portal_site/registration/sign_in.php">ログインページへ</a></div>
+      <?php else : ?>
+        <h5 class="text-center mx-3 mb-5 sign-in-out-refuse"><?php echo $timeout; ?></h5>
+        <div class="d-flex justify-content-center"><a href="/self_portal_site/registration/sign_in.php">ログインページへ</a></div>
+      <?php endif; ?>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
@@ -37,4 +46,3 @@
   <script src="/self_portal_site/js/regist.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>
-
