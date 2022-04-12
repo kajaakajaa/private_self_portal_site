@@ -12,8 +12,8 @@ include_once('../session_logic/sessionLogic.php');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- bootstrap5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/self_portal_site/css/registration.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/css/index.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/css/registration.css?ver=<?php echo time(); ?>">
   <title>SIGN OUT</title>
 </head>
 <body>
@@ -26,10 +26,10 @@ include_once('../session_logic/sessionLogic.php');
     <main id="sign_out_wrapper">
       <?php if($result == true) : ?>
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">ログアウトしました。</h5>
-        <div class="d-flex justify-content-center"><a href="/self_portal_site/registration/sign_in.php">ログインページへ</a></div>
+        <div class="d-flex justify-content-center"><a href="/registration/sign_in.php">ログインページへ</a></div>
       <?php else : ?>
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse"><?php echo $timeout; ?></h5>
-        <div class="d-flex justify-content-center"><a href="/self_portal_site/registration/sign_in.php">ログインページへ</a></div>
+        <div class="d-flex justify-content-center"><a href="/registration/sign_in.php">ログインページへ</a></div>
       <?php endif; ?>
     </main>
     <footer>
@@ -43,6 +43,6 @@ include_once('../session_logic/sessionLogic.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- jsファイル -->
-  <script src="/self_portal_site/js/regist.js?ver=<?php echo time(); ?>"></script>
+  <script src="/js/regist.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>

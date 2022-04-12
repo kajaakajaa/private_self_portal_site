@@ -1,6 +1,7 @@
 <?php
 //menu_index.js/sel_list_menuより
-include_once('../config/db_connect.php');
+include_once('config/db_connect.php');
+include_once('config/console_log.php');
   $menuNo = $_GET['menu_no'];
   $userNo = $_GET['user_no'];
   $sql = <<<EOF
@@ -35,10 +36,10 @@ EOF;
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- datepicker -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/self_portal_site/css/menu_contents.css?ver=<?php echo time(); ?>">
-  <title>SELF PORTAL</title>
+  <link rel="stylesheet" href="/code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/css/index.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/css/menu_contents.css?ver=<?php echo time(); ?>">
+  <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
 
 <body>
@@ -51,7 +52,7 @@ EOF;
     <main>
       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb m-2">
-          <li class="breadcrumb-item"><a href="/self_portal_site/index.php">Home</a></li>
+          <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">Category</li>
         </ol>
       </nav>
@@ -129,7 +130,7 @@ EOF;
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <a id="pagetop"><img src="/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
@@ -147,7 +148,7 @@ EOF;
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
   <!-- jsファイル -->
-  <script src="/self_portal_site/js/menu_contents.js?ver=<?php echo time(); ?>"></script>
+  <script src="/js/menu_contents.js?ver=<?php echo time(); ?>"></script>
 </body>
 
 </html>
