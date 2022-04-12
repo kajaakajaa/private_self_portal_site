@@ -1,5 +1,6 @@
 <?php
-include_once('../../config/db_connect.php');
+include_once('../config/db_connect.php');
+include_once('../config/console_log.php');
 
 function h($str) {
   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');

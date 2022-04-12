@@ -1,5 +1,6 @@
 <?php
-include_once('../../config/db_connect.php');
+include_once('../config/db_connect.php');
+include_once('../config/console_log.php');
 
 $userNo = $_POST['user_no'];
 $workDate = $_POST['work_date'];

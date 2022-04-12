@@ -1,5 +1,6 @@
 <?php
-include_once('../config/db_connect.php');
+include_once('config/db_connect.php');
+include_once('config/console_log.php');
   $sql = <<<EOF
     SELECT
       no AS user_no
@@ -28,7 +29,7 @@ EOF;
 
   // ini_set('session.gc_maxlifetime', 86400);
   // ini_set('session.cookie_lifetime ', 86400);
-  session_set_cookie_params(0, 'https://heartfullarakawa.xyz/self_portal_site/index.php');
+  // session_set_cookie_params(0, 'https://kajaaserver.com/self_portal_site_private/index.php');
   session_start();
 ?>
 <!DOCTYPE html>
@@ -41,9 +42,9 @@ EOF;
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- datepicker -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
-  <title>SELF PORTAL</title>
+  <link rel="stylesheet" href="/code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/css/index.css?ver=<?php echo time(); ?>">
+  <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
 <body>
   <div class="container-fluid p-0">
@@ -59,7 +60,7 @@ EOF;
           <li class="breadcrumb-item active" aria-current="page">Home</li>
         </ol>
         <div class="me-4 d-flex align-items-center">
-          <a href="/self_portal_site/registration/sign_out.php">ログアウト&gt;</a>
+          <a href="/registration/sign_out.php">ログアウト&gt;</a>
         </div>
       </nav>
       <div class="card">
@@ -160,9 +161,9 @@ EOF;
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/self_portal_site/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <a id="pagetop"><img src="/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
       <?php else : 
-        header('Location: https://heartfullarakawa.xyz/self_portal_site/registration/sign_in.php');
+        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in.php');
       ?>
       <?php endif; ?>
     </main>
@@ -182,7 +183,7 @@ EOF;
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
   <!-- jsファイル -->
-  <script src="/self_portal_site/js/index.js?ver=<?php echo time(); ?>"></script>
-  <script src="/self_portal_site/js/menu_index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/js/index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/js/menu_index.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>

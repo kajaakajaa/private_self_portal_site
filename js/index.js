@@ -48,7 +48,7 @@ function setListShift() {
       query['work_date'] = date;
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=set_list_shift',
+    url: '/request/sql_data.php?mode=set_list_shift',
     data: query,
     dataType: 'json'
   })
@@ -74,7 +74,7 @@ function workTime() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=work_time',
+    url: '/request/sql_data.php?mode=work_time',
     data: query,
     dataType: 'html'
   })
@@ -95,7 +95,7 @@ function homeTime() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=home_time',
+    url: '/request/sql_data.php?mode=home_time',
     data: query,
     dataType: 'html'
   })
@@ -121,7 +121,7 @@ function getData() {
   let query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=get_data',
+    url: '/request/sql_data.php?mode=get_data',
     data: query,
     dataType: 'json'
   })
@@ -158,7 +158,7 @@ function getDay(num) {
       query['num'] = num;
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=get_day',
+    url: '/request/sql_data.php?mode=get_day',
     data: query,
     dataType: 'json'
   })
@@ -170,7 +170,7 @@ function getDay(num) {
           query2['work_date'] = query2['work_date'].slice(0, 10);
       $.ajax({
         type: 'POST',
-        url: '/self_portal_site/request/sql_data.php?mode=get_data',
+        url: '/request/sql_data.php?mode=get_data',
         data: query2,
         dataType: 'json'
       })
@@ -207,7 +207,7 @@ function editTask() {
   console.log(query);
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=edit_task',
+    url: '/request/sql_data.php?mode=edit_task',
     data: query,
     dataType: 'html'
   })
@@ -229,7 +229,7 @@ function reflectTask() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/sql_data.php?mode=reflect_task',
+    url: '/request/sql_data.php?mode=reflect_task',
     data: query,
     dataType: 'json'
   })

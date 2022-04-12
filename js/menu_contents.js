@@ -18,7 +18,7 @@ $(()=> {
         count['empty'] = 0;
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site/request/category_sql_data.php?mode=check_error',
+      url: '/request/category_sql_data.php?mode=check_error',
       data: query,
       dataType: 'json'
     })
@@ -38,7 +38,7 @@ $(()=> {
         if(count['duplicate'] == 0 && count['empty'] == 0) {
           $.ajax({
             type: 'POST',
-            url: '/self_portal_site/request/menu_sql_data.php?mode=change_menu_name',
+            url: '/request/menu_sql_data.php?mode=change_menu_name',
             data: query,
             dataType: 'html'
           })
@@ -73,7 +73,7 @@ $(()=> {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site/request/category_sql_data.php?mode=regist_category_contents',
+      url: '/request/category_sql_data.php?mode=regist_category_contents',
       data: query,
       dataType: 'html'
     })
@@ -106,7 +106,7 @@ $(()=> {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site/request/category_sql_data.php?mode=delete_category_contents',
+      url: '/request/category_sql_data.php?mode=delete_category_contents',
       data: query,
       dataType: 'html'
     })
@@ -157,7 +157,7 @@ function setListCategory() {
   const query = getFormData();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/category_sql_data.php?mode=set_list_category',
+    url: '/request/category_sql_data.php?mode=set_list_category',
     data: query,
     dataType: 'json'
   })
@@ -180,7 +180,7 @@ function setListCategory() {
 }
 
 function backTop() {
-  window.location.href = '/self_portal_site/index.php';
+  window.location.href = '/index.php';
 }
 
 //カテゴリー名の重複/空欄チェック
@@ -191,7 +191,7 @@ function checkError() {
       count['empty'] = 0;
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/category_sql_data.php?mode=check_error',
+    url: '/request/category_sql_data.php?mode=check_error',
     data: query,
     dataType: 'json'
   })

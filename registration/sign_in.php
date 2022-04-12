@@ -11,8 +11,8 @@ include_once('../session_logic/sessionLogic.php');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- bootstrap5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="/self_portal_site/css/index.css?ver=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/self_portal_site/css/registration.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/self_portal_site_private/css/index.css?<?php echo time(); ?>">
+  <link rel="stylesheet" href="/self_portal_site_private/css/registration.css?ver=<?php echo time(); ?>">
   <title>SIGN IN</title>
 </head>
 <body>
@@ -25,10 +25,10 @@ include_once('../session_logic/sessionLogic.php');
     <main id="sign_in_wrapper">
       <?php if($result == true) : ?>
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">&#x203B;既にログイン済みです。</h5>
-        <div class="d-flex justify-content-center"><a href="/self_portal_site/index.php">Myページへ</a></div>
+        <div class="d-flex justify-content-center"><a href="/index.php">Myページへ</a></div>
       <?php else : ?>
         <h2 class="text-center mb-5">ログイン</h2>
-        <form class="m-3" action="/self_portal_site/request/registration_sql_data.php?mode=login" method="post">
+        <form class="m-3" action="/request/registration_sql_data.php?mode=login" method="post">
           <div class="form-group row d-flex justify-content-center m-3">
             <label for="user_name" class="col-md-2 col-form-label">お名前</label>
             <div class="col-md-7 col-lg-5">
@@ -46,7 +46,7 @@ include_once('../session_logic/sessionLogic.php');
           <div class="col-12 mt-5 d-flex justify-content-center">
             <input type="submit" class="btn btn-primary" name="to_mypage" value="送信">
           </div>
-          <div class="text-center m-3"><a href="/self_portal_site/registration/sign_up.php">新規登録</a></div>
+          <div class="text-center m-3"><a href="/registration/sign_up.php">新規登録</a></div>
         </form>
       <?php endif; ?>
     </main>
@@ -61,6 +61,6 @@ include_once('../session_logic/sessionLogic.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- jsファイル -->
-  <script src="/self_portal_site/js/regist.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site_private/js/regist.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>

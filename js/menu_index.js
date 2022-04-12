@@ -10,7 +10,7 @@ $(()=> {
     if(count['duplicate'] == 0 && count['empty'] == 0) {
       $.ajax({
         type: 'POST',
-        url: '/self_portal_site/request/menu_sql_data.php?mode=add_menu',
+        url: '/request/menu_sql_data.php?mode=add_menu',
         data: query,
         dataType: 'html'
       })
@@ -39,7 +39,7 @@ function setListMenu() {
   let userNo = $('#user_no').val();
   $.ajax({
     type: 'POST',
-    url: '/self_portal_site/request/menu_sql_data.php?mode=set_list_menu',
+    url: '/request/menu_sql_data.php?mode=set_list_menu',
     data: query,
     dataType: 'json'
   })
@@ -48,7 +48,7 @@ function setListMenu() {
       console.log(data);
       let contents = '';
       $.each(data.menu, (key, value)=> {
-        contents += '<li><a class="menu-index-list" href="/self_portal_site/menu_contents.php?menu_no=' + value.menu_no + '&user_no=' + userNo + '">'
+        contents += '<li><a class="menu-index-list" href="/menu_contents.php?menu_no=' + value.menu_no + '&user_no=' + userNo + '">'
           + value.category_name + '</a></li>';
       });
       $('#menu_list').html(contents);
