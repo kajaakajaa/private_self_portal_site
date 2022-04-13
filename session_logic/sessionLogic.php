@@ -1,5 +1,6 @@
 <?php
 include_once('../request/registration_sql_data.php');
+include_once('../config/console_log.php');
 
 session_start();
 

@@ -23,25 +23,32 @@ switch($mode) {
       FROM
         tbl_task_user
       WHERE
+        user_name = :user_name
+          AND
+        password = :password
+          AND
         del_flg = 0
           AND
         status = 0
 EOF;
+    session_start();
+    $userName = $_SESSION['user_name'];
+    $passWord = $_SESSION['password'];
     $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
-    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $array['user_no'][] = $row;
-    }
+    $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
     $sql = <<<EOF
       SELECT
         task,
-        DATE_FORMAT
+        TIME_FORMAT
         (
           work_time,
           '%H:%i'
         ) AS work_time,
-        DATE_FORMAT
+        TIME_FORMAT
         (
           home_time,
           '%H:%i'
@@ -49,6 +56,8 @@ EOF;
       FROM
         tbl_task_report
       WHERE
+        user_no = :user_no
+          AND
         work_date = :work_date
           AND
         del_flg = 0
@@ -57,11 +66,10 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $array['user_no'], PDO::PARAM_INT);
     $stmt->execute();
-    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $row['task'] = sanitized($row['task'], false);
-      $array['user'][] = $row;
-    }
+    $array['user'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['user']['task'] = sanitized($array['user']['task'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -231,7 +239,7 @@ EOF;
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
-    $array = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['work_date'] = $stmt->fetch(PDO::FETCH_ASSOC);
     $array['work_date'] .= $weekDay;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);

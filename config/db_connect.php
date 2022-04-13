@@ -16,11 +16,6 @@ $user = USER;
 $password = PASSWORD;
 $dbname = DBNAME;
 
-// $server = 'localhost';
-// $dbname = 'xs072153_kajaadatabase';
-// $user = 'xs072153_kajaa';
-// $password = 'waayassa7';
-
 try {
   $dbh = new PDO('mysql:host=' . $server . ';dbname=' . $dbname . ';charset=utf8', $user, $password);
 }

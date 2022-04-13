@@ -10,7 +10,7 @@ $(()=> {
     if(count['duplicate'] == 0 && count['empty'] == 0) {
       $.ajax({
         type: 'POST',
-        url: '/request/menu_sql_data.php?mode=add_menu',
+        url: '/self_portal_site_private/request/menu_sql_data.php?mode=add_menu',
         data: query,
         dataType: 'html'
       })
@@ -39,7 +39,7 @@ function setListMenu() {
   let userNo = $('#user_no').val();
   $.ajax({
     type: 'POST',
-    url: '/request/menu_sql_data.php?mode=set_list_menu',
+    url: '/self_portal_site_private/request/menu_sql_data.php?mode=set_list_menu',
     data: query,
     dataType: 'json'
   })

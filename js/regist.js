@@ -3,9 +3,9 @@ $(()=> {
 
 function getFormData() {
   let query = {};
-      query['user_name'] = $('#user_name').val();
-      query['password'] = $('#password').val();
-      query['password_confirm'] = $('#password_confirm').val();
+    query['user_name'] = $('#user_name').val();
+    query['password'] = $('#password').val();
+    query['password_confirm'] = $('#password_confirm').val();
   return query;
 }
 
@@ -69,7 +69,7 @@ function registUser() {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/request/registration_sql_data.php?mode=regist_user',
+      url: '/self_portal_site_private/request/registration_sql_data.php?mode=regist_user',
       data: query,
       dataType: 'json'
     })
@@ -79,7 +79,7 @@ function registUser() {
         if(data == true) {
           clearForm();
           $('#error_password').html('');
-          window.location.href = '/registration/registed.php';
+          window.location.href = '/self_portal_site_private/registration/registed.php';
         }
         else {
           $('#error_password').html('&#x203B;既に登録されているパスワードになります。');
@@ -94,13 +94,13 @@ function registUser() {
   }
 }
 
-function Login() {
+function Signin() {
   const errorCount = signInCheck();
   const query = getFormData();
   if(errorCount == 0) {
     $.ajax({
       type: 'POST',
-      url: '/request/registration_sql_data.php?mode=login',
+      url: '/self_portal_site_private/request/registration_sql_data.php?mode=login',
       data: query,
       dataType: 'json'
     })
@@ -109,8 +109,7 @@ function Login() {
         console.log(data);
         if(data.user_name == query['user_name'] && data.password == query['password']) {
           $('#error_password').html('');
-          window.location.href = '/index.php';
-          clearForm();
+          window.location.href = '/self_portal_site_private/index.php';
         }
         else if(data == false) {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');

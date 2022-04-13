@@ -1,5 +1,6 @@
 <?php
 include_once('../session_logic/sessionLogic.php');
+include_once('../config/console_log.php');
 
   $result = $logic->signIn();
 ?>
@@ -25,10 +26,10 @@ include_once('../session_logic/sessionLogic.php');
     <main id="sign_in_wrapper">
       <?php if($result == true) : ?>
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">&#x203B;既にログイン済みです。</h5>
-        <div class="d-flex justify-content-center"><a href="/index.php">Myページへ</a></div>
+        <div class="d-flex justify-content-center"><a href="/self_portal_site_private/index.php">Myページへ</a></div>
       <?php else : ?>
         <h2 class="text-center mb-5">ログイン</h2>
-        <form class="m-3" action="/request/registration_sql_data.php?mode=login" method="post">
+        <form class="m-3">
           <div class="form-group row d-flex justify-content-center m-3">
             <label for="user_name" class="col-md-2 col-form-label">お名前</label>
             <div class="col-md-7 col-lg-5">
@@ -44,9 +45,10 @@ include_once('../session_logic/sessionLogic.php');
             </div>
           </div>
           <div class="col-12 mt-5 d-flex justify-content-center">
-            <input type="submit" class="btn btn-primary" name="to_mypage" value="送信">
+            <!-- <input type="button" class="btn btn-primary" name="to_mypage" value="送信"> -->
+            <button type="button" class="btn btn-primary" onClick="Signin()">送信</button>
           </div>
-          <div class="text-center m-3"><a href="/registration/sign_up.php">新規登録</a></div>
+          <div class="text-center m-3"><a href="/self_portal_site_private/registration/sign_up.php">新規登録</a></div>
         </form>
       <?php endif; ?>
     </main>
