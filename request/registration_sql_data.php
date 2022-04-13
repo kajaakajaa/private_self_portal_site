@@ -51,10 +51,11 @@ EOF;
     $stmt->execute();
     $array = array();
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
+    header('Content-type: application/json; charset=UTF-8');
+    echo json_encode($array);
     session_start();
     $_SESSION = array();
     $_SESSION['user_name'] = $array['user_name'];
     $_SESSION['password'] = $array['password'];
-    header('Location: https://heartfullarakawa.xyz/self_portal_site/index.php');
   break;
 }

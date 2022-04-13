@@ -1,22 +1,7 @@
 <?php
 include_once('config/db_connect.php');
 include_once('config/console_log.php');
-  $sql = <<<EOF
-    SELECT
-      no AS user_no
-    FROM
-      tbl_task_user
-    WHERE
-      no = 1
-        AND
-      del_flg = 0
-        AND
-      status = 0
-EOF;
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute();
-  $array = $stmt->fetch(PDO::FETCH_ASSOC);
-  $userNo = $array['user_no'];
+
   //日付取得
   $year = date('Y');
   $month = date('m');
@@ -42,8 +27,8 @@ EOF;
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- datepicker -->
-  <link rel="stylesheet" href="/code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/css/index.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/self_portal_site_private/css/index.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
 <body>
@@ -60,7 +45,7 @@ EOF;
           <li class="breadcrumb-item active" aria-current="page">Home</li>
         </ol>
         <div class="me-4 d-flex align-items-center">
-          <a href="/registration/sign_out.php">ログアウト&gt;</a>
+          <a href="/self_portal_site_private/registration/sign_out.php">ログアウト&gt;</a>
         </div>
       </nav>
       <div class="card">
@@ -161,7 +146,7 @@ EOF;
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <a id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
       <?php else : 
         header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in.php');
       ?>
@@ -183,7 +168,7 @@ EOF;
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
   <!-- jsファイル -->
-  <script src="/js/index.js?ver=<?php echo time(); ?>"></script>
-  <script src="/js/menu_index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site_private/js/index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site_private/js/menu_index.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>

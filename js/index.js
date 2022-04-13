@@ -48,18 +48,17 @@ function setListShift() {
       query['work_date'] = date;
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=set_list_shift',
+    url: '/self_portal_site_private/request/sql_data.php?mode=set_list_shift',
     data: query,
     dataType: 'json'
   })
   .then(
     function(data) {
       console.log(data);
-      $.each(data.user, (key, value)=> {
-        $('#work_time').val(value.work_time);
-        $('#home_time').val(value.home_time);
-        $('#task_contents').html(value.task);
-      });
+      $('#user_no').val(data.user_no.no);
+      $('#work_time').val(data.user.work_time);
+      $('#home_time').val(data.user.home_time);
+      $('#task_contents').html(data.user.task);
     },
     function(jgHXR, textStatus, errorThrown) {
       console.log(jgHXR);
@@ -74,7 +73,7 @@ function workTime() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=work_time',
+    url: '/self_portal_site_private/request/sql_data.php?mode=work_time',
     data: query,
     dataType: 'html'
   })
@@ -95,7 +94,7 @@ function homeTime() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=home_time',
+    url: '/self_portal_site_private/request/sql_data.php?mode=home_time',
     data: query,
     dataType: 'html'
   })
@@ -121,7 +120,7 @@ function getData() {
   let query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=get_data',
+    url: '/self_portal_site_private/request/sql_data.php?mode=get_data',
     data: query,
     dataType: 'json'
   })
@@ -158,7 +157,7 @@ function getDay(num) {
       query['num'] = num;
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=get_day',
+    url: '/self_portal_site_private/request/sql_data.php?mode=get_day',
     data: query,
     dataType: 'json'
   })
@@ -166,11 +165,12 @@ function getDay(num) {
     function(data) {
       console.log(data);
       let query2 = {};
+          query2['user_no'] = $('#user_no').val();
           query2['work_date'] = data.work_date;
           query2['work_date'] = query2['work_date'].slice(0, 10);
       $.ajax({
         type: 'POST',
-        url: '/request/sql_data.php?mode=get_data',
+        url: '/self_portal_site_private/request/sql_data.php?mode=get_data',
         data: query2,
         dataType: 'json'
       })
@@ -207,7 +207,7 @@ function editTask() {
   console.log(query);
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=edit_task',
+    url: '/self_portal_site_private/request/sql_data.php?mode=edit_task',
     data: query,
     dataType: 'html'
   })
@@ -229,7 +229,7 @@ function reflectTask() {
   const query = formDataTemplate();
   $.ajax({
     type: 'POST',
-    url: '/request/sql_data.php?mode=reflect_task',
+    url: '/self_portal_site_private/request/sql_data.php?mode=reflect_task',
     data: query,
     dataType: 'json'
   })
