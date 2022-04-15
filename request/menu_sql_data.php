@@ -5,7 +5,9 @@ include_once('../config/console_log.php');
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_menu':
-    $userNo = $_POST['user_no'];
+    session_start();
+    $userName = $_SESSION['user_name'];
+    $passWord = $_SESSION['password'];
     $sql = <<<EOF
       SELECT
         mnu.no AS menu_no,
@@ -17,20 +19,43 @@ switch($mode) {
           ON
             usr.no = mnu.user_no
       WHERE
+        usr.user_name = :user_name
+          AND
+        usr.password = :password
+          AND
         mnu.del_flg = 0
           AND
         usr.del_flg = 0
-          AND
-        usr.no = user_no
       ORDER BY
         mnu.no DESC
 EOF;
     $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $array['menu'][] = $row;
+      $array['user'][] = $row;
     }
+    $sql = <<<EOF
+      SELECT
+        no
+      FROM
+        tbl_task_user
+      WHERE
+        user_name = :user_name
+          AND
+        password = :password
+          AND
+        del_flg = 0
+          AND
+        status = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
+    $stmt->execute();
+    $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;

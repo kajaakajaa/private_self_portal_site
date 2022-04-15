@@ -11,10 +11,6 @@ include_once('config/console_log.php');
   $timestamp = mktime(0,0,0,$month,$day,$year);
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
-
-  // ini_set('session.gc_maxlifetime', 86400);
-  // ini_set('session.cookie_lifetime ', 86400);
-  // session_set_cookie_params(0, 'https://kajaaserver.com/self_portal_site_private/index.php');
   session_start();
 ?>
 <!DOCTYPE html>
@@ -23,6 +19,7 @@ include_once('config/console_log.php');
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <!-- bootstrap5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -35,7 +32,7 @@ include_once('config/console_log.php');
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0" title="topへ戻る">Task</h1>
+      <h1 class="m-0">Task</h1>
       </div>
     </header>
     <main>
@@ -51,7 +48,7 @@ include_once('config/console_log.php');
       <div class="card">
         <div class="container-fluid">
           <div class="row">
-            <div class="order-2 order-md-1 col-md-2 py-3 menu">
+            <div class="order-2 order-md-1 col-md-3 py-3 menu">
               <div class="card">
                 <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
                 <div class="card-body">
@@ -79,12 +76,12 @@ include_once('config/console_log.php');
                 </div>
               </div>
             </div>
-            <div class="order-1 order-md-2 col-md-7 py-3 report">
+            <div class="order-1 order-md-2 col-md-9 py-3 report">
               <div class="row">
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header date-picker-wrapper">日報
-                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onClick="onDatepicker()" onChange="getData()">
+                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
                       <div class="get-day-wrapper d-inline-block">
                         <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
                         <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
@@ -137,16 +134,10 @@ include_once('config/console_log.php');
                 </div>
               </div>
             </div>
-            <div class="order-3 order-md-3 col-md-3 py-3">
-              <div class="card">
-                <div class="card-header">NOTE</div>
-                <div class="card-body"></div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <a id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
       <?php else : 
         header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in.php');
       ?>

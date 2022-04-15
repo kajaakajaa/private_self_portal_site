@@ -35,7 +35,7 @@ footer {
   height: 50px;
 }
 
-h1, .add-menu-btn, .menu-index-list, .category-name-change {
+.add-menu-btn, .menu-index-list, .category-name-change {
   cursor: pointer;
 }
 

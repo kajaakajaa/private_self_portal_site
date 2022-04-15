@@ -2,17 +2,11 @@
 include_once('../config/db_connect.php');
 include_once('../config/console_log.php');
 
-$userNo = $_POST['user_no'];
-$workDate = $_POST['work_date'];
-$num = $_POST['num'];
-$year = date('Y', strtotime($workDate));
-$month = date('m', strtotime($workDate));
-$day = date('d', strtotime($workDate));
-$weekDay = array('日','月','火','水','木','金','土');
 //$_POST送信の値を改行した状態でsqlへ保存(定義)
 function sanitized($str) {
   return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
 }
+
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_shift':
@@ -66,7 +60,7 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
-    $stmt->bindParam(':user_no', $array['user_no'], PDO::PARAM_INT);
+    $stmt->bindParam(':user_no', $array['user_no']['no'], PDO::PARAM_INT);
     $stmt->execute();
     $array['user'] = $stmt->fetch(PDO::FETCH_ASSOC);
     $array['user']['task'] = sanitized($array['user']['task'], false);
@@ -139,6 +133,7 @@ EOF;
   case 'get_data':
     $userNo = $_POST['user_no'];
     $workDate = $_POST['work_date'];
+    $weekDay = array('日','月','火','水','木','金','土');
     $weekNum = date('w', strtotime($workDate));
     $sql = <<<EOF
     INSERT
@@ -164,12 +159,12 @@ EOF;
       SELECT
         task,
         work_date,
-        DATE_FORMAT
+        TIME_FORMAT
         (
           work_time,
           '%H:%i'
         ) AS work_time,
-        DATE_FORMAT
+        TIME_FORMAT
         (
           home_time,
           '%H:%i'
@@ -177,6 +172,8 @@ EOF;
       FROM
         tbl_task_report
       WHERE
+        user_no = :user_no
+          AND
         work_date = :work_date
           AND
         del_flg = 0
@@ -185,18 +182,24 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
-    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $row['task'] = sanitized($row['task'], false);
-      $row['work_date'] .= '(' . $weekDay[$weekNum] . ')';
-      $array['user'][] = $row;
-    }
+    $array['user_data'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['user_data']['task'] = sanitized($array['user_data']['task'], false);
+    $array['user_data']['work_date'] .= '(' . $weekDay[$weekNum] . ')';
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
 
   case 'get_day':
+    $num = $_POST['num'];
+    $userNo = $_POST['user_no'];
+    $Today = $_POST['work_date'];
+    $year = date('Y', strtotime($Today));
+    $month = date('m', strtotime($Today));
+    $day = date('d', strtotime($Today));
+    $weekDay = array('日','月','火','水','木','金','土');
     $timestamp = $num == 1 ? mktime(0,0,0,$month,$day-1,$year) : mktime(0,0,0,$month,$day+1,$year);
     //曜日取得
     $weekNum = date('w', $timestamp);
@@ -229,6 +232,8 @@ EOF;
       FROM
         tbl_task_report
       WHERE
+        user_no = :user_no
+          AND
         work_date = :date
           AND
         del_flg = 0
@@ -237,10 +242,11 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
     $array['work_date'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['work_date'] .= $weekDay;
+    $array['work_date']['work_date'] .= $weekDay;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;

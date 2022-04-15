@@ -1,30 +1,18 @@
 $(()=> {
   setListShift();
-  onDatepicker();
 
-  $.each($('.ui-state-default'), (key, value)=> {
-    $(value).on('click', ()=> {
-      console.log('kajaa');
-    })
-  });
+  //datepickerの表示
+  $('#datepicker').datepicker();
 });
 
 //ページの先頭へ戻る
-const pagetop = $('#pagetop, header');
-const fadeOut = $('#pagetop');
 $(window).scroll(()=> {
   if($(this).scrollTop() > 100) {
-    pagetop.fadeIn();
+    $('#pagetop').fadeIn();
   }
   else {
-    fadeOut.fadeOut();
+    $('#pagetop').fadeOut();
   }
-})
-pagetop.on('click', ()=> {
-  $('body, html').animate({
-    scrollTop: 0
-  }, 400);
-  return false;
 })
 
 //formデータ
@@ -110,11 +98,6 @@ function homeTime() {
   );
 }
 
-//datepickerの表示
-function onDatepicker() {
-  $('#datepicker').datepicker();
-}
-
 //日付別でデータを取得
 function getData() {
   let query = formDataTemplate();
@@ -127,21 +110,17 @@ function getData() {
   .then(
     function(data) {
       console.log(data);
-      if(data == '') {
-        $('#work_time').val('');
-        $('#home_time').val('');
-        $('#task_contents').html('');
-      }
-      else {
-        $.each(data.user, (key, value)=> {
-          let date = value.work_date;
-              date = date.replaceAll('-', '/');
-          $('#task_contents').html(value.task);
-          $('#work_time').val(value.work_time);
-          $('#home_time').val(value.home_time);
-          $('#datepicker').val(date);
-        });
-      }
+      let date = data.user_data.work_date;
+          date = date.replaceAll('-', '/');
+      $('#task_contents').html(data.user_data.task);
+      $('#work_time').val(data.user_data.work_time);
+      $('#home_time').val(data.user_data.home_time);
+      $('#datepicker').val(date);
+    },
+    function(jgXHR,textStatus, errorThrown) {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -155,6 +134,7 @@ function getData() {
 function getDay(num) {
   let query = formDataTemplate();
       query['num'] = num;
+      query['user_no'] = $('#user_no').val();
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=get_day',
@@ -166,7 +146,7 @@ function getDay(num) {
       console.log(data);
       let query2 = {};
           query2['user_no'] = $('#user_no').val();
-          query2['work_date'] = data.work_date;
+          query2['work_date'] = data.work_date.work_date;
           query2['work_date'] = query2['work_date'].slice(0, 10);
       $.ajax({
         type: 'POST',
@@ -177,14 +157,12 @@ function getDay(num) {
       .then(
         function(data) {
           console.log(data);
-          $.each(data.user, (key, value)=> {
-            let date = value.work_date;
-                date = date.replaceAll('-', '/');
-            $('#task_contents').html(value.task);
-            $('#work_time').val(value.work_time);
-            $('#home_time').val(value.home_time);
-            $('#datepicker').val(date);
-          })
+          let date = data.user_data.work_date;
+              date = date.replaceAll('-', '/');
+          $('#task_contents').html(data.user_data.task);
+          $('#work_time').val(data.user_data.work_time);
+          $('#home_time').val(data.user_data.home_time);
+          $('#datepicker').val(date);
         },
         function(jgXHR,textStatus, errorThrown) {
           console.log(jgXHR);
