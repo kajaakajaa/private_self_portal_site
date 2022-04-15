@@ -50,7 +50,9 @@ EOF;
     $stmt->bindParam(':menu_no', $menuNo, PDO::PARAM_INT);
     $stmt->execute();
     $array['category'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['contents_nobr'] = nl2br($array['category']['contents'], false);
+    $array['contents_nobr'] = $array['category']['contents'];
+    $array['contents_nobr'] = h($array['contents_nobr']);
+    $array['contents_nobr'] = nl2br($array['contents_nobr'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -58,7 +60,7 @@ EOF;
   case 'regist_category_contents':
     $userNo = $_POST['user_no'];
     $menuNo = $_POST['menu_no'];
-    $contents = h($_POST['contents']);
+    $contents = $_POST['contents'];
     $sql = <<<EOF
       INSERT
         tbl_task_menu_category

@@ -1,12 +1,22 @@
 $(()=> {
   setListCategory();
 
+  //ページの先頭へ戻る
+  $(window).scroll(()=> {
+    if($(this).scrollTop() > 100) {
+      $('#pagetop').fadeIn();
+    }
+    else {
+      $('#pagetop').fadeOut();
+    }
+  })
+
   //category内容編集
   $('#edit_category_btn').on('click', ()=> {
     $('#category_contents').hide();
     $('#category_contents_wrapper').show();
     $('#edit_category_close').show();
-    $('textarea[name="edit_category_contents"]').focus();
+    $('#edit_category_contents').focus();
   });
 
   //カテゴリー名の変更
@@ -18,7 +28,7 @@ $(()=> {
         count['empty'] = 0;
     $.ajax({
       type: 'POST',
-      url: '/request/category_sql_data.php?mode=check_error',
+      url: '/self_portal_site_private/request/category_sql_data.php?mode=check_error',
       data: query,
       dataType: 'json'
     })
@@ -38,7 +48,7 @@ $(()=> {
         if(count['duplicate'] == 0 && count['empty'] == 0) {
           $.ajax({
             type: 'POST',
-            url: '/request/menu_sql_data.php?mode=change_menu_name',
+            url: '/self_portal_site_private/request/menu_sql_data.php?mode=change_menu_name',
             data: query,
             dataType: 'html'
           })
@@ -68,12 +78,12 @@ $(()=> {
     setListCategory();
   });
 
-  //category編集フォーム更新し閉じる
+  //category編集フォームを更新し閉じる(登録)
   $('#close_category').on('click', ()=> {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/request/category_sql_data.php?mode=regist_category_contents',
+      url: '/self_portal_site_private/request/category_sql_data.php?mode=regist_category_contents',
       data: query,
       dataType: 'html'
     })
@@ -106,7 +116,7 @@ $(()=> {
     const query = getFormData();
     $.ajax({
       type: 'POST',
-      url: '/request/category_sql_data.php?mode=delete_category_contents',
+      url: '/self_portal_site_private/request/category_sql_data.php?mode=delete_category_contents',
       data: query,
       dataType: 'html'
     })
@@ -125,23 +135,6 @@ $(()=> {
   });
 });
 
-//ページの先頭へ戻る
-const pagetop = $('#pagetop, header');
-const fadeOut = $('#pagetop');
-$(window).scroll(()=> {
-  if($(this).scrollTop() > 100) {
-    pagetop.fadeIn();
-  }
-  else {
-    fadeOut.fadeOut();
-  }
-})
-pagetop.on('click', ()=> {
-  $('body, html').animate({
-    scrollTop: 0
-  }, 400);
-  return false;
-})
 
 //テンプレートデータ
 function getFormData() {
@@ -157,13 +150,13 @@ function setListCategory() {
   const query = getFormData();
   $.ajax({
     type: 'POST',
-    url: '/request/category_sql_data.php?mode=set_list_category',
+    url: '/self_portal_site_private/request/category_sql_data.php?mode=set_list_category',
     data: query,
     dataType: 'json'
   })
   .then(
     function(data) {
-      console.log(data.category.contents);
+      console.log(data);
         $('#category_name').html(data.menu.category_name);
         $('#category_contents').html(data.contents_nobr);
         $('#edit_category_contents').val(data.category.contents);
@@ -180,7 +173,7 @@ function setListCategory() {
 }
 
 function backTop() {
-  window.location.href = '/index.php';
+  window.location.href = '/self_portal_site_private/index.php';
 }
 
 //カテゴリー名の重複/空欄チェック
@@ -191,7 +184,7 @@ function checkError() {
       count['empty'] = 0;
   $.ajax({
     type: 'POST',
-    url: '/request/category_sql_data.php?mode=check_error',
+    url: '/self_portal_site_private/request/category_sql_data.php?mode=check_error',
     data: query,
     dataType: 'json'
   })
