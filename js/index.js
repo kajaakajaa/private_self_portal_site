@@ -46,7 +46,7 @@ function setListShift() {
       $('#user_no').val(data.user_no.no);
       $('#work_time').val(data.user.work_time);
       $('#home_time').val(data.user.home_time);
-      $('#task_contents').html(data.user.task);
+      $('#task_contents').html(data.task.schedule);
     },
     function(jgHXR, textStatus, errorThrown) {
       console.log(jgHXR);
@@ -112,7 +112,7 @@ function getData() {
       console.log(data);
       let date = data.user_data.work_date;
           date = date.replaceAll('-', '/');
-      $('#task_contents').html(data.user_data.task);
+      $('#task_contents').html(data.task.schedule);
       $('#work_time').val(data.user_data.work_time);
       $('#home_time').val(data.user_data.home_time);
       $('#datepicker').val(date);
@@ -148,6 +148,7 @@ function getDay(num) {
           query2['user_no'] = $('#user_no').val();
           query2['work_date'] = data.work_date.work_date;
           query2['work_date'] = query2['work_date'].slice(0, 10);
+          console.log(query2['work_date']);
       $.ajax({
         type: 'POST',
         url: '/self_portal_site_private/request/sql_data.php?mode=get_data',
@@ -159,7 +160,7 @@ function getDay(num) {
           console.log(data);
           let date = data.user_data.work_date;
               date = date.replaceAll('-', '/');
-          $('#task_contents').html(data.user_data.task);
+          $('#task_contents').html(data.task.schedule);
           $('#work_time').val(data.user_data.work_time);
           $('#home_time').val(data.user_data.home_time);
           $('#datepicker').val(date);
@@ -182,7 +183,7 @@ function getDay(num) {
 //本日予定の内容登録
 function editTask() {
   const query = formDataTemplate();
-  console.log(query);
+  console.log(query['edit_task']);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=edit_task',
@@ -214,7 +215,7 @@ function reflectTask() {
   .then(
     function(data) {
       console.log(data);
-      $('textarea[name="edit_task"]').val(data.task);
+      $('textarea[name="edit_task"]').val(data.schedule);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);

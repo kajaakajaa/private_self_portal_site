@@ -6,6 +6,7 @@ function getFormData() {
     query['user_name'] = $('#user_name').val();
     query['password'] = $('#password').val();
     query['password_confirm'] = $('#password_confirm').val();
+    query['token'] = $('#sign_in_token').val();
   return query;
 }
 
@@ -77,7 +78,6 @@ function registUser() {
       function(data) {
         console.log(data);
         if(data == true) {
-          clearForm();
           $('#error_password').html('');
           window.location.href = '/self_portal_site_private/registration/registed.php';
         }
@@ -94,7 +94,7 @@ function registUser() {
   }
 }
 
-function Signin() {
+function SignIn() {
   const errorCount = signInCheck();
   const query = getFormData();
   if(errorCount == 0) {

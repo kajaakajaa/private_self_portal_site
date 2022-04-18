@@ -3,6 +3,9 @@ include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
   $result = $logic->signIn();
+  $token_byte = openssl_random_pseudo_bytes(16);
+  $csrf_token = bin2hex($token_byte);
+  $_SESSION['token'] = $csrf_token;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -30,6 +33,7 @@ include_once('../config/console_log.php');
       <?php else : ?>
         <h2 class="text-center mb-5">ログイン</h2>
         <form class="m-3">
+          <input type="hidden" name="sign_in_token" id="sign_in_token" value="<?php echo $_SESSION['token']; ?>">
           <div class="form-group row d-flex justify-content-center m-3">
             <label for="user_name" class="col-md-2 col-form-label">お名前</label>
             <div class="col-md-7 col-lg-5">
@@ -45,8 +49,7 @@ include_once('../config/console_log.php');
             </div>
           </div>
           <div class="col-12 mt-5 d-flex justify-content-center">
-            <!-- <input type="button" class="btn btn-primary" name="to_mypage" value="送信"> -->
-            <button type="button" class="btn btn-primary" onClick="Signin()">送信</button>
+            <button type="button" class="btn btn-primary" onClick="SignIn()">送信</button>
           </div>
           <div class="text-center m-3"><a href="/self_portal_site_private/registration/sign_up.php">新規登録</a></div>
         </form>

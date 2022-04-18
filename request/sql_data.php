@@ -36,7 +36,6 @@ EOF;
     $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
     $sql = <<<EOF
       SELECT
-        task,
         TIME_FORMAT
         (
           work_time,
@@ -63,7 +62,23 @@ EOF;
     $stmt->bindParam(':user_no', $array['user_no']['no'], PDO::PARAM_INT);
     $stmt->execute();
     $array['user'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['user']['task'] = sanitized($array['user']['task'], false);
+    $sql = <<<EOF
+      SELECT
+        schedule
+      FROM
+        tbl_task_schedule
+      WHERE
+        user_no = :user_no
+          AND
+        del_flg = 0
+          AND
+        status = 0
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $array['user_no']['no'], PDO::PARAM_INT);
+    $stmt->execute();
+    $array['task'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['task']['schedule'] = sanitized($array['task']['schedule'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -136,28 +151,7 @@ EOF;
     $weekDay = array('日','月','火','水','木','金','土');
     $weekNum = date('w', strtotime($workDate));
     $sql = <<<EOF
-    INSERT
-      tbl_task_report
-      (
-        work_date,
-        user_no,
-        regist_time
-      ) VALUES (
-        :work_date,
-        :user_no,
-        NOW()
-      ) ON DUPLICATE KEY UPDATE
-        work_date = :work_date,
-        user_no = :user_no,
-        update_time = NOW()
-EOF;
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
-    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
-    $stmt->execute();
-    $sql = <<<EOF
       SELECT
-        task,
         work_date,
         TIME_FORMAT
         (
@@ -175,10 +169,6 @@ EOF;
         user_no = :user_no
           AND
         work_date = :work_date
-          AND
-        del_flg = 0
-          AND
-        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -186,8 +176,20 @@ EOF;
     $stmt->execute();
     $array = array();
     $array['user_data'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['user_data']['task'] = sanitized($array['user_data']['task'], false);
     $array['user_data']['work_date'] .= '(' . $weekDay[$weekNum] . ')';
+    $sql = <<<EOF
+      SELECT
+        schedule
+      FROM
+        tbl_task_schedule
+      WHERE
+        user_no = :user_no
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
+    $array['task'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    $array['task']['schedule'] = sanitized($array['task']['schedule'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -203,7 +205,6 @@ EOF;
     $timestamp = $num == 1 ? mktime(0,0,0,$month,$day-1,$year) : mktime(0,0,0,$month,$day+1,$year);
     //曜日取得
     $weekNum = date('w', $timestamp);
-    $weekDay = '(' . $weekDay[$weekNum] . ')';
     //文字列の日付生成
     $date = date('Y-m-d', $timestamp);
     $sql = <<<EOF
@@ -235,10 +236,6 @@ EOF;
         user_no = :user_no
           AND
         work_date = :date
-          AND
-        del_flg = 0
-          AND
-        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':date', $date, PDO::PARAM_STR);
@@ -246,7 +243,7 @@ EOF;
     $stmt->execute();
     $array = array();
     $array['work_date'] = $stmt->fetch(PDO::FETCH_ASSOC);
-    $array['work_date']['work_date'] .= $weekDay;
+    $array['work_date']['work_date'] .= '(' . $weekDay[$weekNum] . ')';
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
@@ -254,46 +251,38 @@ EOF;
   case 'edit_task':
     $userNo = $_POST['user_no'];
     $editTask = $_POST['edit_task'];
-    $workDate = $_POST['work_date'];
     $sql = <<<EOF
       INSERT
-        tbl_task_report
+        tbl_task_schedule
         (
-          task,
+          schedule,
           user_no,
-          work_date,
           regist_time
         ) VALUES (
           :edit_task,
           :user_no,
-          :work_date,
           NOW()
         ) ON DUPLICATE KEY UPDATE
-          task = :edit_task,
+          schedule = :edit_task,
           user_no = :user_no,
-          work_date = :work_date,
           update_time = NOW()
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':edit_task', $editTask, PDO::PARAM_STR);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
-    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
     var_dump($stmt->errorInfo());
   break;
 
   case 'reflect_task':
     $userNo = $_POST['user_no'];
-    $workDate = $_POST['work_date'];
     $sql = <<<EOF
       SELECT
-        task
+        schedule
       FROM
-        tbl_task_report
+        tbl_task_schedule
       WHERE
         user_no = :user_no
-          AND
-        work_date = :work_date
           AND
         del_flg = 0
           AND
@@ -301,7 +290,6 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
-    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
     $stmt->execute();
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
