@@ -11,7 +11,14 @@ include_once('config/console_log.php');
   $timestamp = mktime(0,0,0,$month,$day,$year);
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
+  ini_set('session.gc_probability', 1);
+  ini_set('session.gc_divisor', 1);
+  //ブラウザを閉じても稼働する秒数(第二引数)
+  ini_set('session.cookie_lifetime', 60*60*24*3);
+  //セッションが切れるまでの秒数(第二引数。※何もしてない状況が〇〇秒数続いた後リロードした際に)
+  ini_set('session.gc_maxlifetime', 60*60*24*3);
   session_start();
+  console_log($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -103,7 +110,7 @@ include_once('config/console_log.php');
                       </form>
                       <div class="cal-12 py-3">
                         <div class="card">
-                          <div class="card-header">本日の予定</div>
+                          <div class="card-header">今後の予定</div>
                           <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
                             <!-- Button trigger modal -->
                             <p id="task_contents"></p>
