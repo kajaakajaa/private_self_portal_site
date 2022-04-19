@@ -47,6 +47,7 @@ function setListShift() {
       $('#work_time').val(data.user.work_time);
       $('#home_time').val(data.user.home_time);
       $('#task_contents').html(data.task.schedule);
+      replaceLink();
     },
     function(jgHXR, textStatus, errorThrown) {
       console.log(jgHXR);
@@ -54,6 +55,14 @@ function setListShift() {
       console.log(errorThrown);
     }
   );
+}
+
+//テキスト内リンクへの変換
+function replaceLink() {
+  $('.task-contents').each(function() {
+    $(this).html($(this).html().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" style="word-break: break-all;">$1</a>'));
+  });
 }
 
 //出勤記録
@@ -113,6 +122,7 @@ function getData() {
       let date = data.user_data.work_date;
           date = date.replaceAll('-', '/');
       $('#task_contents').html(data.task.schedule);
+      replaceLink();
       $('#work_time').val(data.user_data.work_time);
       $('#home_time').val(data.user_data.home_time);
       $('#datepicker').val(date);
@@ -148,7 +158,6 @@ function getDay(num) {
           query2['user_no'] = $('#user_no').val();
           query2['work_date'] = data.work_date.work_date;
           query2['work_date'] = query2['work_date'].slice(0, 10);
-          console.log(query2['work_date']);
       $.ajax({
         type: 'POST',
         url: '/self_portal_site_private/request/sql_data.php?mode=get_data',
@@ -161,6 +170,7 @@ function getDay(num) {
           let date = data.user_data.work_date;
               date = date.replaceAll('-', '/');
           $('#task_contents').html(data.task.schedule);
+          replaceLink();
           $('#work_time').val(data.user_data.work_time);
           $('#home_time').val(data.user_data.home_time);
           $('#datepicker').val(date);

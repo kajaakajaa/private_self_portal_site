@@ -1,6 +1,7 @@
 <?php
 include_once('config/db_connect.php');
 include_once('config/console_log.php');
+include_once('session_logic/sessionLogic.php');
 
   //日付取得
   $year = date('Y');
@@ -11,12 +12,12 @@ include_once('config/console_log.php');
   $timestamp = mktime(0,0,0,$month,$day,$year);
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
-  ini_set('session.gc_probability', 1);
-  ini_set('session.gc_divisor', 1);
-  //ブラウザを閉じても稼働する秒数(第二引数)
-  ini_set('session.cookie_lifetime', 60*60*24*3);
-  //セッションが切れるまでの秒数(第二引数。※何もしてない状況が〇〇秒数続いた後リロードした際に)
-  ini_set('session.gc_maxlifetime', 60*60*24*3);
+  if($_GET['status'] == 'true') {
+    $logic->keep_sign_in();
+  }
+  else if(!isset($_GET['status'])) {
+    $logic->keep_sign_in();
+  }
   session_start();
   console_log($_SESSION);
 ?>
@@ -113,7 +114,7 @@ include_once('config/console_log.php');
                           <div class="card-header">今後の予定</div>
                           <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
                             <!-- Button trigger modal -->
-                            <p id="task_contents"></p>
+                            <p id="task_contents" class="task-contents"></p>
                           </div>
                           <!-- Modal -->
                           <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">
