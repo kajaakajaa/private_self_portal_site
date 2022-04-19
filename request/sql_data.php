@@ -20,10 +20,6 @@ switch($mode) {
         user_name = :user_name
           AND
         password = :password
-          AND
-        del_flg = 0
-          AND
-        status = 0
 EOF;
     session_start();
     $userName = $_SESSION['user_name'];
@@ -52,10 +48,6 @@ EOF;
         user_no = :user_no
           AND
         work_date = :work_date
-          AND
-        del_flg = 0
-          AND
-        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
@@ -69,10 +61,6 @@ EOF;
         tbl_task_schedule
       WHERE
         user_no = :user_no
-          AND
-        del_flg = 0
-          AND
-        status = 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_no', $array['user_no']['no'], PDO::PARAM_INT);

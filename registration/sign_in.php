@@ -3,9 +3,6 @@ include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
   $result = $logic->signIn();
-  $token_byte = openssl_random_pseudo_bytes(16);
-  $csrf_token = bin2hex($token_byte);
-  $_SESSION['token'] = $csrf_token;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,6 +10,7 @@ include_once('../config/console_log.php');
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <!-- bootstrap5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="/self_portal_site_private/css/index.css?<?php echo time(); ?>">
@@ -49,6 +47,10 @@ include_once('../config/console_log.php');
             </div>
           </div>
           <div class="col-12 mt-5 d-flex justify-content-center">
+            <input type="checkbox" class="form-check-input" name="keep_sign_in" id="keep_sign_in">&nbsp;
+            <label for="keep_sign_in" class="form-check-label">ログインを維持する</label>
+          </div>
+          <div class="col-12 mt-3 d-flex justify-content-center">
             <button type="button" class="btn btn-primary" onClick="SignIn()">送信</button>
           </div>
           <div class="text-center m-3"><a href="/self_portal_site_private/registration/sign_up.php">新規登録</a></div>

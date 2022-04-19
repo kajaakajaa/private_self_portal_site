@@ -96,7 +96,8 @@ function registUser() {
 
 function SignIn() {
   const errorCount = signInCheck();
-  const query = getFormData();
+  let query = getFormData();
+  let status = $('input[name="keep_sign_in"]').prop('checked');
   if(errorCount == 0) {
     $.ajax({
       type: 'POST',
@@ -109,7 +110,7 @@ function SignIn() {
         console.log(data);
         if(data.user_name == query['user_name'] && data.password == query['password']) {
           $('#error_password').html('');
-          window.location.href = '/self_portal_site_private/index.php';
+          window.location.href = '/self_portal_site_private/index.php?status=' + status;
         }
         else if(data == false) {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
