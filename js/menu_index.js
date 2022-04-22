@@ -57,6 +57,11 @@ function setListMenu() {
       console.log(errorThrown);
     }
   );
+
+  //カテゴリー名の登録の取り消し（×ボタン）
+  $('#close_schedule').on('click', ()=> {
+    $('#add_menu').val('');
+  });
 }
 
 //menu内の重複チェック

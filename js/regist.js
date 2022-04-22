@@ -1,6 +1,4 @@
-$(()=> {
-});
-
+//sign_in/upフォーム
 function getFormData() {
   let query = {};
     query['user_name'] = $('#user_name').val();
@@ -97,20 +95,21 @@ function registUser() {
 function SignIn() {
   const errorCount = signInCheck();
   let query = getFormData();
-  let status = $('input[name="keep_sign_in"]').prop('checked');
+      query['status'] = $('input[name="keep_sign_in"]').prop('checked');
+  // let status = 
   if(errorCount == 0) {
     $.ajax({
       type: 'POST',
-      url: '/self_portal_site_private/request/registration_sql_data.php?mode=login',
+      url: '/self_portal_site_private/request/registration_sql_data.php?mode=sign_in',
       data: query,
       dataType: 'json'
     })
     .then(
       function(data) {
         console.log(data);
-        if(data.user_name == query['user_name'] && data.password == query['password']) {
+        if(data) {
           $('#error_password').html('');
-          window.location.href = '/self_portal_site_private/index.php?status=' + status;
+          window.location.href = '/self_portal_site_private/index.php';
         }
         else if(data == false) {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
@@ -123,4 +122,26 @@ function SignIn() {
       }
     );
   }
+}
+
+function signOut() {
+  let query = {};
+      query['user_no'] = $('#user_no').val();
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site_private/request/registration_sql_data.php?mode=sign_out',
+    data: query,
+    dataType: 'html'
+  })
+  .then(
+    (data)=> {
+      console.log(data);
+      window.location.href = '/self_portal_site_private/registration/sign_out.php';
+    },
+    (jgXHR, textStatus, errorThrown)=> {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
 }

@@ -31,9 +31,10 @@ EOF;
     echo json_encode($result);
   break;
 
-  case 'login':
+  case 'sign_in':
     session_start();
     $token = h(filter_input(INPUT_POST, 'token'));
+    $status = filter_input(INPUT_POST, 'status');
     if($_SESSION['token'] === $token) {
       $userName = h(filter_input(INPUT_POST, 'user_name'));
       $passWord = h(filter_input(INPUT_POST, 'password'));
@@ -56,6 +57,25 @@ EOF;
       $array = $stmt->fetch(PDO::FETCH_ASSOC);
       $_SESSION['user_name'] = $array['user_name'];
       $_SESSION['password'] = $array['password'];
+      if($status == 'true') {
+        //下記読み込まれた時点からカウント開始
+        setcookie('keep_session', session_id(), time()+259200, '/', '', true);
+        $sql = <<<EOF
+          UPDATE
+            tbl_task_user
+          SET
+            cookie_pass = :cookie_pass
+          WHERE
+            user_name = :user_name
+              AND
+            password = :password
+EOF;
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
+        $stmt->bindParam(':password', $array['password'], PDO::PARAM_STR);
+        $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
+        $stmt->execute();
+      }
       header('Content-type: application/json; charset=UTF-8');
       echo json_encode($array);
     }
@@ -63,5 +83,21 @@ EOF;
       header('Content-type: application/json; charset=UTF-8');
       echo json_encode(false);
     }
+  break;
+
+  case 'sign_out':
+    $userNo = $_POST['user_no'];
+    $sql = <<<EOF
+      UPDATE
+        tbl_task_user
+      SET
+        cookie_pass = NULL
+      WHERE
+        no = :user_no
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->execute();
+    var_dump($stmt->errorInfo());
   break;
 }
