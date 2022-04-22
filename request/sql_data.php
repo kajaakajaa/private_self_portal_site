@@ -11,8 +11,8 @@ $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_shift':
     session_start();
-    if(isset($_SESSION)) {
-      $workDate = $_POST['work_date'];
+    $workDate = $_POST['work_date'];
+    if($_SESSION != null) {
       $sql = <<<EOF
         SELECT
           no
@@ -33,6 +33,7 @@ EOF;
       $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
     }
     else if(isset($_POST['user_no'])) {
+      $array = array();
       $array['user_no']['no'] = $_POST['user_no'];
     }
     $sql = <<<EOF
