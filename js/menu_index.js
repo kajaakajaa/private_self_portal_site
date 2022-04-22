@@ -35,6 +35,10 @@ $(()=> {
 //オンロード時のデフォルトview
 function setListMenu() {
   let query = {};
+  //クッキーログイン時
+  if($('#cookie_pass').val() != '') {
+    query['user_no'] = $('#user_no').val();
+  }
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/menu_sql_data.php?mode=set_list_menu',
@@ -46,7 +50,8 @@ function setListMenu() {
       console.log(data);
       let contents = '';
       $.each(data.user, (key, value)=> {
-        contents += '<li><a class="menu-index-list" href="/self_portal_site_private/menu_contents.php?menu_no=' + value.menu_no + '&user_no=' + data.user_no.no + '">'
+        let userNo = data.user_no == null ? $('#user_no').val() : data.user_no.no;
+        contents += '<li><a class="menu-index-list" href="/self_portal_site_private/menu_contents.php?menu_no=' + value.menu_no + '&user_no=' + userNo + '">'
           + value.category_name + '</a></li>';
       });
       $('#menu_list').html(contents);

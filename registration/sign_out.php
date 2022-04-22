@@ -22,7 +22,7 @@ include_once('../config/console_log.php');
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0" title="topへ戻る">Task</h1>
+        <h1 class="m-0">Task</h1>
       </div>
     </header>
     <main id="sign_out_wrapper">

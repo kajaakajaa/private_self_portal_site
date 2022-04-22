@@ -59,6 +59,7 @@ EOF;
       $_SESSION['password'] = $array['password'];
       if($status == 'true') {
         //下記読み込まれた時点からカウント開始
+        session_regenerate_id();
         setcookie('keep_session', session_id(), time()+259200, '/', '', true);
         $sql = <<<EOF
           UPDATE

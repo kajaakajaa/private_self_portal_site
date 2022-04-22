@@ -25,6 +25,22 @@ EOF;
   $array = $stmt->fetch(PDO::FETCH_ASSOC);
   $categoryName = $array['category_name'];
   session_start();
+  session_regenerate_id();
+  if(isset($_COOKIE['keep_session']) && $_SESSION == null) {
+    $sql = <<<EOF
+      SELECT
+        cookie_pass
+      FROM
+        tbl_task_user
+      WHERE
+        cookie_pass = :cookie_pass
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':cookie_pass', $_COOKIE['keep_session'], PDO::PARAM_STR);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  console_log($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -52,7 +68,7 @@ EOF;
       </div>
     </header>
     <main>
-      <?php if($_SESSION['user_name'] && $_SESSION['password']) : ?>
+      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user['cookie_pass'])) : ?>
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item"><a href="/self_portal_site_private/index.php">Home</a></li>

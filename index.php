@@ -13,7 +13,10 @@ include_once('session_logic/sessionLogic.php');
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
 
-  if(isset($_COOKIE['keep_session'])) {
+  session_start();
+  session_regenerate_id();
+  console_log($_SESSION);
+  if(isset($_COOKIE['keep_session']) && $_SESSION == null) {
     $sql = <<<EOF
       SELECT
         no,
@@ -30,9 +33,6 @@ EOF;
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $userNo = $user['no'];
   }
-  session_start();
-  session_regenerate_id();
-  console_log($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -112,6 +112,7 @@ EOF;
                     <div class="card-body report-contents">
                       <form class="row">
                         <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
+                        <input type="hidden" name="cookie_pass" id="cookie_pass" value="<?php echo isset($user['cookie_pass']) ? $user['cookie_pass'] : ''; ?>">
                         <div class="form-group col-12 text-center col-sm-6 text-sm-start">
                           <label for="work_time" class="col-md-3">出勤</label>
                           <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
