@@ -34,6 +34,9 @@ function setListShift() {
       date = date.slice(0, 10);
   let query = {};
       query['work_date'] = date;
+      if($('#user_no').val() != '') {
+        query['user_no'] = $('#user_no').val();
+      }
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=set_list_shift',
@@ -107,7 +110,7 @@ function homeTime() {
   );
 }
 
-//日付別でデータを取得
+//getDay()でデータを取得。＋datepickerで日付変更。
 function getData() {
   let query = formDataTemplate();
   $.ajax({

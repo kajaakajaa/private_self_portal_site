@@ -1,16 +1,17 @@
 <?php
-// include_once('../request/registration_sql_data.php');
-// include_once('../config/console_log.php');
 
 class sessionLogic {  
   //ログイン
   public function signIn() {
     session_start();
+    session_regenerate_id();
     $rtn = false;
+    //ログイン済みでsign_inページに訪れた場合
     if($_SESSION['user_name'] && $_SESSION['password']) {
       return $rtn = true;
     }
     else {
+      //新しくログインする場合
       $_SESSION = array();
       $token_byte = openssl_random_pseudo_bytes(16);
       $csrf_token = bin2hex($token_byte);
@@ -22,11 +23,10 @@ class sessionLogic {
   public function signOut() {
     session_start();
     $rtn = false;
-    if($_SESSION['user_name'] && $_SESSION['password']) {
+    if($_SESSION['user_name'] && $_SESSION['password'] || isset($_COOKIE['keep_session'])) {
       $_SESSION = array();
-      if(isset($_COOKIE[session_name()])) {
-        setcookie(session_name(), '', time()-1000, '/');
-      }
+      setcookie(session_name(), '', time()-1000, '/');
+      setcookie('keep_session', '', time()-1000, '/');
       session_destroy();
       return $rtn = true;
     }
@@ -34,15 +34,6 @@ class sessionLogic {
       setcookie(session_name(), '', time()-1000, '/');
       return $rtn;
     }
-  }
-  //ログイン維持
-  function keep_sign_in() {
-    ini_set('session.gc_probability', 1);
-    ini_set('session.gc_divisor', 1);
-    //ブラウザを閉じても稼働する秒数(第二引数)
-    ini_set('session.cookie_lifetime', 60*60*24*3);
-    //セッションが切れるまでの秒数(第二引数。※何もしてない状況が〇〇秒数続いた後リロードした際に)
-    ini_set('session.gc_maxlifetime', 60*60*24*3);
   }
 }
 $logic = new sessionLogic();

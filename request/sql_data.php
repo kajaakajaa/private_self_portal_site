@@ -10,26 +10,31 @@ function sanitized($str) {
 $mode = $_GET['mode'];
 switch($mode) {
   case 'set_list_shift':
-    $workDate = $_POST['work_date'];
-    $sql = <<<EOF
-      SELECT
-        no
-      FROM
-        tbl_task_user
-      WHERE
-        user_name = :user_name
-          AND
-        password = :password
-EOF;
     session_start();
-    $userName = $_SESSION['user_name'];
-    $passWord = $_SESSION['password'];
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
-    $stmt->execute();
-    $array = array();
-    $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    if(isset($_SESSION)) {
+      $workDate = $_POST['work_date'];
+      $sql = <<<EOF
+        SELECT
+          no
+        FROM
+          tbl_task_user
+        WHERE
+          user_name = :user_name
+            AND
+          password = :password
+EOF;
+      $userName = $_SESSION['user_name'];
+      $passWord = $_SESSION['password'];
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
+      $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
+      $stmt->execute();
+      $array = array();
+      $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    else if(isset($_POST['user_no'])) {
+      $array['user_no']['no'] = $_POST['user_no'];
+    }
     $sql = <<<EOF
       SELECT
         TIME_FORMAT
@@ -138,6 +143,26 @@ EOF;
     $workDate = $_POST['work_date'];
     $weekDay = array('日','月','火','水','木','金','土');
     $weekNum = date('w', strtotime($workDate));
+    $sql = <<<EOF
+      INSERT
+        tbl_task_report
+        (
+          work_date,
+          user_no,
+          regist_time
+        ) VALUES (
+          :work_date,
+          :user_no,
+          NOW()
+        ) ON DUPLICATE KEY UPDATE
+          work_date = :work_date,
+          user_no = :user_no,
+          update_time = NOW()
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    $stmt->execute();
     $sql = <<<EOF
       SELECT
         work_date,

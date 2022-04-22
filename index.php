@@ -12,13 +12,26 @@ include_once('session_logic/sessionLogic.php');
   $timestamp = mktime(0,0,0,$month,$day,$year);
   $date = date('Y/m/d');
   $date .= '(' . $week[$dw] . ')';
-  if($_GET['status'] == 'true') {
-    $logic->keep_sign_in();
-  }
-  else if(!isset($_GET['status'])) {
-    $logic->keep_sign_in();
+
+  if(isset($_COOKIE['keep_session'])) {
+    $sql = <<<EOF
+      SELECT
+        no,
+        cookie_pass
+      FROM
+        tbl_task_user
+      WHERE
+        cookie_pass = :cookie_pass
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':cookie_pass', $_COOKIE['keep_session'], PDO::PARAM_STR);
+    $stmt->execute();
+    $user = array();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $userNo = $user['no'];
   }
   session_start();
+  session_regenerate_id();
   console_log($_SESSION);
 ?>
 <!DOCTYPE html>
@@ -34,6 +47,7 @@ include_once('session_logic/sessionLogic.php');
   <!-- datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/self_portal_site_private/css/index.css?ver=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/self_portal_site_private/css/registration.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
 <body>
@@ -44,13 +58,13 @@ include_once('session_logic/sessionLogic.php');
       </div>
     </header>
     <main>
-      <?php if($_SESSION['user_name'] && $_SESSION['password']) : ?>
+      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user['cookie_pass'])) : ?>
       <nav aria-label="breadcrumb" class="d-flex justify-content-between">
         <ol class="breadcrumb m-2">
           <li class="breadcrumb-item active" aria-current="page">Home</li>
         </ol>
         <div class="me-4 d-flex align-items-center">
-          <a href="/self_portal_site_private/registration/sign_out.php">ログアウト&gt;</a>
+          <a id="sign_out" onClick="signOut()">ログアウト&gt;</a>
         </div>
       </nav>
       <div class="card">
@@ -68,11 +82,11 @@ include_once('session_logic/sessionLogic.php');
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="menu_modal_label">MENU（カテゴリー名）追加</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" id="close_schedule" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body p-1">
                         <div>
-                          <input type="text" name="add_menu" id="add_menu" class="form-control"></input>
+                          <input type="text" name="add_menu" id="add_menu" class="form-control">
                           <p class="text-center error-messages"></p>
                         </div>
                       </div>
@@ -121,12 +135,12 @@ include_once('session_logic/sessionLogic.php');
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="report_modal_label">本日の予定</h5>
+                                  <h5 class="modal-title" id="report_modal_label">今後の予定</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body p-1">
                                   <div>
-                                    <textarea class="form-control" name="edit_task" id="edit_task" rows="8"></textarea>
+                                    <textarea class="form-control" name="edit_task" id="edit_task" rows="12"></textarea>
                                   </div>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-center">
@@ -169,5 +183,6 @@ include_once('session_logic/sessionLogic.php');
   <!-- jsファイル -->
   <script src="/self_portal_site_private/js/index.js?ver=<?php echo time(); ?>"></script>
   <script src="/self_portal_site_private/js/menu_index.js?ver=<?php echo time(); ?>"></script>
+  <script src="/self_portal_site_private/js/regist.js?ver=<?php echo time(); ?>"></script>
 </body>
 </html>
