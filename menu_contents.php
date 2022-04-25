@@ -55,6 +55,16 @@ EOF;
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <!-- favicon -->
+  <link rel="icon" href="/self_portal_site_private/images/favicon.ico">
+    <!-- windows version別 -->
+  <link rel=”icon” type=”image/vnd.microsoft.icon” href=“/self_portal_site_private/images/favicon.ico>
+  <link rel=”shortcut icon” href=”/self_portal_site_private/images/favicon.ico>
+    <!-- iphone -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/self_portal_site_private/images/apple-touch-icon.png">
+    <!-- android -->
+  <link rel="icon" type="image/png" href="/self_portal_site_private/images/android-touch-icon.png" sizes="192x192">
+  <!-- css -->
   <link rel="stylesheet" href="/self_portal_site_private/css/index.css?ver=<?php echo time(); ?>">
   <link rel="stylesheet" href="/self_portal_site_private/css/menu_contents.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL SITE for PRIVATE</title>
@@ -71,7 +81,7 @@ EOF;
       <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user['cookie_pass'])) : ?>
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb m-2">
-            <li class="breadcrumb-item"><a href="/self_portal_site_private/index.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="/self_portal_site_private/">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Category</li>
           </ol>
         </nav>

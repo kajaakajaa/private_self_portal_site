@@ -77,7 +77,7 @@ function registUser() {
         console.log(data);
         if(data == true) {
           $('#error_password').html('');
-          window.location.href = '/self_portal_site_private/registration/registed.php';
+          window.location.href = '/self_portal_site_private/registration/registed';
         }
         else {
           $('#error_password').html('&#x203B;既に登録されているパスワードになります。');
@@ -109,7 +109,7 @@ function SignIn() {
         console.log(data);
         if(data) {
           $('#error_password').html('');
-          window.location.href = '/self_portal_site_private/index.php';
+          window.location.href = '/self_portal_site_private/';
         }
         else if(data == false) {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
@@ -136,7 +136,7 @@ function signOut() {
   .then(
     (data)=> {
       console.log(data);
-      window.location.href = '/self_portal_site_private/registration/sign_out.php';
+      window.location.href = '/self_portal_site_private/registration/sign_out';
     },
     (jgXHR, textStatus, errorThrown)=> {
       console.log(jgXHR);

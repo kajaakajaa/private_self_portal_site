@@ -46,6 +46,16 @@ EOF;
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <!-- favicon -->
+  <link rel="icon" href="/self_portal_site_private/images/favicon.ico">
+    <!-- windows version別 -->
+  <link rel=”icon” type=”image/vnd.microsoft.icon” href=“/self_portal_site_private/images/favicon.ico>
+  <link rel=”shortcut icon” href=”/self_portal_site_private/images/favicon.ico>
+    <!-- iphone -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/self_portal_site_private/images/apple-touch-icon.png">
+    <!-- android -->
+  <link rel="icon" type="image/png" href="/self_portal_site_private/images/android-touch-icon.png" sizes="192x192">
+  <!-- css -->
   <link rel="stylesheet" href="/self_portal_site_private/css/index.css?ver=<?php echo time(); ?>">
   <link rel="stylesheet" href="/self_portal_site_private/css/registration.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL SITE for PRIVATE</title>
@@ -162,7 +172,7 @@ EOF;
       </div>
       <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
       <?php else : 
-        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in.php');
+        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in');
       ?>
       <?php endif; ?>
     </main>

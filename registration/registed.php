@@ -6,6 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- bootstrap5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- favicon -->
+  <link rel="icon" href="/self_portal_site_private/images/favicon.ico">
+    <!-- windows version別 -->
+  <link rel=”icon” type=”image/vnd.microsoft.icon” href=“/self_portal_site_private/images/favicon.ico>
+  <link rel=”shortcut icon” href=”/self_portal_site_private/images/favicon.ico>
+    <!-- iphone -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/self_portal_site_private/images/apple-touch-icon.png">
+    <!-- android -->
+  <link rel="icon" type="image/png" href="/self_portal_site_private/images/android-touch-icon.png" sizes="192x192">
+  <!-- css -->
   <link rel="stylesheet" href="/self_portal_site_private/css/index.css?ver=<?php echo time(); ?>">
   <link rel="stylesheet" href="/self_portal_site_private/css/registration.css?ver=<?php echo time(); ?>">
   <title>登録完了画面</title>
@@ -14,14 +24,14 @@
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
-        <h1 class="m-0" title="topへ戻る">Task</h1>
+        <h1 class="m-0">Task</h1>
       </div>
     </header>
     <main>
       <div class="container sign-up-wrapper">
         <h4 class="m-4 text-center">新規登録が完了しました。</h3>
       </div>
-      <div class="text-center"><a href="/self_portal_site_private/registration/sign_in.php">ログインページへ</a></div>
+      <div class="text-center"><a href="/self_portal_site_private/registration/sign_in">ログインページへ</a></div>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
