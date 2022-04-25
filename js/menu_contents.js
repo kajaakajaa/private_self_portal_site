@@ -173,7 +173,7 @@ function setListCategory() {
 }
 
 function backTop() {
-  window.location.href = '/self_portal_site_private/index.php';
+  window.location.href = '/self_portal_site_private/';
 }
 
 //カテゴリー名の重複/空欄チェック

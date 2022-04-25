@@ -51,7 +51,7 @@ function setListMenu() {
       let contents = '';
       $.each(data.user, (key, value)=> {
         let userNo = data.user_no == null ? $('#user_no').val() : data.user_no.no;
-        contents += '<li><a class="menu-index-list" href="/self_portal_site_private/menu_contents.php?menu_no=' + value.menu_no + '&user_no=' + userNo + '">'
+        contents += '<li><a class="menu-index-list" href="/self_portal_site_private/menu_contents?menu_no=' + value.menu_no + '&user_no=' + userNo + '">'
           + value.category_name + '</a></li>';
       });
       $('#menu_list').html(contents);
