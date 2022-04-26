@@ -7,13 +7,13 @@ class sessionLogic {
     session_regenerate_id();
     $rtn = false;
     //ログイン済みでsign_inページに訪れた場合
-    if($_SESSION['user_name'] && $_SESSION['password']) {
+    if($_SESSION['user_name'] && $_SESSION['password'] || isset($_COOKIE['keep_session'])) {
       return $rtn = true;
     }
     else {
       //新しくログインする場合
       $_SESSION = array();
-      $token_byte = openssl_random_pseudo_bytes(16);
+      $token_byte = openssl_random_pseudo_bytes(32);
       $csrf_token = bin2hex($token_byte);
       $_SESSION['token'] = $csrf_token;
       return $rtn;
