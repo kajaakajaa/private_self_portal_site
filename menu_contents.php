@@ -97,7 +97,7 @@ EOF;
       </div>
     </header>
     <main>
-      <?php if(isset($user['no']) == $userNo) : ?>
+      <?php if(isset($user['no']) && $user['no'] == $userNo) : ?>
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item"><a href="/self_portal_site_private/">Home</a></li>
@@ -179,7 +179,7 @@ EOF;
           </div>
         </div>
         <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
-      <?php elseif(isset($user['no']) != $userNo) : ?>
+      <?php elseif(isset($user['no']) && $user['no'] != $userNo) : ?>
         <h5 class="text-center mx-3 mb-5 request-refuse">&#x203B;リクエストされたページへは遷移出来ません。</h5>
         <div class="d-flex justify-content-center"><a href="/self_portal_site_private/">Myページへ</a></div>
       <?php else :
