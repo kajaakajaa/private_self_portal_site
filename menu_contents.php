@@ -26,10 +26,11 @@ EOF;
   $categoryName = $array['category_name'];
   session_start();
   session_regenerate_id();
-  if(isset($_COOKIE['keep_session']) && $_SESSION == null) {
+  //ログイン維持、クッキーログイン
+  if(isset($_COOKIE['keep_session'])) {
     $sql = <<<EOF
       SELECT
-        cookie_pass
+        no
       FROM
         tbl_task_user
       WHERE
@@ -38,13 +39,32 @@ EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':cookie_pass', $_COOKIE['keep_session'], PDO::PARAM_STR);
     $stmt->execute();
+    $user = array();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  //ログイン非維持
+  else if($_SESSION != null && $_COOKIE['keep_session'] == null) {
+    $sql = <<<EOF
+      SELECT
+        no
+      FROM
+        tbl_task_user
+      WHERE
+        user_name = :user_name
+          AND
+        password = :password
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_name', $_SESSION['user_name'], PDO::PARAM_STR);
+    $stmt->bindParam(':password', $_SESSION['password'], PDO::PARAM_STR);
+    $stmt->execute();
+    $user = array();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
   }
   console_log($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,7 +89,6 @@ EOF;
   <link rel="stylesheet" href="/self_portal_site_private/css/menu_contents.css?ver=<?php echo time(); ?>">
   <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
-
 <body>
   <div class="container-fluid p-0">
     <header class="fixed-top">
@@ -78,7 +97,7 @@ EOF;
       </div>
     </header>
     <main>
-      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user['cookie_pass'])) : ?>
+      <?php if(isset($user['no']) == $userNo) : ?>
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item"><a href="/self_portal_site_private/">Home</a></li>
@@ -160,8 +179,11 @@ EOF;
           </div>
         </div>
         <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <?php elseif(isset($user['no']) != $userNo) : ?>
+        <h5 class="text-center mx-3 mb-5 request-refuse">&#x203B;リクエストされたページへは遷移出来ません。</h5>
+        <div class="d-flex justify-content-center"><a href="/self_portal_site_private/">Myページへ</a></div>
       <?php else :
-        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in.php');
+        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in');
       ?>
       <?php endif; ?>
     </main>

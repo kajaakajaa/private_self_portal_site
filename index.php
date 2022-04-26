@@ -16,6 +16,7 @@ include_once('session_logic/sessionLogic.php');
   session_start();
   session_regenerate_id();
   console_log($_SESSION);
+  //クッキーログイン時
   if(isset($_COOKIE['keep_session']) && $_SESSION == null) {
     $sql = <<<EOF
       SELECT
@@ -68,7 +69,7 @@ EOF;
       </div>
     </header>
     <main>
-      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user['cookie_pass'])) : ?>
+      <?php if($_SESSION['user_name'] && $_SESSION['password'] || $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
       <nav aria-label="breadcrumb" class="d-flex justify-content-between">
         <ol class="breadcrumb m-2">
           <li class="breadcrumb-item active" aria-current="page">Home</li>

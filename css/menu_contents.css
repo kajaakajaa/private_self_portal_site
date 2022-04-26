@@ -19,3 +19,8 @@
 .category #category_contents_wrapper {
   display: none;
 }
+
+.request-refuse {
+  color: red;
+  margin-top: 50px;
+}

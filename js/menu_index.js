@@ -66,6 +66,7 @@ function setListMenu() {
   //カテゴリー名の登録の取り消し（×ボタン）
   $('#close_schedule').on('click', ()=> {
     $('#add_menu').val('');
+    $('.error-messages').html('');
   });
 }
 
