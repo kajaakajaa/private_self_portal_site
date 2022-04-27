@@ -3,7 +3,6 @@ include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
   $result = $logic->signIn();
-  console_log($result);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -44,7 +43,7 @@ include_once('../config/console_log.php');
         <form class="m-3">
           <input type="hidden" name="sign_in_token" id="sign_in_token" value="<?php echo $_SESSION['token']; ?>">
           <div class="form-group row d-flex justify-content-center m-3">
-            <label for="user_name" class="col-md-2 col-form-label">お名前</label>
+            <label for="user_name" class="col-md-2 col-form-label">メール</label>
             <div class="col-md-7 col-lg-5">
               <input type="text" name="user_name" id="user_name" class="form-control">
               <p class="m-0" id="error_username"></p>

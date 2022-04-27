@@ -31,7 +31,7 @@
       <h2 class="text-center mb-5">新規登録</h2>
       <form class="m-3">
         <div class="form-group row d-flex justify-content-center m-3">
-          <label for="user_name" class="col-md-2 col-form-label">お名前<span class="badge bg-warning mx-1">必須</span></label>
+          <label for="user_name" class="col-md-2 col-form-label">メール<span class="badge bg-warning mx-1">必須</span></label>
           <div class="col-md-7 col-lg-5">
             <input type="text" name="user_name" id="user_name" class="form-control">
             <p class="m-0" id="error_username"></p>

@@ -69,94 +69,96 @@ EOF;
       </div>
     </header>
     <main>
-      <?php if($_SESSION['user_name'] && $_SESSION['password'] || $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
-      <nav aria-label="breadcrumb" class="d-flex justify-content-between">
-        <ol class="breadcrumb m-2">
-          <li class="breadcrumb-item active" aria-current="page">Home</li>
-        </ol>
-        <div class="me-4 d-flex align-items-center">
-          <a id="sign_out" onClick="signOut()">ログアウト&gt;</a>
-        </div>
-      </nav>
-      <div class="card">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="order-2 order-md-1 col-md-3 py-3 menu">
-              <div class="card">
-                <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
-                <div class="card-body">
-                  <ul id="menu_list"></ul>
-                </div>
-                <!-- Menu-Modal -->
-                <div class="modal fade" id="menu_modal" tabindex="-1" area-labelledby="menu_modal_label" area-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="menu_modal_label">MENU（カテゴリー名）追加</h5>
-                        <button type="button" id="close_schedule" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body p-1">
-                        <div>
-                          <input type="text" name="add_menu" id="add_menu" class="form-control">
-                          <p class="text-center error-messages"></p>
+      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user) && $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
+      <?//php if(1==1) : ?>
+        <nav aria-label="breadcrumb" class="d-flex justify-content-between">
+          <ol class="breadcrumb m-2">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+          </ol>
+          <div class="me-4 d-flex align-items-center">
+            <a id="sign_out" onClick="signOut()">ログアウト&gt;</a>
+          </div>
+        </nav>
+        <div class="card">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="order-2 order-md-1 col-md-3 py-3 menu">
+                <div class="card">
+                  <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
+                  <div class="card-body">
+                    <ul id="menu_list"></ul>
+                  </div>
+                  <!-- Menu-Modal -->
+                  <div class="modal fade" id="menu_modal" tabindex="-1" area-labelledby="menu_modal_label" area-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="menu_modal_label">MENU（カテゴリー名）追加</h5>
+                          <button type="button" id="close_schedule" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                      </div>
-                      <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" id="add_menu_btn">登録</button>
+                        <div class="modal-body p-1">
+                          <div>
+                            <input type="text" name="add_menu" id="add_menu" class="form-control">
+                            <p class="text-center error-messages"></p>
+                          </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                          <button type="button" class="btn btn-primary" id="add_menu_btn">登録</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="order-1 order-md-2 col-md-9 py-3 report">
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-header date-picker-wrapper">日報
-                      <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
-                      <div class="get-day-wrapper d-inline-block">
-                        <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
-                        <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
+              <div class="order-1 order-md-2 col-md-9 py-3 report">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header date-picker-wrapper">日報
+                        <input type="text" id="datepicker" class="mx-3" name="datepicker" value="<?php echo $date; ?>" onChange="getData()">
+                        <div class="get-day-wrapper d-inline-block">
+                          <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(1)">前日</button>
+                          <button type="button" class="btn btn-secondary p-1 px-sm-2 other-day" onClick="getDay(2)">翌日</button>
+                        </div>
                       </div>
-                    </div>
-                    <div class="card-body report-contents">
-                      <form class="row">
-                        <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
-                        <input type="hidden" name="cookie_pass" id="cookie_pass" value="<?php echo isset($user['cookie_pass']) ? $user['cookie_pass'] : ''; ?>">
-                        <div class="form-group col-12 text-center col-sm-6 text-sm-start">
-                          <label for="work_time" class="col-md-3">出勤</label>
-                          <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
-                              onChange="workTime()"></div>
-                        </div>
-                        <div class="form-group col-12 text-center col-sm-6 text-sm-start">
-                          <label for="home_time" class="col-md-3">退勤</label>
-                          <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control"
-                              onChange="homeTime()"></div>
-                        </div>
-                      </form>
-                      <div class="cal-12 py-3">
-                        <div class="card">
-                          <div class="card-header">今後の予定</div>
-                          <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
-                            <!-- Button trigger modal -->
-                            <p id="task_contents" class="task-contents"></p>
+                      <div class="card-body report-contents">
+                        <form class="row">
+                          <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
+                          <input type="hidden" name="cookie_pass" id="cookie_pass" value="<?php echo isset($user['cookie_pass']) ? $user['cookie_pass'] : ''; ?>">
+                          <div class="form-group col-12 text-center col-sm-6 text-sm-start">
+                            <label for="work_time" class="col-md-3">出勤</label>
+                            <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
+                                onChange="workTime()"></div>
                           </div>
-                          <!-- Modal -->
-                          <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="report_modal_label">今後の予定</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body p-1">
-                                  <div>
-                                    <textarea class="form-control" name="edit_task" id="edit_task" rows="12"></textarea>
+                          <div class="form-group col-12 text-center col-sm-6 text-sm-start">
+                            <label for="home_time" class="col-md-3">退勤</label>
+                            <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control"
+                                onChange="homeTime()"></div>
+                          </div>
+                        </form>
+                        <div class="cal-12 py-3">
+                          <div class="card">
+                            <div class="card-header">今後の予定</div>
+                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
+                              <!-- Button trigger modal -->
+                              <p id="task_contents" class="task-contents"></p>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="report_modal_label">今後の予定</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
-                                </div>
-                                <div class="modal-footer d-flex justify-content-center">
-                                  <button type="button" class="btn btn-primary edit-btn" data-bs-dismiss="modal" onClick="editTask()">登録</button>
+                                  <div class="modal-body p-1">
+                                    <div>
+                                      <textarea class="form-control" name="edit_task" id="edit_task" rows="12"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary edit-btn" data-bs-dismiss="modal" onClick="editTask()">登録</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -170,8 +172,9 @@ EOF;
             </div>
           </div>
         </div>
-      </div>
-      <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+        <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
+      <?php elseif($user == null) : ?>
+        <?php header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_out'); ?>
       <?php else : 
         header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in');
       ?>
