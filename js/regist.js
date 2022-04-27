@@ -96,7 +96,6 @@ function SignIn() {
   const errorCount = signInCheck();
   let query = getFormData();
       query['status'] = $('input[name="keep_sign_in"]').prop('checked');
-  // let status = 
   if(errorCount == 0) {
     $.ajax({
       type: 'POST',

@@ -41,9 +41,27 @@ EOF;
     $stmt->execute();
     $user = array();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    //データベースのcookie_passと値が違う場合の代替え認証(pc/sp間両方ログインし片方でログアウトした場合に生じる)
+    if($user == null) {
+      $sql = <<<EOF
+        SELECT
+          no
+        FROM
+          tbl_task_user
+        WHERE
+          user_name = :user_name
+            AND
+          password = :password
+EOF;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam(':user_name', $_SESSION['user_name'], PDO::PARAM_STR);
+      $stmt->bindParam(':password', $_SESSION['password'], PDO::PARAM_STR);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
   }
   //ログイン非維持
-  else if($_SESSION != null && $_COOKIE['keep_session'] == null) {
+  elseif($_SESSION != null && $_COOKIE['keep_session'] == null) {
     $sql = <<<EOF
       SELECT
         no
@@ -98,6 +116,7 @@ EOF;
     </header>
     <main>
       <?php if(isset($user['no']) && $user['no'] == $userNo) : ?>
+      <?//php if(1==1) : ?>
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item"><a href="/self_portal_site_private/">Home</a></li>

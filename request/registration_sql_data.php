@@ -48,6 +48,8 @@ EOF;
           user_name = :user_name
             AND
           password = :password
+            AND
+          del_flg = 0
 EOF;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
@@ -57,7 +59,7 @@ EOF;
       $array = $stmt->fetch(PDO::FETCH_ASSOC);
       $_SESSION['user_name'] = $array['user_name'];
       $_SESSION['password'] = $array['password'];
-      if($status == 'true') {
+      if($status == 'true' && $array != null) {
         //下記読み込まれた時点からカウント開始
         session_regenerate_id();
         setcookie('keep_session', session_id(), time()+259200, '/', '', true);
