@@ -17,8 +17,13 @@ function clearForm() {
 function signUpCheck() {
   const query = getFormData();
   let errorCount = 0;
+  let pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
   if(query['user_name'] == '') {
     $('#error_username').html('&#x203B;名前は必須になります。');
+    errorCount++;
+  }
+  else if(!query['user_name'].match(pattern)) {
+    $('#error_username').html('&#x203B;正しいメールアドレスフォームを入力して下さい。');
     errorCount++;
   }
   else {
@@ -80,7 +85,7 @@ function registUser() {
           window.location.href = '/self_portal_site_private/registration/registed';
         }
         else {
-          $('#error_password').html('&#x203B;既に登録されているパスワードになります。');
+          $('#error_password').html('&#x203B;既に登録されている組み合わせになります。');
         }
       },
       function(jgXHR, textStatus, errorThrown) {

@@ -13,8 +13,12 @@ class sessionLogic {
     else {
       //新しくログインする場合
       $_SESSION = array();
+      //32ビット乱数を生成
       $token_byte = openssl_random_pseudo_bytes(32);
+      //乱数をバイナリから文字列に変換
       $csrf_token = bin2hex($token_byte);
+      //文字列乱数を暗号化
+      $csrf_token = base64_encode($csrf_token);
       $_SESSION['token'] = $csrf_token;
       return $rtn;
     }

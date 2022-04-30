@@ -3,6 +3,8 @@ include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
   $result = $logic->signIn();
+  //クリックジャッキング対策
+  header('X-FRAME-OPTIONS: DENY');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
