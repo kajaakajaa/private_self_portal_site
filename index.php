@@ -70,7 +70,6 @@ EOF;
     </header>
     <main>
       <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user) && $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
-      <?//php if(1==1) : ?>
         <nav aria-label="breadcrumb" class="d-flex justify-content-between">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item active" aria-current="page">Home</li>
@@ -141,7 +140,7 @@ EOF;
                             <div class="card-header">今後の予定</div>
                             <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
                               <!-- Button trigger modal -->
-                              <p id="task_contents" class="task-contents"></p>
+                              <div id="task_contents" class="task-contents"></div>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">

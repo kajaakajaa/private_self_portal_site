@@ -5,6 +5,7 @@ $(()=> {
   $('#datepicker').datepicker();
 });
 
+
 //ページの先頭へ戻る
 $(window).scroll(()=> {
   if($(this).scrollTop() > 100) {
@@ -63,8 +64,11 @@ function setListShift() {
 //テキスト内リンクへの変換
 function replaceLink() {
   $('.task-contents').each(function() {
+    //url→リンク変換
     $(this).html($(this).html().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
     '<a href="$1" target="_blank" rel="noopener noreferrer" style="word-break: break-all;">$1</a>'));
+    //メアド→リンク変換
+    $(this).html($(this).html().replace(/((?:\w+\.?)*\w+@(?:\w+\.)+\w+)/gi, '<a href="mailto:$1">$1</a>'));
   });
 }
 
