@@ -26,9 +26,25 @@ EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
     $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
-    $result = $stmt->execute();
+    $array = array();
+    $array['result'] = $stmt->execute();
+    $sql = <<<EOF
+      SELECT
+        user_name
+      FROM
+        tbl_task_user
+      WHERE
+        user_name = :user_name
+          AND
+        password = :password
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
+    $stmt->execute();
+    $array['user_name'] = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
-    echo json_encode($result);
+    echo json_encode($array);
   break;
 
   case 'sign_in':

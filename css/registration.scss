@@ -8,6 +8,20 @@
   margin-top: 100px;
 }
 
+#complete {
+  display: none;
+  & > h4 {
+    font-size: 1.25rem;
+  }
+  & > p {
+    color:rgb(255, 0, 0);
+    font-size: 1.25rem;
+    @media(max-width: '576px') {
+      font-size: 1rem;
+    }
+  }
+}
+
 .sign-in-out-refuse {
   color:rgb(255, 0, 0);
 }

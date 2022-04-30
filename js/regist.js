@@ -80,9 +80,28 @@ function registUser() {
     .then(
       function(data) {
         console.log(data);
-        if(data == true) {
+        if(data.result == true) {
           $('#error_password').html('');
-          window.location.href = '/self_portal_site_private/registration/registed';
+          $('#sign_up').hide();
+          $('#complete').show();
+          let query2 = {};
+              query2['user_name'] = data.user_name.user_name;
+          $.ajax({
+            type: 'POST',
+            url: '/self_portal_site_private/request/send_mail?mode=regist_info',
+            data: query2,
+            dataType: 'html'
+          })
+          .then(
+            (data)=> {
+              console.log(data);
+            },
+            (jgXHR, textStatus, errorThrown)=> {
+              console.log(jgXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          );
         }
         else {
           $('#error_password').html('&#x203B;既に登録されている組み合わせになります。');
@@ -112,8 +131,26 @@ function SignIn() {
       function(data) {
         console.log(data);
         if(data) {
+          let user = {};
+              user['user_name'] = data.user_name;
           $('#error_password').html('');
           window.location.href = '/self_portal_site_private/';
+          $.ajax({
+            type: 'POST',
+            url: '/self_portal_site_private/request/send_mail?mode=sign_info',
+            data: user,
+            dataType: 'html'
+          })
+          .then(
+            (data)=> {
+              console.log(data);
+            },
+            (jgXHR, textStatus, errorThrown)=> {
+              console.log(jgXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          );
         }
         else if(data == false) {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
