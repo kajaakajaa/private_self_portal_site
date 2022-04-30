@@ -28,33 +28,40 @@
       </div>
     </header>
     <main id="sign_up_wrapper">
-      <h2 class="text-center mb-5">新規登録</h2>
-      <form class="m-3">
-        <div class="form-group row d-flex justify-content-center m-3">
-          <label for="user_name" class="col-md-2 col-form-label">メール<span class="badge bg-warning mx-1">必須</span></label>
-          <div class="col-md-7 col-lg-5">
-            <input type="text" name="user_name" id="user_name" class="form-control">
-            <p class="m-0" id="error_username"></p>
+      <div id="sign_up">
+        <h2 class="text-center mb-5">新規登録</h2>
+        <form class="m-3">
+          <div class="form-group row d-flex justify-content-center m-3">
+            <label for="user_name" class="col-md-2 col-form-label">メール<span class="badge bg-warning mx-1">必須</span></label>
+            <div class="col-md-7 col-lg-5">
+              <input type="text" name="user_name" id="user_name" class="form-control">
+              <p class="m-0" id="error_username"></p>
+            </div>
           </div>
-        </div>
-        <div class="form-group row d-flex justify-content-center m-3">
-          <label for="password" class="col-md-2 col-form-label">パスワード<span class="badge bg-warning mx-1">必須</span></label>
-          <div class="col-md-7 col-lg-5">
-            <input type="password" name="password" id="password" class="form-control">
-            <p class="m-0" id="error_password"></p>
+          <div class="form-group row d-flex justify-content-center m-3">
+            <label for="password" class="col-md-2 col-form-label">パスワード<span class="badge bg-warning mx-1">必須</span></label>
+            <div class="col-md-7 col-lg-5">
+              <input type="password" name="password" id="password" class="form-control">
+              <p class="m-0" id="error_password"></p>
+            </div>
           </div>
-        </div>
-        <div class="form-group row d-flex justify-content-center m-3">
-          <label for="password_confirm" class="col-md-2 col-form-label">パスワード確認<span class="badge bg-warning mx-1">必須</span></label>
-          <div class="col-md-7 col-lg-5">
-            <input type="password" name="password_confirm" id="password_confirm" class="form-control">
-            <p class="m-0" id="error_password_confirm"></p>
+          <div class="form-group row d-flex justify-content-center m-3">
+            <label for="password_confirm" class="col-md-2 col-form-label">パスワード確認<span class="badge bg-warning mx-1">必須</span></label>
+            <div class="col-md-7 col-lg-5">
+              <input type="password" name="password_confirm" id="password_confirm" class="form-control">
+              <p class="m-0" id="error_password_confirm"></p>
+            </div>
           </div>
-        </div>
-        <div class="col-12 mt-5 d-flex justify-content-center">
-          <button type="button" class="btn btn-primary" onClick="registUser()">登録する</button>
-        </div>
-      </form>
+          <div class="col-12 mt-5 d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" onClick="registUser()">登録する</button>
+          </div>
+        </form>
+      </div>
+      <!-- 登録完了画面 -->
+      <div class="container sign-up-wrapper" id="complete">
+        <h4 class="m-4 text-center">新規登録完了。</h4>
+        <p class="text-center">登録確認のメールを送信致しましたので、メール内添え付けのリンクよりログインして下さい。</p>
+      </div>
     </main>
     <footer>
       <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">

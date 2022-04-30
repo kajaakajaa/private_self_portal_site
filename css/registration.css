@@ -9,6 +9,25 @@
   margin-top: 100px;
 }
 
+#complete {
+  display: none;
+}
+
+#complete > h4 {
+  font-size: 1.25rem;
+}
+
+#complete > p {
+  color: red;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 576px) {
+  #complete > p {
+    font-size: 1rem;
+  }
+}
+
 .sign-in-out-refuse {
   color: red;
 }
