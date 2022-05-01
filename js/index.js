@@ -51,6 +51,9 @@ function setListShift() {
       $('#work_time').val(data.user.work_time);
       $('#home_time').val(data.user.home_time);
       $('#task_contents').html(data.task.schedule);
+      $('#task_contents').css({
+        'color': 'white'
+      });
       replaceLink();
     },
     function(jgHXR, textStatus, errorThrown) {

@@ -14,17 +14,58 @@ body > .container-fluid {
   grid-template-rows: auto 1fr auto;
 }
 
+header > div, footer > div, .date-picker-wrapper, #contents_header, #menu_header {
+  background-color: #0b7c02;
+}
+header > div {
+  border-bottom: solid .1px white;
+}
+
+#contents_header, #report_modal_label {
+  color: white;
+}
+#report_plan_title {
+  background-color: 0b7c02;
+  h5 {
+    color: white;
+  }
+  textarea {
+    background-color: black;
+    color: white;
+  }
+}
+#report_modal_label {
+  color: white;
+}
+
 header {
   grid-row: 1;
   height: 50px;
+  h1 {
+    color: white;
+  }
 }
 main {
   grid-row: 2;
   margin-top: 50px;
+  #header_navbar {
+    background-color: black;
+    border-bottom: solid .1px white;
+  }
+  #border_top_change {
+    border-top: none;
+  }
 }
 footer {
   grid-row: 3;
   height: 50px;
+
+  & p {
+    color: white;
+  }
+}
+#main_index {
+  background-color: black;
 }
 
 @mixin warningMessage {
@@ -40,7 +81,9 @@ footer {
   @include warningMessage;
 }
 .report {
+  background-color: black;
   .date-picker-wrapper {
+    color: white;
     #datepicker {
       width: 50%;
       padding: 0.1rem 0.5rem;
@@ -57,9 +100,27 @@ footer {
     }
   }
   .report-contents {
+    background-color: black;
+    #work_time_label,
+    #home_time_label {
+      color: white;
+    }
     .regist-btn {
       width: 20%;
     }
+    #report_contents {
+      background-color: black;
+    }
+  }
+}
+
+.menu {
+  background-color: black;
+  #menu_body {
+    background-color: black;
+  }
+  #menu_list {
+    color: white;
   }
 }
 

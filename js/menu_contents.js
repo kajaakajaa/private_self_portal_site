@@ -158,7 +158,13 @@ function setListCategory() {
     function(data) {
       console.log(data);
         $('#category_name').html(data.menu.category_name);
+        $('#category_name').css({
+          'color': 'white'
+        });
         $('#category_contents').html(data.contents_nobr);
+        $('#category_contents').css({
+          'color': 'white'
+        });
         $('#edit_category_contents').val(data.category.contents);
         $('.error-messages').html('');
         $('#name_change_modal').modal('hide');

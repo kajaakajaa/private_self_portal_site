@@ -17,7 +17,7 @@ function clearForm() {
 function signUpCheck() {
   const query = getFormData();
   let errorCount = 0;
-  let pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+  let pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+\.[A-Za-z0-9]+$/;
   if(query['user_name'] == '') {
     $('#error_username').html('&#x203B;名前は必須になります。');
     errorCount++;

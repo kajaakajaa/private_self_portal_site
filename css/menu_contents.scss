@@ -4,8 +4,19 @@
   font-size: 16px;
 }
 
+#menu_contents_main {
+  background-color: black;
+}
+
 //categoryページcss↓
 .category {
+  #category_header_name {
+    background-color: #0b7c02;
+    #change_name {
+      background-color: #fffc00;
+      color: black;
+    }
+  }
   #category_contents {
     margin: 0;
   }
@@ -19,6 +30,9 @@
   }
   #category_contents_wrapper {
     display: none;
+  }
+  #edit_category {
+    background-color: black;
   }
 }
 .request-refuse {
