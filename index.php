@@ -64,13 +64,13 @@ EOF;
 <body>
   <div class="container-fluid p-0">
     <header class="fixed-top">
-      <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
+      <div class="container-fluid h-100 d-flex justify-content-center align-items-center">
       <h1 class="m-0">Task</h1>
       </div>
     </header>
-    <main>
+    <main id="main_index">
       <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user) && $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
-        <nav aria-label="breadcrumb" class="d-flex justify-content-between">
+        <nav aria-label="breadcrumb" class="d-flex justify-content-between" id="header_navbar">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item active" aria-current="page">Home</li>
           </ol>
@@ -78,13 +78,13 @@ EOF;
             <a id="sign_out" onClick="signOut()">ログアウト&gt;</a>
           </div>
         </nav>
-        <div class="card">
+        <div class="card" id="border_top_change">
           <div class="container-fluid">
             <div class="row">
               <div class="order-2 order-md-1 col-md-3 py-3 menu">
                 <div class="card">
-                  <div class="card-header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
-                  <div class="card-body">
+                  <div class="card-header" id="menu_header">MENU<span class="badge bg-primary mx-2 add-menu-btn" data-bs-toggle="modal" data-bs-target="#menu_modal" title="カテゴリーの追加">追加&plus;</span></div>
+                  <div class="card-body" id="menu_body">
                     <ul id="menu_list"></ul>
                   </div>
                   <!-- Menu-Modal -->
@@ -125,34 +125,34 @@ EOF;
                           <input type="hidden" name="user_no" id="user_no" value="<?php echo $userNo; ?>">
                           <input type="hidden" name="cookie_pass" id="cookie_pass" value="<?php echo isset($user['cookie_pass']) ? $user['cookie_pass'] : ''; ?>">
                           <div class="form-group col-12 text-center col-sm-6 text-sm-start">
-                            <label for="work_time" class="col-md-3">出勤</label>
+                            <label for="work_time" class="col-md-3" id="work_time_label">出勤</label>
                             <div class="cal-md-9"><input type="time" name="work_time" id="work_time" class="form-control"
                                 onChange="workTime()"></div>
                           </div>
                           <div class="form-group col-12 text-center col-sm-6 text-sm-start">
-                            <label for="home_time" class="col-md-3">退勤</label>
+                            <label for="home_time" class="col-md-3" id="home_time_label">退勤</label>
                             <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control"
                                 onChange="homeTime()"></div>
                           </div>
                         </form>
                         <div class="cal-12 py-3">
                           <div class="card">
-                            <div class="card-header">今後の予定</div>
-                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" onClick="reflectTask()">
+                            <div class="card-header" id="contents_header">今後の予定</div>
+                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" id="report_contents" onClick="reflectTask()">
                               <!-- Button trigger modal -->
                               <div id="task_contents" class="task-contents"></div>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal_label" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                <div class="modal-content">
+                                <div class="modal-content" id="report_plan_title">
                                   <div class="modal-header">
                                     <h5 class="modal-title" id="report_modal_label">今後の予定</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body p-1">
                                     <div>
-                                      <textarea class="form-control" name="edit_task" id="edit_task" rows="12"></textarea>
+                                      <textarea class="form-control" name="edit_task" id="edit_task" rows="20"></textarea>
                                     </div>
                                   </div>
                                   <div class="modal-footer d-flex justify-content-center">
@@ -180,7 +180,7 @@ EOF;
       <?php endif; ?>
     </main>
     <footer>
-      <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
+      <div class="h-100 footer d-flex justify-content-center align-items-center">
         <p class="m-0"><small>&copy; 2022 Arakawa</small></p>
       </div>
     </footer>

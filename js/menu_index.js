@@ -55,6 +55,9 @@ function setListMenu() {
           + value.category_name + '</a></li>';
       });
       $('#menu_list').html(contents);
+      $('#menu_list a').css({
+        'color': '#5196f9'
+      });
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);

@@ -6,7 +6,16 @@
 #sign_up_wrapper, #sign_in_wrapper, #sign_out_wrapper {
   -ms-grid-row: 2;
   grid-row: 2;
-  margin-top: 100px;
+  padding-top: 50px;
+  background-color: black;
+}
+
+.text-color {
+  color: white;
+}
+
+.warning-text-color {
+  color: black;
 }
 
 #complete {
@@ -42,7 +51,7 @@
 }
 
 #sign_out {
-  color: #0d6efd;
+  color: #5196f9;
   text-decoration: underline;
   cursor: pointer;
 }

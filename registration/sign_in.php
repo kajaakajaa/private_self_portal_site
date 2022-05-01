@@ -33,7 +33,7 @@ include_once('../config/console_log.php');
 <body>
   <div class="container-fluid p-0">
     <header class="fixed-top">
-      <div class="container-fluid bg-light h-100 d-flex justify-content-center align-items-center">
+      <div class="container-fluid h-100 d-flex justify-content-center align-items-center">
         <h1 class="m-0">Task</h1>
       </div>
     </header>
@@ -42,18 +42,18 @@ include_once('../config/console_log.php');
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">&#x203B;既にログイン済みです。</h5>
         <div class="d-flex justify-content-center"><a href="/self_portal_site_private/">Myページへ</a></div>
       <?php else : ?>
-        <h2 class="text-center mb-5">ログイン</h2>
+        <h2 class="text-center mb-5 text-color">ログイン</h2>
         <form class="m-3">
           <input type="hidden" name="sign_in_token" id="sign_in_token" value="<?php echo $_SESSION['token']; ?>">
           <div class="form-group row d-flex justify-content-center m-3">
-            <label for="user_name" class="col-md-2 col-form-label">メール</label>
+            <label for="user_name" class="col-md-2 col-form-label text-color">メール</label>
             <div class="col-md-7 col-lg-5">
               <input type="text" name="user_name" id="user_name" class="form-control">
               <p class="m-0" id="error_username"></p>
             </div>
           </div>
           <div class="form-group row d-flex justify-content-center m-3">
-            <label for="password" class="col-md-2 col-form-label">パスワード</label>
+            <label for="password" class="col-md-2 col-form-label text-color">パスワード</label>
             <div class="col-md-7 col-lg-5">
               <input type="password" name="password" id="password" class="form-control">
               <p class="m-0" id="error_password"></p>
@@ -61,7 +61,7 @@ include_once('../config/console_log.php');
           </div>
           <div class="col-12 mt-5 d-flex justify-content-center">
             <input type="checkbox" class="form-check-input" name="keep_sign_in" id="keep_sign_in">&nbsp;
-            <label for="keep_sign_in" class="form-check-label">ログインを維持する</label>
+            <label for="keep_sign_in" class="form-check-label text-color">ログインを維持する</label>
           </div>
           <div class="col-12 mt-3 d-flex justify-content-center">
             <button type="button" class="btn btn-primary" onClick="SignIn()">送信</button>
@@ -71,7 +71,7 @@ include_once('../config/console_log.php');
       <?php endif; ?>
     </main>
     <footer>
-      <div class="bg-light h-100 footer d-flex justify-content-center align-items-center">
+      <div class="h-100 footer d-flex justify-content-center align-items-center">
         <p class="m-0"><small>&copy; 2022 Arakawa</small></p>
       </div>
     </footer>
