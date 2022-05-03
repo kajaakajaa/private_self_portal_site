@@ -143,7 +143,6 @@ function SignIn() {
           })
           .then(
             (data)=> {
-              console.log(data);
             },
             (jgXHR, textStatus, errorThrown)=> {
               console.log(jgXHR);

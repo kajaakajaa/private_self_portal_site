@@ -85,9 +85,19 @@ EOF;
           SET
             cookie_pass = :cookie_pass
           WHERE
-            user_name = :user_name
-              AND
-            password = :password
+            !EXISTS
+            (
+              SELECT
+                *
+              FROM
+                tbl_task_user
+              WHERE
+                cookie_pass = :cookie_pass
+            )
+            AND
+          user_name = :user_name
+            AND
+          password = :password
 EOF;
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
@@ -95,8 +105,25 @@ EOF;
         $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
         $stmt->execute();
       }
-      header('Content-type: application/json; charset=UTF-8');
-      echo json_encode($array);
+      if($stmt->rowCount() > 0) {
+        $array['result'] = '重複なし保存成功';
+        header('Content-type: application/json; charset=UTF-8');
+        echo json_encode($array);
+      }
+      else {
+        while($stmt->rowCount() == 0) {
+          session_regenerate_id();
+          setcookie('keep_session', session_id(), time()+259200, '/', '', true);
+          $stmt = $dbh->prepare($sql);
+          $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
+          $stmt->bindParam(':password', $array['password'], PDO::PARAM_STR);
+          $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
+          $stmt->execute();
+          $array['result'] = '重複処理成功';
+        }
+        header('Content-type: application/json; charset=UTF-8');
+        echo json_encode($array);
+      }
     }
     else {
       header('Content-type: application/json; charset=UTF-8');

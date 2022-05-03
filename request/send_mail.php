@@ -13,7 +13,6 @@ switch($mode) {
       . 'https://kajaaserver.com/self_portal_site_private/registration/sign_in';
     $headers = 'From: 登録完了のお知らせ<info@kajaaserver.com>';
     mb_send_mail($to, $subject, $message, $headers);
-    var_dump(mb_send_mail()->errorInfo());
   break;
   
   case 'sign_info' :
@@ -21,11 +20,12 @@ switch($mode) {
     mb_internal_encoding('UTF-8');
     $to = $_POST['user_name'];
     $subject = "【TASK】へログインのお知らせ";
-    $message = "【TASK】へログイン致しました。\n\n"
-      . "※万一当メールに身に覚えが無ければ、お手数ではございますが\n"
-      . "下記アドレス迄ご連絡下さい。\n\n"
-      . "【お問合せ】info@kajaaserver.com";
-    $headers = 'From: ログイン確認致しました<info@kajaaserver.com>';
+    $message = "【TASK】へ" . $_POST['user_name'] . "さんがログイン致しました。\n\n"
+      . "※尚、ログインに身に覚えがありましたらこのメールを無視して下さい。\n"
+      . "身に覚えが無ければアカウント停止の申請をお勧め致します。\n"
+      . "その際は下記問い合わせから件名より'アカウント停止'を入力し送信して下さい。\n\n"
+      . "【問い合わせ】info@kajaaserver.com";
+    $headers = 'From: ログイン確認を致しました<info@kajaaserver.com>';
     mb_send_mail($to, $subject, $message, $headers);
   break;
 }
