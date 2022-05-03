@@ -143,9 +143,9 @@ EOF;
                   </div>
                 </div>
                 <!-- 名前変更Modal -->
-                <div class="modal fade" id="name_change_modal" tabindex="-1" aria-labelledby="name_change_modal_label" aria-hidden="true">
+                <div class="modal fade" id="name_change_modal" tabindex="-1" aria-labelledby="name_change_modal_label" aria-hidden="true" data-bs-backdrop="static">
                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
+                    <div class="modal-content" id="name_change_modal_content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="name_change_modal_label">MENU（カテゴリー名）変更</h5>
                         <button type="button" class="btn-close name-change-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -166,7 +166,7 @@ EOF;
                 <div class="modal fade" id="confirm_delete" tabindex="-1" aria-labelledby="confirm_delete_label"
                   aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
+                    <div class="modal-content" id="delete_modal">
                       <div class="modal-header">
                         <h5 class="modal-title" id="confirm_delete_label"><?php echo $categoryName; ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -186,10 +186,11 @@ EOF;
                 <div class="card-body" id="edit_category">
                   <p id="category_contents"></p>
                   <div id="category_contents_wrapper">
-                    <textarea class="form-control" rows="10" name="edit_category_contents"
-                      id="edit_category_contents"></textarea>
-                    <div class="d-flex justify-content-center">
-                      <button type="button" id="close_category" class="btn btn-primary m-3 mb-0">登録</button>
+                    <textarea class="form-control" rows="20" name="edit_category_contents"
+                      id="edit_category_contents">
+                    </textarea>
+                    <div class="modal-footer d-flex justify-content-center">
+                      <button type="button" id="close_category" class="btn btn-primary m-1">登録</button>
                     </div>
                   </div>
                 </div>

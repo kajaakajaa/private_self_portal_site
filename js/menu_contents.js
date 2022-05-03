@@ -12,7 +12,7 @@ $(()=> {
   })
 
   //category内容編集
-  $('#edit_category_btn').on('click', ()=> {
+  $('#edit_category_btn, #edit_category').on('click', ()=> {
     $('#category_contents').hide();
     $('#category_contents_wrapper').show();
     $('#edit_category_close').show();

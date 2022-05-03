@@ -42,6 +42,10 @@ header > div {
   color: white;
 }
 
+#report_plan_title .modal-footer button {
+  border: solid .1px white;
+}
+
 #report_modal_label {
   color: white;
 }
@@ -142,6 +146,36 @@ footer p {
 
 .menu #menu_body {
   background-color: black;
+}
+
+.menu #add_category {
+  border: solid .1px white;
+}
+
+.menu #add_category .modal-header {
+  background-color: #0b7c02;
+}
+
+.menu #add_category .modal-header h5 {
+  color: white;
+}
+
+.menu #add_category .modal-body {
+  background-color: #0b7c02;
+  padding: 4px;
+}
+
+.menu #add_category .modal-body input {
+  background-color: black;
+  color: white;
+}
+
+.menu #add_category .modal-footer {
+  background-color: #0b7c02;
+}
+
+.menu #add_category .modal-footer button {
+  border: solid .1px white;
 }
 
 .menu #menu_list {

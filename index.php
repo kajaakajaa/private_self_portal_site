@@ -88,9 +88,9 @@ EOF;
                     <ul id="menu_list"></ul>
                   </div>
                   <!-- Menu-Modal -->
-                  <div class="modal fade" id="menu_modal" tabindex="-1" area-labelledby="menu_modal_label" area-hidden="true">
+                  <div class="modal fade" id="menu_modal" tabindex="-1" area-labelledby="menu_modal_label" area-hidden="true" data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                      <div class="modal-content">
+                      <div class="modal-content" id="add_category">
                         <div class="modal-header">
                           <h5 class="modal-title" id="menu_modal_label">MENU（カテゴリー名）追加</h5>
                           <button type="button" id="close_schedule" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
