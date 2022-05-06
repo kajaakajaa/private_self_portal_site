@@ -55,7 +55,7 @@ function setListMenu() {
           + value.category_name + '</a></li>';
       });
       $('#menu_list').html(contents);
-      $('#menu_list a').css({
+      $('#menu_list a:even').css({
         'color': '#5196f9'
       });
     },
