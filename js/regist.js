@@ -49,8 +49,13 @@ function signUpCheck() {
 function signInCheck() {
   const query = getFormData();
   let errorCount = 0;
+  let pattern = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+\.[A-Za-z0-9]+$/;
   if(query['user_name'] == '') {
     $('#error_username').html('&#x203B;名前は必須になります。');
+    errorCount++;
+  }
+  else if(!query['user_name'].match(pattern)) {
+    $('#error_username').html('&#x203B;正しいメールアドレスフォームを入力して下さい。');
     errorCount++;
   }
   else {
@@ -128,8 +133,7 @@ function SignIn() {
       dataType: 'json'
     })
     .then(
-      function(data) {
-        console.log(data);
+      (data)=> {
         if(data) {
           let user = {};
               user['user_name'] = data.user_name;
@@ -151,11 +155,12 @@ function SignIn() {
             }
           );
         }
-        else {
+        else if(data == false) {
+          //tokenが不一致な場合
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
         }
       },
-      function(jgXHR, textStatus, errorThrown) {
+      (jgXHR, textStatus, errorThrown)=> {
         console.log(jgXHR);
         console.log(textStatus);
         console.log(errorThrown);
