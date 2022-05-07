@@ -30,7 +30,7 @@ header > div {
 }
 
 #report_plan_title {
-  background-color: 0b7c02;
+  background-color: #0b7c02;
 }
 
 #report_plan_title h5 {
@@ -89,7 +89,7 @@ footer p {
   background-color: black;
 }
 
-.add-menu-btn, .menu-index-list, .category-name-change {
+.add-menu-btn, .category-name-change {
   cursor: pointer;
 }
 

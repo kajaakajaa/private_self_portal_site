@@ -151,7 +151,7 @@ function SignIn() {
             }
           );
         }
-        else if(data == false) {
+        else {
           $('#error_password').html('&#x203B;登録がお済みでない様です。');
         }
       },
