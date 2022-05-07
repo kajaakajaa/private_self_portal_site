@@ -51,7 +51,7 @@ EOF;
     session_start();
     $token = h(filter_input(INPUT_POST, 'token'));
     $status = filter_input(INPUT_POST, 'status');
-    if($_SESSION['token'] === $token) {
+    if($_SESSION['token'] == $token) {
       $userName = h(filter_input(INPUT_POST, 'user_name'));
       $passWord = h(filter_input(INPUT_POST, 'password'));
       $sql = <<<EOF
@@ -75,6 +75,11 @@ EOF;
       $array = $stmt->fetch(PDO::FETCH_ASSOC);
       $_SESSION['user_name'] = $array['user_name'];
       $_SESSION['password'] = $array['password'];
+      if($array == null) {
+        header('Content-type: application/json; charset=UTF-8');
+        echo json_encode(false);
+        die();
+      }
       if($status == 'true' && $array != null) {
         //下記読み込まれた時点からカウント開始
         session_regenerate_id();
@@ -105,6 +110,7 @@ EOF;
         $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
         $stmt->execute();
       }
+      //↑の時点で重複、非重複関わらずアップデート出来てしまうので↓で判定する
       if($stmt->rowCount() > 0) {
         $array['result'] = '重複なし保存成功';
         header('Content-type: application/json; charset=UTF-8');
