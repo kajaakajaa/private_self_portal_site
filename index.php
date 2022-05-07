@@ -16,8 +16,9 @@ include_once('session_logic/sessionLogic.php');
   session_start();
   session_regenerate_id();
   console_log($_SESSION);
-  //クッキーログイン時
-  if(isset($_COOKIE['keep_session']) && $_SESSION == null) {
+  $result = false;
+  //クッキーログイン時（cookie情報が在り、且つcookie認証が通ればtrue）
+  if(isset($_COOKIE['keep_session']) && $_SESSION['user_name'] == null && $_SESSION['password'] == null) {
     $sql = <<<EOF
       SELECT
         no,
@@ -33,6 +34,14 @@ EOF;
     $user = array();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $userNo = $user['no'];
+    $result = $user != null ? true : false;
+  }
+  //ログインsession情報が在ればtrue（ログイン維持/非維持関係なくuser_name/passwordセッションが優先)
+  elseif(isset($_SESSION['user_name']) && isset($_SESSION['password'])) {
+    $result = true;
+  }
+  if($result == false) {
+    header('Location: /self_portal_site_private/registration/sign_out');
   }
 ?>
 <!DOCTYPE html>
@@ -69,7 +78,7 @@ EOF;
       </div>
     </header>
     <main id="main_index">
-      <?php if($_SESSION['user_name'] && $_SESSION['password'] || isset($user) && $user['cookie_pass'] == $_COOKIE['keep_session'] ) : ?>
+      <?php if($result == true) : ?>
         <nav aria-label="breadcrumb" class="d-flex justify-content-between" id="header_navbar">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item active" aria-current="page">Home</li>
@@ -172,11 +181,6 @@ EOF;
           </div>
         </div>
         <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>
-      <?php elseif($user == null) : ?>
-        <?php header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_out'); ?>
-      <?php else : 
-        header('Location: https://kajaaserver.com/self_portal_site_private/registration/sign_in');
-      ?>
       <?php endif; ?>
     </main>
     <footer>
