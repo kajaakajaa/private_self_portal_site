@@ -147,14 +147,12 @@ function getFormData() {
 
 //テキスト内リンクへの変換
 function replaceLink() {
-  // $('.category-contents').each(function() {
-    let cont = $('#category_contents');
-    //url→リンク変換
-    $(cont).html($(cont).html().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
-    '<a href="$1" target="_blank" rel="noopener noreferrer" style="word-break: break-all;">$1</a>'));
-    //メアド→リンク変換
-    $(cont).html($(cont).html().replace(/((?:\w+\.?)*\w+@(?:\w+\.)+\w+)/gi, '<a href="mailto:$1">$1</a>'));
-  // });
+  let cont = $('#category_contents');
+  //url→リンク変換
+  $(cont).html($(cont).html().replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+  '<a id="jump" href="$1" target="_blank" rel="noopener, noreferrer" style="word-break: break-all;">$1</a>'));
+  //メアド→リンク変換
+  $(cont).html($(cont).html().replace(/((?:\w+\.?)*\w+@(?:\w+\.)+\w+)/gi, '<a href="mailto:$1">$1</a>'));
 }
 
 //オンロード時に読み込まれる
