@@ -72,7 +72,7 @@ main #header_navbar {
 }
 
 main #border_top_change {
-  border-top: none;
+  border: none;
 }
 
 footer {
