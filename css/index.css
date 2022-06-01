@@ -127,6 +127,18 @@ footer p {
   background-color: black;
 }
 
+.report .report-contents form > p {
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+  margin-bottom: 0;
+}
+
 .report .report-contents #work_time_label,
 .report .report-contents #home_time_label {
   color: white;
