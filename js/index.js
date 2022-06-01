@@ -29,11 +29,33 @@ function formDataTemplate() {
   return query;
 }
 
+function salary([[work_time, home_time], date]) {
+  let work_time_ts = date + ' ' + work_time;
+      work_time_ts = new Date(work_time_ts);
+  let home_time_ts = date + ' ' + home_time;
+      home_time_ts = new Date(home_time_ts);
+  let worked = home_time_ts.getTime() - work_time_ts.getTime();
+      worked = worked / (1000 * 60 * 60);
+  let mid_night_hour = date + ' 22:00';
+      mid_night_hour = new Date();
+  let time_payment = 1100; //時給1,100円
+  let amount = Math.floor(worked * time_payment)
+  if(home_time_ts.getTime() > mid_night_hour.getTime()) {
+    let after_ten = home_time_ts.getTime() - mid_night_hour.getTime();
+    // Math.floor( 1.4444444 * Math.pow( 10, n ) ) / Math.pow( 10, n ) ;
+        after_ten = after_ten / (1000 * 60 * 60);
+        after_ten = Math.round(after_ten * Math.pow(10, 2)) / Math.pow(10, 2);
+        midnight_payment = time_payment * 0.25 * after_ten;
+        amount = Math.floor(worked * time_payment + midnight_payment);
+  }
+  $('#amount').html(amount);
+}
+
 //オンロード時に取得するデフォルト値
 function setListShift() {
   let date = $('#datepicker').val();
       date = date.slice(0, 10);
-  let query = {};
+      let query = {};
       query['work_date'] = date;
       if($('#user_no').val() != '') {
         query['user_no'] = $('#user_no').val();
@@ -47,6 +69,7 @@ function setListShift() {
   .then(
     function(data) {
       console.log(data);
+      salary([[data.user.work_time, data.user.home_time], date])
       $('#user_no').val(data.user_no.no);
       $('#work_time').val(data.user.work_time);
       $('#home_time').val(data.user.home_time);
@@ -78,6 +101,9 @@ function replaceLink() {
 //出勤記録
 function workTime() {
   const query = formDataTemplate();
+  const date = query['work_date'];
+  const work_time = query['work_time'];
+  const home_time = query['home_time'];
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=work_time',
@@ -87,6 +113,7 @@ function workTime() {
   .then(
     function(data) {
       console.log(data);
+      salary([[work_time, home_time], date]);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);
@@ -99,6 +126,9 @@ function workTime() {
 //退勤記録
 function homeTime() {
   const query = formDataTemplate();
+  const date = query['work_date'];
+  const work_time = query['work_time'];
+  const home_time = query['home_time'];
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=home_time',
@@ -108,6 +138,7 @@ function homeTime() {
   .then(
     function(data) {
       console.log(data);
+      salary([[work_time, home_time], date]);
     },
     function(jgXHR, textStatus, errorThrown) {
       console.log(jgXHR);

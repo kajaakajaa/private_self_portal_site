@@ -143,8 +143,9 @@ EOF;
                             <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control"
                                 onChange="homeTime()"></div>
                           </div>
+                          <p>稼ぎ：<span id="amount"></span>&nbsp;円</p>
                         </form>
-                        <div class="cal-12 py-3">
+                        <div class="cal-12 pb-3">
                           <div class="card">
                             <div class="card-header" id="contents_header">今後の予定</div>
                             <div class="card-body" data-bs-toggle="modal" data-bs-target="#report_modal" id="report_contents" onClick="reflectTask()">
