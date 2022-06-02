@@ -36,15 +36,17 @@ function salary([[work_time, home_time], date]) {
       home_time_ts = new Date(home_time_ts);
   let worked = home_time_ts.getTime() - work_time_ts.getTime();
       worked = worked / (1000 * 60 * 60);
+      worked = Math.round(worked * Math.pow(10, 2)) / Math.pow(10, 2);
   let mid_night_hour = date + ' 22:00';
       mid_night_hour = new Date();
   let time_payment = 1100; //時給1,100円
   let amount = Math.floor(worked * time_payment)
   if(home_time_ts.getTime() > mid_night_hour.getTime()) {
     let after_ten = home_time_ts.getTime() - mid_night_hour.getTime();
-    // Math.floor( 1.4444444 * Math.pow( 10, n ) ) / Math.pow( 10, n ) ;
         after_ten = after_ten / (1000 * 60 * 60);
+        // ↓ 時刻1:00(1時間単位)以下.. 0:56、等半端な時間だと端数が出るのでそれを小数第二位で四捨五入するロジック
         after_ten = Math.round(after_ten * Math.pow(10, 2)) / Math.pow(10, 2);
+        // ↑ 時刻1:00(1時間単位)以下.. 0:56、等半端な時間だと端数が出るのでそれを小数第二位で四捨五入するロジック
         midnight_payment = time_payment * 0.25 * after_ten;
         amount = Math.floor(worked * time_payment + midnight_payment);
   }
@@ -167,6 +169,7 @@ function getData() {
       $('#work_time').val(data.user_data.work_time);
       $('#home_time').val(data.user_data.home_time);
       $('#datepicker').val(date);
+      salary([[data.user_data.work_time, data.user_data.home_time], date]);
     },
     function(jgXHR,textStatus, errorThrown) {
       console.log(jgXHR);
@@ -215,6 +218,7 @@ function getDay(num) {
           $('#work_time').val(data.user_data.work_time);
           $('#home_time').val(data.user_data.home_time);
           $('#datepicker').val(date);
+          salary([[data.user_data.work_time, data.user_data.home_time], date]);
         },
         function(jgXHR,textStatus, errorThrown) {
           console.log(jgXHR);
