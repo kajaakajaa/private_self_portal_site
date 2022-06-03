@@ -127,16 +127,24 @@ footer p {
   background-color: black;
 }
 
-.report .report-contents form > p {
-  padding: 1rem;
+.report .report-contents #actual_work_link {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.report .report-contents #actual_work_link p {
+  display: inline-block;
+  padding: 1rem;
   color: white;
   margin-bottom: 0;
+}
+
+.report .report-contents #actual_work_link a {
+  text-decoration: none;
 }
 
 .report .report-contents #work_time_label,

@@ -113,7 +113,7 @@ EOF;
     $homeTime = $_POST['home_time'];
     $workDate = $_POST['work_date'];
     $sql = <<<EOF
-      INSERT
+      INSERT INTO
         tbl_task_report
         (
           user_no,
@@ -145,7 +145,7 @@ EOF;
     $weekDay = array('日','月','火','水','木','金','土');
     $weekNum = date('w', strtotime($workDate));
     $sql = <<<EOF
-      INSERT
+      INSERT INTO
         tbl_task_report
         (
           work_date,
@@ -222,7 +222,7 @@ EOF;
     //文字列の日付生成
     $date = date('Y-m-d', $timestamp);
     $sql = <<<EOF
-      INSERT
+      INSERT INTO
         tbl_task_report
         (
           work_date,
@@ -266,7 +266,7 @@ EOF;
     $userNo = $_POST['user_no'];
     $editTask = $_POST['edit_task'];
     $sql = <<<EOF
-      INSERT
+      INSERT INTO
         tbl_task_schedule
         (
           schedule,

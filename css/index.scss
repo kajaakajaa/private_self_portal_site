@@ -106,12 +106,18 @@ footer {
   }
   .report-contents {
     background-color: black;
-    form > p {
-      padding: 1rem;
+    #actual_work_link {
       display: flex;
       align-items: center;
-      color: white;
-      margin-bottom: 0;
+      p {
+        display: inline-block;
+        padding: 1rem;
+        color: white;
+        margin-bottom: 0;
+      }
+      a {
+        text-decoration: none;
+      }
     }
     #work_time_label,
     #home_time_label {
