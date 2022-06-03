@@ -1,6 +1,5 @@
 $(()=> {
   setListShift();
-
   //datepickerの表示
   $('#datepicker').datepicker();
 });
@@ -38,10 +37,15 @@ function salary([[work_time, home_time], date]) {
       worked = worked / (1000 * 60 * 60);
       worked = Math.round(worked * Math.pow(10, 2)) / Math.pow(10, 2);
   let mid_night_hour = date + ' 22:00';
-      mid_night_hour = new Date();
+      mid_night_hour = new Date(mid_night_hour);
   let time_payment = 1100; //時給1,100円
-  let amount = Math.floor(worked * time_payment)
-  if(home_time_ts.getTime() > mid_night_hour.getTime()) {
+  let amount = Math.floor(worked * time_payment);
+  let invalid_hour = date + ' ' + '0:00';
+      invalid_hour = new Date(invalid_hour);
+  if(home_time_ts.getTime() == invalid_hour.getTime() || home_time_ts.getTime() == null) {
+    amount = 0;
+  }
+  else if(home_time_ts.getTime() > mid_night_hour.getTime()) {
     let after_ten = home_time_ts.getTime() - mid_night_hour.getTime();
         after_ten = after_ten / (1000 * 60 * 60);
         // ↓ 時刻1:00(1時間単位)以下.. 0:56、等半端な時間だと端数が出るのでそれを小数第二位で四捨五入するロジック
@@ -50,6 +54,27 @@ function salary([[work_time, home_time], date]) {
         midnight_payment = time_payment * 0.25 * after_ten;
         amount = Math.floor(worked * time_payment + midnight_payment);
   }
+  let query_amount = {};
+      query_amount['amount'] = amount;
+      query_amount['user_no'] = $('#user_no').val();
+      query_amount['work_date'] = date;
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site_private/request/actual_work_sql_data.php?mode=regist_salary',
+    data: query_amount,
+    dataType: 'html'
+  })
+  .then(
+    (data)=> {
+      console.log(data);
+    },
+    (jgXHR, textStatus, errorThrown)=> {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
+  console.log('稼働時間：' + worked);
   $('#amount').html(amount);
 }
 
@@ -62,6 +87,7 @@ function setListShift() {
       if($('#user_no').val() != '') {
         query['user_no'] = $('#user_no').val();
       }
+      console.log(query);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=set_list_shift',
@@ -71,10 +97,10 @@ function setListShift() {
   .then(
     function(data) {
       console.log(data);
-      salary([[data.user.work_time, data.user.home_time], date])
-      $('#user_no').val(data.user_no.no);
       $('#work_time').val(data.user.work_time);
       $('#home_time').val(data.user.home_time);
+      $('#user_no').val(data.user_no.no);
+      salary([[data.user.work_time, data.user.home_time], date])
       $('#task_contents').html(data.task.schedule);
       $('#task_contents').css({
         'color': 'white'
@@ -169,7 +195,7 @@ function getData() {
       $('#work_time').val(data.user_data.work_time);
       $('#home_time').val(data.user_data.home_time);
       $('#datepicker').val(date);
-      salary([[data.user_data.work_time, data.user_data.home_time], date]);
+      salary([[data.user_data.work_time, data.user_data.home_time], data.user_data.work_date]);
     },
     function(jgXHR,textStatus, errorThrown) {
       console.log(jgXHR);
@@ -218,7 +244,7 @@ function getDay(num) {
           $('#work_time').val(data.user_data.work_time);
           $('#home_time').val(data.user_data.home_time);
           $('#datepicker').val(date);
-          salary([[data.user_data.work_time, data.user_data.home_time], date]);
+          salary([[data.user_data.work_time, data.user_data.home_time], query2['work_date']]);
         },
         function(jgXHR,textStatus, errorThrown) {
           console.log(jgXHR);

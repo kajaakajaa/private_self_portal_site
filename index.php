@@ -143,7 +143,10 @@ EOF;
                             <div class="cal-md-9"><input type="time" name="home_time" id="home_time" class="form-control"
                                 onChange="homeTime()"></div>
                           </div>
-                          <p>稼ぎ：<span id="amount"></span>&nbsp;円</p>
+                          <div id="actual_work_link">
+                            <p>稼ぎ：<span id="amount"></span>&nbsp;円</p>
+                            <a href="/self_portal_site_private/actual_work" class="badge bg-primary mx-2 add-menu-btn">実働</a>
+                          </div>
                         </form>
                         <div class="cal-12 pb-3">
                           <div class="card">
