@@ -18,7 +18,7 @@ function setListActualWork() {
         let count = 0;
         $.each(data.user, (index, value)=> {
           while(i == value.work_month && count == 0) {
-            content += '<li><a href="" onClick="salaryIndex()">' + value.work_month + '&nbsp;月</a></li>';
+            content += '<li><a onClick="salaryIndex()">' + value.work_month + '&nbsp;月</a></li>';
             count++;
           }
         });

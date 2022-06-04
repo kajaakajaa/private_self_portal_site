@@ -90,8 +90,8 @@ EOF;
             <a id="sign_out" onClick="signOut()">ログアウト&gt;</a>
           </div>
         </nav>
-        <div id="acutual_work_wrpper">
-          <div id="actual_work_header"><?php echo date('Y') . '&nbsp;年'; ?></div>
+        <div id="actual_work_wrpper">
+          <h3 id="actual_work_header"><?php echo date('Y') . '&nbsp;年'; ?></h3>
           <div id="actual_work_body"><ul></ul></div>
         </div>
         <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>

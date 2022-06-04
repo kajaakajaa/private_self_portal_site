@@ -1,1 +1,53 @@
-/* No CSS */
+#actual_work_wrpper {
+  margin: 100px auto;
+  width: 60%;
+}
+
+#actual_work_wrpper #actual_work_header {
+  margin: 0;
+  padding: 1rem 1rem 1rem 0;
+  color: white;
+  border-bottom: solid .1px white;
+}
+
+@media (max-width: 575px) {
+  #actual_work_wrpper #actual_work_header {
+    padding-bottom: .5rem;
+    font-size: 1rem;
+  }
+}
+
+#actual_work_wrpper #actual_work_body {
+  padding: 1rem;
+  color: white;
+}
+
+@media (max-width: 575px) {
+  #actual_work_wrpper #actual_work_body {
+    padding-top: .5rem;
+  }
+}
+
+#actual_work_wrpper #actual_work_body ul {
+  padding: 0;
+}
+
+#actual_work_wrpper #actual_work_body ul li {
+  padding-left: 1rem;
+}
+
+#actual_work_wrpper #actual_work_body ul li a {
+  color: #5196f9;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 575px) {
+  #actual_work_wrpper #actual_work_body ul li a {
+    font-size: .9rem;
+  }
+}
+
+#actual_work_wrpper #actual_work_body ul li a:hover {
+  color: #0a58ca;
+}
