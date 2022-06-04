@@ -30,8 +30,11 @@ EOF;
 
   case 'set_list_acual_work':
     session_start();
+    //sessionログインの場合
     $userName = $_SESSION['user_name'];
     $passWord = $_SESSION['password'];
+    //cookieログインの場合
+    $cookiePassword = $_COOKIE['keep_session'];
     $sql = <<<EOF
       SELECT
         rpt.salary AS salary,
@@ -48,10 +51,15 @@ EOF;
         usr.password = :password
           AND
         rpt.salary > 0
+          OR
+        cookie_pass = :cookiepass
+          AND
+        rpt.salary > 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
     $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':cookiepass', $cookiePassword, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
