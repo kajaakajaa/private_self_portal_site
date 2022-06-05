@@ -72,6 +72,7 @@ EOF;
   <title>SELF PORTAL SITE for PRIVATE</title>
 </head>
 <body>
+  <div id="overlay"></div>
   <div class="container-fluid p-0">
     <header class="fixed-top">
       <div class="container-fluid h-100 d-flex justify-content-center align-items-center">
@@ -91,7 +92,7 @@ EOF;
           </div>
         </nav>
         <div id="actual_work_wrpper">
-          <h3 id="actual_work_header"><?php echo date('Y') . '&nbsp;年'; ?></h3>
+          <h3 id="actual_work_header"><?php echo date('Y') . '&nbsp;年'; ?><span>- 実働 -</span></h3>
           <div id="actual_work_body"><ul></ul></div>
         </div>
         <a href="#" id="pagetop"><img src="/self_portal_site_private/images/top-btn.svg" width="50" height="50" alt="topへ戻る" title="topへ戻る"></a>

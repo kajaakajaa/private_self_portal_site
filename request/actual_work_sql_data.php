@@ -34,7 +34,7 @@ EOF;
     $userName = $_SESSION['user_name'];
     $passWord = $_SESSION['password'];
     //cookieログインの場合
-    $cookiePassword = $_COOKIE['keep_session'];
+    $cookiePassword = isset($_COOKIE['keep_session']) ? $_COOKIE['keep_session'] : NULL;
     $sql = <<<EOF
       SELECT
         rpt.salary AS salary,
@@ -58,7 +58,7 @@ EOF;
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
     $stmt->bindParam(':cookiepass', $cookiePassword, PDO::PARAM_STR);
     $stmt->execute();
     $array = array();
