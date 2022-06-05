@@ -10,6 +10,12 @@
       padding-bottom: .5rem;
       font-size: 1rem;
     }
+    span {
+      margin-left: 2rem;
+      @media(max-width: 575px) {
+        font-size: .9rem;
+      }
+    }
   }
   #actual_work_body {
     padding: 1rem;

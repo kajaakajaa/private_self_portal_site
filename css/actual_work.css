@@ -17,6 +17,16 @@
   }
 }
 
+#actual_work_wrpper #actual_work_header span {
+  margin-left: 2rem;
+}
+
+@media (max-width: 575px) {
+  #actual_work_wrpper #actual_work_header span {
+    font-size: .9rem;
+  }
+}
+
 #actual_work_wrpper #actual_work_body {
   padding: 1rem;
   color: white;
