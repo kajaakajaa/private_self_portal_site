@@ -1,31 +1,5 @@
 $(()=> {
   setListActualWork();
-
-  //modal
-  //開く
-  $(document).on('click', '.modal-target', () => {
-    let modal = '';
-        modal = '<div id="modal">'
-              +   '<div>警告'
-              +     '<span id="close">'
-              +       '<img src=/self_portal_site_private/images/close.png width="20px" height="20px" alt="閉じる" title="閉じる">'
-              +     '</span>'
-              +   '</div>'
-              +   '<div>&#x203B;これはモーダルです</div>'
-              + '</div>';
-    $('#overlay').html(modal);
-    $('#overlay').fadeIn();
-    return false;
-  });
-  $(document).on('click', '#modal', ()=> {
-    return false;
-  });
-  //閉じる
-  $(document).on('click', '#overlay, #close', ()=> {
-    $('#overlay').html('');
-    $('#overlay').fadeOut();
-    return false
-  });
 });
 
 function setListActualWork() {
@@ -44,12 +18,13 @@ function setListActualWork() {
         let count = 0;
         $.each(data.user, (index, value)=> {
           while(i == value.work_month && count == 0) {
-            content += '<li><a class="modal-target">' + value.work_month + '&nbsp;月</a></li>';
+            content += '<li><a class="modal-target" id="' + i + '_month">' + value.work_month + '&nbsp;月</a></li>';
             count++;
           }
         });
       }
       $('#actual_work_body > ul').html(content);
+      modal();
     },
     (jgXHR, textStatus, errorThrown)=> {
       console.log(jgXHR);
@@ -57,4 +32,76 @@ function setListActualWork() {
       console.log(errorThrown);
     }
   );
+}
+
+function modal() {
+  //開く
+  $.each($('.modal-target'), (index, value)=> {
+    $(value).on('click', ()=> {
+      let query = {};
+          query['month'] = $(value).html().slice(0, 1);
+      $.ajax({
+        type: 'POST',
+        url: '/self_portal_site_private/request/actual_work_sql_data.php?mode=detail_salary',
+        data: query,
+        dataType: 'json'
+      })
+      .then(
+        (data)=> {
+          console.log(data);
+          let headerTitle = $(value).html();
+          let totalSalary = 0;
+          let bodyContents = '<div class="total-salary">合計：<span style="font-weight: bold;">' + totalSalary + '</span>&nbsp;円</div>';
+              bodyContents += '<table>';
+              $.each(data.user, (index, value)=> {
+                if(value.salary == 0) {
+                  bodyContents += 
+                      '<tr>'
+                    +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
+                    +   '<td style="color: red;">休み</td>'
+                    + '</tr>';
+                }
+                else {
+                  bodyContents +=
+                      '<tr>'
+                  +     '<td>' + value.work_day + '日' + value.work_date + '</td>'
+                  +     '<td>' + value.work_time + '</td>'
+                  +     '<td>' + value.home_time + '</td>'
+                  +     '<td>' + value.salary + '円</td>'
+                  +   '</tr>';
+                }
+                totalSalary += Number(value.salary);
+              });
+              bodyContents += '</table>';
+          let modal = '';
+              modal = '<div id="modal">'
+                    +   '<div class="modalHeader">' + headerTitle
+                    +     '<span id="close">'
+                    +       '<img src=/self_portal_site_private/images/close.png width="20px" height="20px" alt="閉じる" title="閉じる">'
+                    +     '</span>'
+                    +   '</div>'
+                    +   '<div class="modalBody">' + bodyContents + '</div>'
+                    + '</div>';
+          $('#overlay').html(modal);
+          $('#overlay').fadeIn();
+          $('.total-salary > span').html(totalSalary.toLocaleString());
+          return false;
+        },
+        (jgXHR, textStatus, errorThrown)=> {
+          console.log(jgXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        }
+      );
+    });
+  });
+  $(document).on('click', '#modal', ()=> {
+    return false;
+  });
+  //閉じる
+  $(document).on('click', '#overlay, #close', ()=> {
+    $('#overlay').html('');
+    $('#overlay').fadeOut();
+    return false
+  });
 }
