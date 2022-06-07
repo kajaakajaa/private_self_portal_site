@@ -110,18 +110,26 @@ footer p {
 #overlay #modal {
   width: 500px;
   margin: 0 auto;
-  margin-top: 20%;
+  margin-top: 10%;
   border: solid 1px black;
-  background-color: white;
+  border-radius: 10px;
+  background-color: antiquewhite;
 }
 
 @media (max-width: 767px) {
   #overlay #modal {
     width: 70%;
+    margin-top: 25%;
   }
 }
 
-#overlay #modal div:first-child {
+@media (max-width: 575px) {
+  #overlay #modal {
+    width: 80%;
+  }
+}
+
+#overlay #modal .modalHeader {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -130,17 +138,18 @@ footer p {
           justify-content: center;
   position: relative;
   padding: .5rem;
-  border-bottom: solid 1px black;
-  color: red;
+  border-bottom: solid 5px black;
+  color: black;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 575px) {
-  #overlay #modal div:first-child {
+  #overlay #modal .modalHeader {
     font-size: .9rem;
   }
 }
 
-#overlay #modal div:first-child span > img {
+#overlay #modal .modalHeader span > img {
   width: 20px;
   height: 20px;
   position: absolute;
@@ -148,20 +157,27 @@ footer p {
   cursor: pointer;
 }
 
-#overlay #modal div:nth-child(2) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+#overlay #modal .modalBody {
   padding: 1.2rem;
 }
 
 @media (max-width: 575px) {
-  #overlay #modal div:nth-child(2) {
+  #overlay #modal .modalBody {
     font-size: .9rem;
   }
+}
+
+#overlay #modal .modalBody div {
+  text-align: end;
+  margin-bottom: 1rem;
+}
+
+#overlay #modal .modalBody table th {
+  padding: 0 1rem 1rem 0;
+}
+
+#overlay #modal .modalBody table td {
+  padding-right: 1rem;
 }
 
 .add-menu-btn, .category-name-change {
