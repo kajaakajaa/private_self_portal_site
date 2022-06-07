@@ -62,11 +62,16 @@ function modal() {
                     + '</tr>';
                 }
                 else if(value.salary == null) {
-                  bodyContents += 
-                      '<tr>'
-                    +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
-                    +   '<td>' + value.work_time + '<span class="work-home">~</span>(出勤)</td>'
-                    + '</tr>';
+                  if(value.work_time == '00:00' && value.home_time == '00:00') {
+                    bodyContents += '<tr></tr>';
+                  }
+                  else {
+                    bodyContents += 
+                        '<tr>'
+                      +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
+                      +   '<td>' + value.work_time + '<span class="work-home">~</span>(出勤)</td>'
+                      + '</tr>';
+                  }
                 }
                 else {
                   bodyContents +=
