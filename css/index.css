@@ -177,7 +177,11 @@ footer p {
 }
 
 #overlay #modal .modalBody table td {
-  padding-right: 1rem;
+  padding-right: .5rem;
+}
+
+#overlay #modal .modalBody table .work-home {
+  padding: 0 1px;
 }
 
 .add-menu-btn, .category-name-change {
