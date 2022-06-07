@@ -61,12 +61,18 @@ function modal() {
                     +   '<td style="color: red;">休み</td>'
                     + '</tr>';
                 }
+                else if(value.salary == null) {
+                  bodyContents += 
+                      '<tr>'
+                    +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
+                    +   '<td>' + value.work_time + '<span class="work-home">~</span>(出勤)</td>'
+                    + '</tr>';
+                }
                 else {
                   bodyContents +=
                       '<tr>'
                   +     '<td>' + value.work_day + '日' + value.work_date + '</td>'
-                  +     '<td>' + value.work_time + '</td>'
-                  +     '<td>' + value.home_time + '</td>'
+                  +     '<td>' + value.work_time + '<span class="work-home">~</span>' + value.home_time + '</td>'
                   +     '<td>' + value.salary + '円</td>'
                   +   '</tr>';
                 }

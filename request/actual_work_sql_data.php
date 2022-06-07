@@ -7,7 +7,7 @@ include_once('../config/console_log.php');
 $mode = $_GET['mode'];
 switch($mode) {
   case 'regist_salary':
-    $amount = $_POST['amount'];
+    $amount = $_POST['amount'] == null ? NULL : $_POST['amount'];
     $userNo = $_POST['user_no'];
     $date = $_POST['work_date'];
     $sql = <<<EOF
