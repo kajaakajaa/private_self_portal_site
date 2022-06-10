@@ -40,13 +40,18 @@ function salary([[work_time, home_time], date]) {
       mid_night_hour = new Date(mid_night_hour);
   let time_payment = 1100; //時給1,100円
   let amount = Math.floor(worked * time_payment);
-  let invalid_hour = date + ' ' + '0:00';
+  let invalid_hour = date + ' ' + '00:00';
       invalid_hour = new Date(invalid_hour);
-  if(work_time_ts.getTime() > home_time_ts.getTime()) {
-    amount = 0;
+  if(work_time_ts.getTime() == home_time_ts.getTime()) {
+    if(work_time_ts.getTime() == invalid_hour.getTime() && home_time_ts.getTime() == invalid_hour.getTime()) {
+      amount = null;
+    }
+    else {
+      amount = 0;
+    }
   }
-  else if(home_time_ts.getTime() == null || work_time_ts.getTime() == home_time_ts.getTime()) {
-    amount = null;
+  else if(work_time_ts.getTime() > home_time_ts.getTime()) {
+    amount = 0;
   }
   // 正規の出退勤はここを読み込む
   else if(home_time_ts.getTime() > mid_night_hour.getTime()) {
