@@ -54,23 +54,24 @@ function modal() {
           let bodyContents = '<div class="total-salary">合計：<span style="font-weight: bold;">' + totalSalary + '</span>&nbsp;円</div>';
               bodyContents += '<table>';
               $.each(data.user, (index, value)=> {
-                if(value.salary == 0) {
-                  bodyContents += 
-                      '<tr>'
-                    +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
-                    +   '<td style="color: red;">休み</td>'
-                    + '</tr>';
+                if(value.salary == null) {
+                  bodyContents +=
+                    '<tr></tr>';
                 }
-                else if(value.salary == null) {
-                  if(value.work_time == '00:00' && value.home_time == '00:00') {
-                    bodyContents += '<tr></tr>';
-                  }
-                  else {
+                else if(value.salary == 0) {
+                  if((value.work_time == value.home_time)) {
                     bodyContents += 
                         '<tr>'
                       +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
                       +   '<td>' + value.work_time + '<span class="work-home">~</span>(出勤)</td>'
                       + '</tr>';
+                  }
+                  else {
+                      bodyContents +=
+                      '<tr>'
+                    +   '<td>' + value.work_day + '日' + value.work_date + '</td>'
+                    +   '<td style="color: red;">休み</td>'
+                    + '</tr>';
                   }
                 }
                 else {
