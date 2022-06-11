@@ -54,7 +54,7 @@ function modal() {
           let bodyContents = '<div class="total-salary">合計：<span style="font-weight: bold;">' + totalSalary + '</span>&nbsp;円</div>';
               bodyContents += '<table>';
               $.each(data.user, (index, value)=> {
-                if(value.salary == null) {
+                if(value.salary == null || value.work_time == null || value.home_time == null) {
                   bodyContents +=
                     '<tr></tr>';
                 }

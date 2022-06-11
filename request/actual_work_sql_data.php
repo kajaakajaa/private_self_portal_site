@@ -37,7 +37,6 @@ EOF;
     $cookiePassword = isset($_COOKIE['keep_session']) ? $_COOKIE['keep_session'] : NULL;
     $sql = <<<EOF
       SELECT
-        rpt.salary AS salary,
         work_date AS work_month
       FROM
         tbl_task_user AS usr
@@ -49,12 +48,8 @@ EOF;
         usr.user_name = :user_name
           AND
         usr.password = :password
-          AND
-        rpt.salary > 0
           OR
         cookie_pass = :cookiepass
-          AND
-        rpt.salary > 0
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
