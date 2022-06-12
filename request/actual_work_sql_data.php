@@ -37,7 +37,16 @@ EOF;
     $cookiePassword = isset($_COOKIE['keep_session']) ? $_COOKIE['keep_session'] : NULL;
     $sql = <<<EOF
       SELECT
-        work_date AS work_month
+        work_date AS work_month,
+        TIME_FORMAT(
+          work_time,
+          '%H:%i'
+        ) AS work_time,
+        TIME_FORMAT(
+          home_time,
+          '%H:%i'
+        ) AS home_time,
+        salary
       FROM
         tbl_task_user AS usr
           LEFT JOIN
@@ -45,11 +54,26 @@ EOF;
           ON
             usr.no = rpt.user_no
       WHERE
-        usr.user_name = :user_name
-          AND
-        usr.password = :password
-          OR
+        (usr.user_name = :user_name
+            &&
+          usr.password = :password
+            &&
+          rpt.salary IS NOT NULL
+            &&
+          (work_time IS NOT NULL
+              &&
+            home_time IS NOT NULL
+          )
+        )
+          ||
         cookie_pass = :cookiepass
+          &&
+        rpt.salary IS NOT NULL
+          &&
+        (work_time IS NOT NULL
+            &&
+          home_time IS NOT NULL
+        )
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
@@ -95,14 +119,19 @@ EOF;
           ON
             usr.no = rpt.user_no
       WHERE
-        user_name = :user_name
-          &&
-        password = :password
-          &&
-        DATE_FORMAT(
-          work_date,
-          '%m'
-        ) = :month
+        (user_name = :user_name
+            &&
+          password = :password
+            &&
+          DATE_FORMAT(
+            work_date,
+            '%m'
+          ) = :month
+            &&
+          home_time IS NOT NULL
+              &&
+          work_time IS NOT NULL
+        )
           ||
         cookie_pass = :cookie_pass
           &&
@@ -110,6 +139,10 @@ EOF;
           work_date,
           '%m'
         ) = :month
+          &&
+        home_time IS NOT NULL
+          &&
+        work_time IS NOT NULL
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);

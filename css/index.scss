@@ -92,6 +92,8 @@ footer {
   z-index: 1000;
   //modal
   #modal {
+    opacity: 0;
+    transform: translateY(-70px);
     width: 500px;
     margin: 0 auto;
     margin-top: 10%;

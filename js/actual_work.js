@@ -54,9 +54,9 @@ function modal() {
           let bodyContents = '<div class="total-salary">合計：<span style="font-weight: bold;">' + totalSalary + '</span>&nbsp;円</div>';
               bodyContents += '<table>';
               $.each(data.user, (index, value)=> {
-                if(value.salary == null || value.work_time == null || value.home_time == null) {
-                  bodyContents +=
-                    '<tr></tr>';
+                if(value.salary == null) {
+                    bodyContents +=
+                      '<tr></tr>';
                 }
                 else if(value.salary == 0) {
                   if((value.work_time == value.home_time)) {
@@ -96,6 +96,11 @@ function modal() {
                     + '</div>';
           $('#overlay').html(modal);
           $('#overlay').fadeIn();
+          $('#modal').css({
+            'opacity': '1',
+            'transform': 'translateY(0)',
+            'transition': '.5s'
+          });
           $('.total-salary > span').html(totalSalary.toLocaleString());
           return false;
         },
@@ -112,7 +117,11 @@ function modal() {
   });
   //閉じる
   $(document).on('click', '#overlay, #close', ()=> {
-    $('#overlay').html('');
+    $('#modal').css({
+      'opacity': '0',
+      'transform': 'translateY(-70px)',
+      'transition': '.5s'
+    });
     $('#overlay').fadeOut();
     return false
   });
