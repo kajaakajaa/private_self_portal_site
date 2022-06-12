@@ -108,6 +108,9 @@ footer p {
 }
 
 #overlay #modal {
+  opacity: 0;
+  -webkit-transform: translateY(-70px);
+          transform: translateY(-70px);
   width: 500px;
   margin: 0 auto;
   margin-top: 10%;
