@@ -4,6 +4,7 @@ $(()=> {
 
 function setListActualWork() {
   let query = {};
+      query['year'] = Number($('#actual_work_header').html().slice(0, 4));
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/actual_work_sql_data.php?mode=set_list_acual_work',

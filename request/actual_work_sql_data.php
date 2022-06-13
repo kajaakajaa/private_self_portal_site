@@ -33,6 +33,7 @@ EOF;
     //sessionログインの場合
     $userName = $_SESSION['user_name'];
     $passWord = $_SESSION['password'];
+    $Year = $_POST['year'];
     //cookieログインの場合
     $cookiePassword = isset($_COOKIE['keep_session']) ? $_COOKIE['keep_session'] : NULL;
     $sql = <<<EOF
@@ -60,6 +61,11 @@ EOF;
             &&
           rpt.salary IS NOT NULL
             &&
+          DATE_FORMAT(
+            work_date,
+            '%Y'
+          ) = :year
+            &&
           (work_time IS NOT NULL
               &&
             home_time IS NOT NULL
@@ -70,6 +76,11 @@ EOF;
           &&
         rpt.salary IS NOT NULL
           &&
+        DATE_FORMAT(
+          work_date,
+          '%Y'
+        ) = :year
+          &&
         (work_time IS NOT NULL
             &&
           home_time IS NOT NULL
@@ -79,6 +90,7 @@ EOF;
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
     $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
     $stmt->bindParam(':cookiepass', $cookiePassword, PDO::PARAM_STR);
+    $stmt->bindParam(':year', $Year, PDO::PARAM_INT);
     $stmt->execute();
     $array = array();
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
