@@ -128,7 +128,7 @@ footer {
     }
     .modalBody {
       padding: 1.2rem;
-      overflow-x: scroll;
+      overflow-y: scroll;
       max-height: 60%;
       @media(max-width: 575px) {
         font-size: .9rem;

@@ -162,7 +162,7 @@ footer p {
 
 #overlay #modal .modalBody {
   padding: 1.2rem;
-  overflow-x: scroll;
+  overflow-y: scroll;
   max-height: 60%;
 }
 
