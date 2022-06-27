@@ -309,4 +309,34 @@ EOF;
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
   break;
+
+  case 'schedule_date':
+    $userNo = $_POST['user_no'];
+    $workDate = $_POST['work_date'];
+    $sql = <<<EOF
+      INSERT INTO
+        tbl_task_report
+        (
+          user_no,
+          work_date,
+          push_status,
+          regist_time
+        ) VALUES (
+          :user_no,
+          :work_date,
+          1,
+          NOW()
+        ) ON DUPLICATE KEY UPDATE
+          user_no = :user_no,
+          work_date = :work_date,
+          push_status = 1,
+          update_time = NOW()
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
+    $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
+    // $stmt->bindParam(':push_status', 1, PDO::PARAM_INT);
+    $stmt->execute();
+    var_dump($stmt->errorInfo());
+  break;
 }
