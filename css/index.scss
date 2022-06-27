@@ -188,16 +188,30 @@ footer {
   .report-contents {
     background-color: black;
     #actual_work_link {
-      display: flex;
-      align-items: center;
-      p {
-        display: inline-block;
-        padding: 1rem;
-        color: white;
-        margin-bottom: 0;
+      div:first-child {
+        display: flex;
+        align-items: center;
+        p {
+          padding: .5rem;
+          color: white;
+          margin-bottom: 0;
+        }
       }
       a {
         text-decoration: none;
+      }
+      div:nth-child(2) {
+        padding: 0 .5rem .5rem;
+        label {
+          font-size: .9rem;
+          color: white;
+          @media(max-width: 565px) {
+            font-size: .7rem;
+          }
+        }
+        input {
+          padding: 0 .2rem;
+        }
       }
     }
     #work_time_label,

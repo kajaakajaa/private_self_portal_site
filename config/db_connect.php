@@ -1,7 +1,7 @@
 <?php
 
-include_once('console_log.php');
-include_once('env.php');
+include_once('/home/xs072153/kajaaserver.com/public_html/self_portal_site_private/config/console_log.php');
+include_once('/home/xs072153/kajaaserver.com/public_html/self_portal_site_private/config/env.php');
 // 5~13行.envファイル(現未使用)の読み込み用
 // include_once('../vendor/autoload.php');
 // $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);

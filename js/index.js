@@ -87,6 +87,29 @@ function salary([[work_time, home_time], date]) {
   $('#amount').html(amount);
 }
 
+function scheduleDateSend() {
+  let query = formDataTemplate();
+      query['scheduleDate'] = $('input[name="schedule_date"]').val();
+      console.log(query['scheduleDate']);
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site_private/request/sql_data.php?mode=schedule_date',
+    data: query,
+    dataType: 'html'
+  })
+  .then(
+    (data)=> {
+      console.log(data);
+      $('input[name="schedule_date"]').val('');
+    },
+    (jgXHR, testStatus, errorThrown)=> {
+      console.log(jgXHR);
+      console.log(testStatus);
+      console.log(errorThrown);
+    }
+  )
+}
+
 //オンロード時に取得するデフォルト値
 function setListShift() {
   let date = $('#datepicker').val();

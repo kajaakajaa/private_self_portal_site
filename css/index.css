@@ -227,7 +227,7 @@ footer p {
   background-color: black;
 }
 
-.report .report-contents #actual_work_link {
+.report .report-contents #actual_work_link div:first-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -236,15 +236,33 @@ footer p {
           align-items: center;
 }
 
-.report .report-contents #actual_work_link p {
-  display: inline-block;
-  padding: 1rem;
+.report .report-contents #actual_work_link div:first-child p {
+  padding: .5rem;
   color: white;
   margin-bottom: 0;
 }
 
 .report .report-contents #actual_work_link a {
   text-decoration: none;
+}
+
+.report .report-contents #actual_work_link div:nth-child(2) {
+  padding: 0 .5rem .5rem;
+}
+
+.report .report-contents #actual_work_link div:nth-child(2) label {
+  font-size: .9rem;
+  color: white;
+}
+
+@media (max-width: 565px) {
+  .report .report-contents #actual_work_link div:nth-child(2) label {
+    font-size: .7rem;
+  }
+}
+
+.report .report-contents #actual_work_link div:nth-child(2) input {
+  padding: 0 .2rem;
 }
 
 .report .report-contents #work_time_label,
