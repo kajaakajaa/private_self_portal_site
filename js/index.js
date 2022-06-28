@@ -87,9 +87,10 @@ function salary([[work_time, home_time], date]) {
   $('#amount').html(amount);
 }
 
+//checkBoxレ点でpush通知登録
 function scheduleDateSend() {
   let query = formDataTemplate();
-      query['scheduleDate'] = $('input[name="schedule_date"]').val();
+      query['scheduleDate'] = $('input[name="push_set"]').prop('checked');
       console.log(query['scheduleDate']);
   $.ajax({
     type: 'POST',
@@ -100,7 +101,7 @@ function scheduleDateSend() {
   .then(
     (data)=> {
       console.log(data);
-      $('input[name="schedule_date"]').val('');
+      // push_set();
     },
     (jgXHR, testStatus, errorThrown)=> {
       console.log(jgXHR);
@@ -108,6 +109,32 @@ function scheduleDateSend() {
       console.log(errorThrown);
     }
   )
+}
+
+function push_set() {
+  const query = formDataTemplate();
+  $.ajax({
+    type: 'POST',
+    url: '/self_portal_site_private/request/sql_data.php?mode=push_set',
+    data: query,
+    dataType: 'json'
+  })
+  .then(
+    (data)=> {
+      console.log(data);
+      if(data.push_check.push_status == true) {
+        $('input[name="push_set"]').prop('checked', true);
+      }
+      else {
+        $('input[name="push_set"]').prop('checked', false);
+      }
+    },
+    (jgXHR, textStatus, errorThrown)=> {
+      console.log(jgXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }
+  );
 }
 
 //オンロード時に取得するデフォルト値
@@ -138,6 +165,9 @@ function setListShift() {
         'color': 'white'
       });
       replaceLink();
+      date = date.slice(5, 10);
+      $('#schedule_date_label').html(date + ' に通知メールを送信：');
+      push_set();
     },
     function(jgHXR, textStatus, errorThrown) {
       console.log(jgHXR);
@@ -227,7 +257,10 @@ function getData() {
       $('#work_time').val(data.user_data.work_time);
       $('#home_time').val(data.user_data.home_time);
       $('#datepicker').val(date);
+      date = date.slice(5, 10);
+      $('#schedule_date_label').html(date + ' に通知メールを送信：');
       salary([[data.user_data.work_time, data.user_data.home_time], data.user_data.work_date]);
+      push_set();
     },
     function(jgXHR,textStatus, errorThrown) {
       console.log(jgXHR);
@@ -276,7 +309,10 @@ function getDay(num) {
           $('#work_time').val(data.user_data.work_time);
           $('#home_time').val(data.user_data.home_time);
           $('#datepicker').val(date);
+          date = date.slice(5, 10);
+          $('#schedule_date_label').html(date + ' に通知メールを送信：');
           salary([[data.user_data.work_time, data.user_data.home_time], query2['work_date']]);
+          push_set();
         },
         function(jgXHR,textStatus, errorThrown) {
           console.log(jgXHR);
