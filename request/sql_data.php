@@ -313,7 +313,7 @@ EOF;
   case 'schedule_date':
     $userNo = $_POST['user_no'];
     $workDate = $_POST['work_date'];
-    $pushStatus = $_POST['scheduleDate'] == true ? 1 : 0;
+    $pushStatus = $_POST['scheduleDate'] == "true" ? 1 : 0;
     $sql = <<<EOF
       INSERT INTO
         tbl_task_report
@@ -325,18 +325,18 @@ EOF;
         ) VALUES (
           :user_no,
           :work_date,
-          $pushStatus,
+          :push_status,
           NOW()
         ) ON DUPLICATE KEY UPDATE
           user_no = :user_no,
           work_date = :work_date,
-          push_status = $pushStatus,
+          push_status = :push_status,
           update_time = NOW()
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_no', $userNo, PDO::PARAM_INT);
     $stmt->bindParam(':work_date', $workDate, PDO::PARAM_STR);
-    // $stmt->bindParam(':push_status', $pushStatus, PDO::PARAM_INT);
+    $stmt->bindParam(':push_status', $pushStatus, PDO::PARAM_INT);
     $stmt->execute();
     var_dump($stmt->errorInfo());
   break;

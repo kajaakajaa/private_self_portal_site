@@ -91,7 +91,6 @@ function salary([[work_time, home_time], date]) {
 function scheduleDateSend() {
   let query = formDataTemplate();
       query['scheduleDate'] = $('input[name="push_set"]').prop('checked');
-      console.log(query['scheduleDate']);
   $.ajax({
     type: 'POST',
     url: '/self_portal_site_private/request/sql_data.php?mode=schedule_date',
