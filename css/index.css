@@ -261,10 +261,6 @@ footer p {
   }
 }
 
-.report .report-contents #actual_work_link div:nth-child(2) input {
-  padding: 0 .2rem;
-}
-
 .report .report-contents #work_time_label,
 .report .report-contents #home_time_label {
   color: white;

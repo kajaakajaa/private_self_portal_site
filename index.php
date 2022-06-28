@@ -149,9 +149,8 @@ EOF;
                               <a href="/self_portal_site_private/actual_work" class="badge bg-primary mx-2 add-menu-btn">実働</a>
                             </div>
                             <div>
-                              <label for="schedule_date">指定日付に予定通知メールを送信：</label>
-                              <input type="date" id="schedule_date" name="schedule_date" value="">
-                              <a class="badge bg-primary mx-2 add-menu-btn" onClick="scheduleDateSend()">登録</a></button>
+                              <label for="schedule_date" id="schedule_date_label"></label>
+                              <input type="checkbox" onChange="scheduleDateSend()" name="push_set">
                             </div>
                           </div>
                         </form>
