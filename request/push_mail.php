@@ -25,8 +25,8 @@ EOF;
   }
   mb_language("japanese");
   mb_internal_encoding("UTF-8");
-  foreach($array as $key => $value) {
-    if(isset($value)) {
+  if($array != null) {
+    foreach($array as $key => $value) {
       $to = $value['user_name'];
       $subject = "【TASK】本日の予定のお知らせ。";
       $message = $value['user_name'] . "さん。\n"
@@ -35,4 +35,18 @@ EOF;
       $headers = 'From: <info@kajaaserver.com>';
       mb_send_mail($to, $subject, $message, $headers);
     }
+    //通知後チェックを外す
+    $sql = <<<EOF
+      UPDATE
+        tbl_task_report
+      SET
+        push_status = 0
+      WHERE
+        work_date = :work_date
+          &&
+        push_status = 1
+EOF;
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':work_date', date('Y/m/d'), PDO::PARAM_STR);
+    $result = $stmt->execute();
   }
