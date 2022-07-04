@@ -45,6 +45,7 @@ EOF;
     $array['user_name'] = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'sign_in':
@@ -78,6 +79,7 @@ EOF;
       if($array == null) {
         header('Content-type: application/json; charset=UTF-8');
         echo json_encode(false);
+        exit;
         die();
       }
       if($status == 'true' && $array != null) {
@@ -115,6 +117,7 @@ EOF;
         $array['result'] = '重複なし保存成功';
         header('Content-type: application/json; charset=UTF-8');
         echo json_encode($array);
+        exit;
       }
       else {
         while($stmt->rowCount() == 0) {
@@ -129,11 +132,13 @@ EOF;
         }
         header('Content-type: application/json; charset=UTF-8');
         echo json_encode($array);
+        exit;
       }
     }
     else {
       header('Content-type: application/json; charset=UTF-8');
       echo json_encode(false);
+      exit;
       die();
     }
   break;

@@ -55,6 +55,7 @@ EOF;
     $array['contents_nobr'] = nl2br($array['contents_nobr'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'regist_category_contents':
@@ -141,5 +142,6 @@ EOF;
     }
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 }

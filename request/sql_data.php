@@ -75,6 +75,7 @@ EOF;
     $array['task']['schedule'] = sanitized($array['task']['schedule'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'work_time':
@@ -206,6 +207,7 @@ EOF;
     $array['task']['schedule'] = sanitized($array['task']['schedule'], false);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'get_day':
@@ -260,6 +262,7 @@ EOF;
     $array['work_date']['work_date'] .= '(' . $weekDay[$weekNum] . ')';
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'edit_task':
@@ -308,6 +311,7 @@ EOF;
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'schedule_date':
@@ -364,5 +368,6 @@ EOF;
     $array['push_check'] = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 }

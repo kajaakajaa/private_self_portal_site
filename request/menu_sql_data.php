@@ -87,6 +87,7 @@ EOF;
     }
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'add_menu':
