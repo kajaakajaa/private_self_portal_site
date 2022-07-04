@@ -100,6 +100,7 @@ EOF;
     }
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 
   case 'detail_salary':
@@ -172,5 +173,6 @@ EOF;
     }
     header('Content-type: application/json; charset=UTF-8');
     echo json_encode($array);
+    exit;
   break;
 }
