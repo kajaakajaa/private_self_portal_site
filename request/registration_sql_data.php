@@ -9,7 +9,7 @@ $mode = $_GET['mode'];
 switch($mode) {
   case 'regist_user':
     $userName = h($_POST['user_name']);
-    $passWord = h($_POST['password']);
+    $passWord = md5(h($_POST['password']));
     $sql = <<<EOF
       INSERT INTO
         tbl_task_user
@@ -54,7 +54,7 @@ EOF;
     $status = filter_input(INPUT_POST, 'status');
     if($_SESSION['token'] == $token) {
       $userName = h(filter_input(INPUT_POST, 'user_name'));
-      $passWord = h(filter_input(INPUT_POST, 'password'));
+      $passWord = md5(h(filter_input(INPUT_POST, 'password')));
       $sql = <<<EOF
         SELECT
           user_name,
