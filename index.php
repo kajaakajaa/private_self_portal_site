@@ -3,6 +3,10 @@ include_once('config/db_connect.php');
 include_once('config/console_log.php');
 include_once('session_logic/sessionLogic.php');
 
+// console_log('waayassa7：' . md5('waayassa7'));
+// console_log('aaaa：' . md5('aaaa'));
+// console_log('itsumi4649：' . md5('itsumi4649'));
+// console_log('bbbb：' . md5('bbbb'));
   //日付取得
   $year = date('Y');
   $month = date('m');
