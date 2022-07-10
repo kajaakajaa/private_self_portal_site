@@ -9,7 +9,7 @@ $mode = $_GET['mode'];
 switch($mode) {
   case 'regist_user':
     $userName = h($_POST['user_name']);
-    $passWord = md5(h($_POST['password']));
+    $passWord = password_hash(h($_POST['password']), PASSWORD_DEFAULT);
     $sql = <<<EOF
       INSERT INTO
         tbl_task_user
@@ -35,12 +35,9 @@ EOF;
         tbl_task_user
       WHERE
         user_name = :user_name
-          AND
-        password = :password
 EOF;
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
     $stmt->execute();
     $array['user_name'] = $stmt->fetch(PDO::FETCH_ASSOC);
     header('Content-type: application/json; charset=UTF-8');
@@ -54,7 +51,7 @@ EOF;
     $status = filter_input(INPUT_POST, 'status');
     if($_SESSION['token'] == $token) {
       $userName = h(filter_input(INPUT_POST, 'user_name'));
-      $passWord = md5(h(filter_input(INPUT_POST, 'password')));
+      $passWord = h(filter_input(INPUT_POST, 'password'));
       $sql = <<<EOF
         SELECT
           user_name,
@@ -64,25 +61,24 @@ EOF;
         WHERE
           user_name = :user_name
             AND
-          password = :password
-            AND
           del_flg = 0
 EOF;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
-      $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
       $stmt->execute();
       $array = array();
       $array = $stmt->fetch(PDO::FETCH_ASSOC);
-      $_SESSION['user_name'] = $array['user_name'];
-      $_SESSION['password'] = $array['password'];
-      if($array == null) {
+      $password_verify = password_verify($passWord ,$array['password']);
+      if($array == '') {
         header('Content-type: application/json; charset=UTF-8');
         echo json_encode(false);
         exit;
         die();
       }
-      if($status == 'true' && $array != null) {
+      //ユーザー名が正しくて、且つログイン維持にチェックが入っている場合
+      if($status == 'true' && $array != '' && $password_verify == 'true') {
+        $_SESSION['user_name'] = $array['user_name'];
+        $_SESSION['password'] = $array['password'];
         //下記読み込まれた時点からカウント開始
         session_regenerate_id();
         setcookie('keep_session', session_id(), time()+259200, '/', '', true);
@@ -103,36 +99,43 @@ EOF;
             )
             AND
           user_name = :user_name
-            AND
-          password = :password
 EOF;
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
-        $stmt->bindParam(':password', $array['password'], PDO::PARAM_STR);
         $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
         $stmt->execute();
+        //↑の時点で重複、非重複関わらずアップデート出来てしまうので↓で判定する
+        if($stmt->rowCount() > 0) {
+          $array['result'] = '重複なし保存成功';
+          header('Content-type: application/json; charset=UTF-8');
+          echo json_encode($array);
+          exit;
+        }
+        else {
+          //確率はものすごい低いが、session_regenerate_id()↑の乱数生成で既に別のユーザーに使われている場合は登録されずに↓で再生成し、重複しないsession_idが発行されるまで繰り返す
+          while($stmt->rowCount() == 0) {
+            session_regenerate_id();
+            setcookie('keep_session', session_id(), time()+259200, '/', '', true);
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
+            $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
+            $stmt->execute();
+            $array['result'] = '重複処理成功';
+          }
+          header('Content-type: application/json; charset=UTF-8');
+          echo json_encode($array);
+          exit;
+        }
       }
-      //↑の時点で重複、非重複関わらずアップデート出来てしまうので↓で判定する
-      if($stmt->rowCount() > 0) {
-        $array['result'] = '重複なし保存成功';
+      else if($status == 'false' && $array != '' && $password_verify == 'true') {
+        $_SESSION['user_name'] = $array['user_name'];
+        $_SESSION['password'] = $array['password'];
         header('Content-type: application/json; charset=UTF-8');
         echo json_encode($array);
-        exit;
       }
       else {
-        while($stmt->rowCount() == 0) {
-          session_regenerate_id();
-          setcookie('keep_session', session_id(), time()+259200, '/', '', true);
-          $stmt = $dbh->prepare($sql);
-          $stmt->bindParam(':user_name', $array['user_name'], PDO::PARAM_STR);
-          $stmt->bindParam(':password', $array['password'], PDO::PARAM_STR);
-          $stmt->bindParam(':cookie_pass', session_id(), PDO::PARAM_STR);
-          $stmt->execute();
-          $array['result'] = '重複処理成功';
-        }
         header('Content-type: application/json; charset=UTF-8');
-        echo json_encode($array);
-        exit;
+        echo json_encode(false);
       }
     }
     else {
