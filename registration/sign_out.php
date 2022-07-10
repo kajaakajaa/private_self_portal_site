@@ -2,7 +2,7 @@
 include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
-  $result = $logic->signOut();
+  $sign_out = $logic->signOut();
   $timeout = '&#x203B;セッションがタイムアウト、又はログアウト済みです。再ログインして下さい。';
 ?>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@ include_once('../config/console_log.php');
       </div>
     </header>
     <main id="sign_out_wrapper">
-      <?php if($result == true) : ?>
+      <?php if($sign_out == true) : ?>
         <h5 class="text-center mx-3 mb-5 sign-in-out-refuse">ログアウトしました。</h5>
         <div class="d-flex justify-content-center"><a href="/self_portal_site_private/registration/sign_in">ログインページへ</a></div>
       <?php else : ?>

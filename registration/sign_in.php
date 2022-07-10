@@ -2,6 +2,10 @@
 include_once('../session_logic/sessionLogic.php');
 include_once('../config/console_log.php');
 
+  // console_log('waayassa7 ：' . password_hash('waayassa7', PASSWORD_DEFAULT)); //rwqxh330@gmail.com
+  // console_log('aaaa ：' . password_hash('aaaa', PASSWORD_DEFAULT)); //rwqxh8703@yahoo.co.jp
+  // console_log('itsumi4649 ：' . password_hash('itsumi4649', PASSWORD_DEFAULT));
+
   $result = $logic->signIn();
   //クリックジャッキング対策
   header('X-FRAME-OPTIONS: DENY');

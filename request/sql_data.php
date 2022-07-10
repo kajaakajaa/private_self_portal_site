@@ -20,14 +20,10 @@ switch($mode) {
           tbl_task_user
         WHERE
           user_name = :user_name
-            AND
-          password = :password
 EOF;
       $userName = $_SESSION['user_name'];
-      $passWord = $_SESSION['password'];
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':user_name', $userName, PDO::PARAM_STR);
-      $stmt->bindParam(':password', $passWord, PDO::PARAM_STR);
       $stmt->execute();
       $array = array();
       $array['user_no'] = $stmt->fetch(PDO::FETCH_ASSOC);

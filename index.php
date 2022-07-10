@@ -3,10 +3,6 @@ include_once('config/db_connect.php');
 include_once('config/console_log.php');
 include_once('session_logic/sessionLogic.php');
 
-// console_log('waayassa7：' . md5('waayassa7'));
-// console_log('aaaa：' . md5('aaaa'));
-// console_log('itsumi4649：' . md5('itsumi4649'));
-// console_log('bbbb：' . md5('bbbb'));
   //日付取得
   $year = date('Y');
   $month = date('m');
@@ -20,7 +16,7 @@ include_once('session_logic/sessionLogic.php');
   session_start();
   session_regenerate_id();
   console_log($_SESSION);
-  $result = false;
+  $sign_in = false;
   //クッキーログイン時（cookie情報が在り、且つcookie認証が通ればtrue）
   if(isset($_COOKIE['keep_session']) && $_SESSION['user_name'] == null && $_SESSION['password'] == null) {
     $sql = <<<EOF
@@ -38,13 +34,13 @@ EOF;
     $user = array();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $userNo = $user['no'];
-    $result = $user != null ? true : false;
+    $sign_in = $user != null ? true : false;
   }
   //ログインsession情報が在ればtrue（ログイン維持/非維持関係なくuser_name/passwordセッションが優先)
   elseif(isset($_SESSION['user_name']) && isset($_SESSION['password'])) {
-    $result = true;
+    $sign_in = true;
   }
-  if($result == false) {
+  if($sign_in == false) {
     header('Location: /self_portal_site_private/registration/sign_out');
   }
 ?>
@@ -82,7 +78,7 @@ EOF;
       </div>
     </header>
     <main id="main_index">
-      <?php if($result == true) : ?>
+      <?php if($sign_in == true) : ?>
         <nav aria-label="breadcrumb" class="d-flex justify-content-between" id="header_navbar">
           <ol class="breadcrumb m-2">
             <li class="breadcrumb-item active" aria-current="page">Home</li>

@@ -109,7 +109,7 @@ function registUser() {
           );
         }
         else {
-          $('#error_password').html('&#x203B;既に登録されている組み合わせになります。');
+          $('#error_username').html('&#x203B;既に使用されているメールアドレスになります。');
         }
       },
       function(jgXHR, textStatus, errorThrown) {
@@ -135,6 +135,7 @@ function SignIn() {
     .then(
       (data)=> {
         if(data) {
+          console.log('kajaa');
           let user = {};
               user['user_name'] = data.user_name;
           $('#error_password').html('');
