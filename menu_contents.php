@@ -184,7 +184,7 @@ EOF;
                   </div>
                 </div>
                 <div class="card-body" id="edit_category">
-                  <p id="category_contents"></p>
+                  <div id="category_contents"></div>
                   <div id="category_contents_wrapper">
                     <textarea class="form-control" rows="20" name="edit_category_contents"
                       id="edit_category_contents">
