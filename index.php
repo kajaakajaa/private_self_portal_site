@@ -15,7 +15,7 @@ include_once('session_logic/sessionLogic.php');
 
   session_start();
   session_regenerate_id();
-  console_log($_SESSION);
+  // console_log($_SESSION);
   $sign_in = false;
   //クッキーログイン時（cookie情報が在り、且つcookie認証が通ればtrue）
   if(isset($_COOKIE['keep_session']) && $_SESSION['user_name'] == null && $_SESSION['password'] == null) {

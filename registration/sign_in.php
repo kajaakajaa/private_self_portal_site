@@ -9,7 +9,7 @@ include_once('../config/console_log.php');
   $result = $logic->signIn();
   //クリックジャッキング対策
   header('X-FRAME-OPTIONS: DENY');
-  console_log($_SESSION);
+  // console_log($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
